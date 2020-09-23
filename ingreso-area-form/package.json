@@ -8,8 +8,18 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "bootstrap": "^4.5.2",
+    "bootstrap-vue": "^2.17.3",
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "firebase": "^7.21.0",
+    "node-sass": "^4.14.1",
+    "sass": "^1.26.11",
+    "sass-loader": "^10.0.2",
+    "vue": "^2.6.11",
+    "vue-breakpoints": "^1.1.0",
+    "vue-material": "^1.0.0-beta-15",
+    "vuefire": "^2.2.4",
+    "vuelidate": "^0.7.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
