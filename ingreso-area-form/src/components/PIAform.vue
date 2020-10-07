@@ -88,5 +88,8 @@ background-image: repeating-linear-gradient(
   .master-form form {
     width: 100%;
   }
+  #titulo-foro {
+    text-align: center;
+  }
 }
 </style>

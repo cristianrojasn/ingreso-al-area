@@ -43,4 +43,5 @@ export default {
 .md-title {
   font-size: 20px !important;
 }
+
 </style>

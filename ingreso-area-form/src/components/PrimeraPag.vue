@@ -3,7 +3,7 @@
         <b-row class="row-length">
             <!--RUT-->
             <b-col class="box-respuestas-1" cols="12" md="4">
-                <md-card class="md-layout-item box-respuestas-1 rounded">
+                <md-card class="md-layout-item box-respuestas-1">
                     <md-badge id="badge-steps" md-content="1"/>
                     <md-card-header>
                         <div class="md-title">
@@ -24,7 +24,7 @@
             </b-col>
             <!--Nombre-->
             <b-col class="box-respuestas-1" cols="12" md="4">
-                <md-card class="md-layout-item box-respuestas-1 rounded">
+                <md-card class="md-layout-item box-respuestas-1">
                     <md-badge id="badge-steps" md-content="2"/>
                     <md-card-header>
                         <div class="md-title">
@@ -42,7 +42,7 @@
             </b-col>
             <!--Apellido-->
             <b-col class="box-respuestas-1" cols="12" md="4">
-                <md-card class="md-layout-item box-respuestas-1 rounded">
+                <md-card class="md-layout-item box-respuestas-1">
                     <md-badge id="badge-steps" md-content="3"/>
                     <md-card-header>
                         <div class="md-title">
@@ -63,7 +63,7 @@
         <!--Correo-->
         <b-row class="row-length">
             <b-col class="box-respuestas-1" cols="12" md="6">
-                <md-card class="md-layout-item box-respuestas-1  rounded">
+                <md-card class="md-layout-item box-respuestas-1">
                     <md-badge id="badge-steps" md-content="4"/>
                     <md-card-header>
                         <div class="md-title">
@@ -81,7 +81,7 @@
             </b-col>
             <!--Número de contacto-->
             <b-col class="box-respuestas-1" cols="12" md="6">
-                <md-card class="md-layout-item box-respuestas-1  rounded">
+                <md-card class="md-layout-item box-respuestas-1">
                     <md-badge id="badge-steps" md-content="5"/>
                     <md-card-header>
                         <div class="md-title">
@@ -105,7 +105,7 @@
         <!--Descripción de labores-->
         <b-row class="row-length justify-content-center">
             <b-col class="box-respuestas-1" cols="12" md="6">
-                <md-card class="md-layout-item box-respuestas-1 rounded">
+                <md-card class="md-layout-item box-respuestas-1">
                     <md-badge id="badge-steps" md-content="8"/>
                     <md-card-header>
                         <div class="md-title">
@@ -151,15 +151,13 @@ export default {
 </script>
 
 <style>
-.rounded {
-    border-radius: 25px !important;
-}
+
 
 .box-respuestas-1 {
     display: flex;
     flex-flow: column;
     justify-content: space-around;
-    border-radius: 25px;
+    border-radius: 25px !important;
     margin-bottom: 0.5em;
 }
 #badge-steps {
@@ -187,9 +185,17 @@ export default {
 .row-length {
     width: 80%
 }
-@media screen and (max-width: 1080px){
+@media screen and (max-width: 800px){
     .row-length {
-    width: 100%
+    width: 100%;
+    min-width: 325px;
+    }
+
+}
+
+@media screen and (max-width: 565px){
+    .col-md-6, .col-12 {
+        padding: 0 !important;
     }
 }
 

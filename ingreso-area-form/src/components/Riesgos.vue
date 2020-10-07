@@ -34,29 +34,33 @@
             <md-card-content>
                 <div class="md-layout table-selector" style="display:flex; justify-content:center; margin: 0 auto;">
                     <table>
+                        <colgroup>
+                            <col span="1" style="width: 75%">
+                            <col span="1" style="width: 25%">
+                        </colgroup>
                         <tr>
-                            <th>Riesgo</th>
+                            <th class="text-center">Riesgo</th>
                             <th
                                 class="text-center"
                                 id="op"
                             >Aplica</th>
                         </tr>
-                        <tr
-                        v-for="(item, index) of ArrRiesgos"
-                        :key="index"
-                        >
-                        <td id="riesgo">
-                            <p>{{ item }}</p>
-                        </td>
-                        <td class="text-center">
-                            <md-checkbox
-                            class="md-primary"
-                            v-model="checks[index]"
-                            :value="aplicaRiesgos['op1']"
-                            ></md-checkbox>
-                        </td>
-                        <!-- <small>{{ form.radios[index]}} target {{index}}</small> -->
-                        </tr>
+                        <tbody v-for="(item, index) of ArrRiesgos"
+                        :key="index">
+                            <tr>
+                            <td id="riesgo">
+                                <img :src="getImagesUrl(index)" :alt="'Riesgo ' + index" class="imagRiesgos">
+                                <span>{{ item }}</span>
+                            </td>
+                            <td class="text-center">
+                                <md-checkbox
+                                class="md-primary"
+                                v-model="checks[index]"
+                                :value="aplicaRiesgos['op1']"
+                                ></md-checkbox>
+                            </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </md-card-content>
@@ -75,11 +79,12 @@
             <md-divider></md-divider>
             <md-card-content>
                 <div class="md-layout table-selector" style="display:flex; justify-content:center; margin: 0 auto;">
-                    <table v-for="(item, index) of ArrRiesgos"
+                    <table >
+                        <tbody v-for="(item, index) of ArrRiesgos"
                         :key="index">
                         <tr v-if="checks[index]=='Sí'">
                             <td style="text-align: center;">
-                            <img :src="getImagesUrl(index)" :alt="'Riesgo ' + index" class="imagRiesgos">
+                            <img :src="getImagesUrl(index)" :alt="'Riesgo ' + index" class="imagAcciones">
                             </td>
                         </tr>
                         <tr v-if="checks[index]=='Sí'">
@@ -91,6 +96,7 @@
                             >{{siRiesgoAplica['op1']}}</md-checkbox>
                             </td>
                         </tr>
+                        </tbody>
                     </table>
                 </div>
             </md-card-content>
@@ -103,17 +109,24 @@
                     <md-icon class="fa fa-users md-size-2x"></md-icon>
                     <span style="margin-left: 8px;">Número de trabajadores</span>
                 </div>
+                <p class="md-caption">
+                ¿Quiere ingresar más de 10 trabajadores?
+                </p>
             </md-card-header>
-            <md-card-content class="bottom">
-                <md-field>
-                    <label for="numTrabajadores">Número de trabajadores</label>
-                    <md-input type="number" min="0" name="numTrabajadores" id="numTrabajadores"  autocomplete="given-name" v-model="numTrabajadores"/>
-                </md-field>
+            <md-card-content class="bottom" style="text-align: center;">
+                <b-row>
+                    <b-col cols="6" md="6">
+                        <md-radio v-model="numTrabajadores" value="mas10" class="md-primary">Sí</md-radio>
+                    </b-col>
+                    <b-col cols="6" md="6">
+                        <md-radio v-model="numTrabajadores" value="menos10" class="md-primary">No</md-radio>
+                    </b-col>
+                </b-row>
             </md-card-content>
         </md-card>
         <!--Inputs para ingresar trabajadores-->
-        <md-card class="box-100" style="width: 70%" v-if="checkList=='Sí'">
-            <md-badge id="badge-steps" md-content="12"/>
+        <md-card class="box-100" style="width: 70%" v-if="checkList=='Sí' && numTrabajadores=='menos10'">
+            <md-badge id="badge-steps" md-content="14"/>
             <md-card-header>
                 <div class="md-title">
                     Listado de trabajadores
@@ -154,30 +167,47 @@
                             </md-field>
                         </b-col>
                     </b-row>
-                    <md-button class="md-primary md-raised" @:click="ingresarDatosTrabajador">Agregar</md-button>
-                    <md-button class="md-accent md-raised" @:click="eliminarDatosTrabajador">Eliminar</md-button>
+                    <md-button class="md-primary md-raised" @click="ingresarDatosTrabajador">Agregar</md-button>
+                    <md-button class="md-accent md-raised" @click="eliminarDatosTrabajador">Eliminar</md-button>
                     <md-divider></md-divider>
-                    <b-row v-for="(trabajador,index) of listadoTrabajadores" :key="index">
-                        <b-col cols="12" md="4">
-                            <div class="md-title">
-                                RUT
+                    <b-row>
+                        <b-col v-for="(trabajador,index) of listadoTrabajadores" :key="index" cols="12" md="4">
+                            <div class="md-title" style="text-align: center;">
+                                Trabajador {{index + 1}}
                             </div>
-                            <span>{{trabajador.rut}}</span>
-                        </b-col>
-                        <b-col cols="12" md="4">
-                            <div class="md-title">
-                                Nombre
-                            </div>
-                            <span>{{trabajador.nombre}}</span>
-                        </b-col>
-                        <b-col cols="12" md="4">
-                            <div class="md-title">
-                                Apellido
-                            </div>
-                            <span>{{trabajador.apellido}}</span>
+                            <p style="text-align: center; margin-bottom: 2px;">{{trabajador.nombre}} {{trabajador.apellido}} {{trabajador.rut}}</p>
                         </b-col>
                     </b-row>
                 </b-container>
+            </md-card-content>
+        </md-card>
+        <!--Cuando hay más de 10 trabajadores-->
+        <md-card class="box-100" style="width: 70%" v-if="checkList=='Sí' && numTrabajadores=='mas10'">
+            <md-badge id="badge-steps" md-content="14"/>
+            <md-card-header>
+                <div class="md-title">
+                    Listado de trabajadores
+                </div>
+                <p class="md-caption">
+                    Por favor ingrese copie y pegue el listado de trabajadores en el cuadro de texto
+                </p>
+            </md-card-header>
+            <md-divider></md-divider>
+            <md-card-content>
+                <md-field style="margin-bottom: 7px">
+                    <label for="listadoTrabajadoresMas10">Listado de trabajadores</label>
+                    <md-textarea name="listadoTrabajadoresMas10" id="listadoTrabajadoresMas10"  autocomplete="given-name" v-model="listadoTrabajadoresMas10"/>
+                </md-field>
+                <md-button class="md-primary md-raised" @click="ingresarDatosTrabajadores">Agregar</md-button>
+                <md-divider></md-divider>
+                <b-row>
+                    <b-col v-for="(trabajador,index) of listadoTrabajadores" :key="index" cols="12" md="4">
+                        <div class="md-title" style="text-align: center;">
+                            Trabajador {{index + 1}}
+                        </div>
+                        <p style="text-align: center; margin-bottom: 2px;">{{trabajador.nombre}} {{trabajador.apellido}} {{trabajador.rut}}</p>
+                    </b-col>
+                </b-row>
             </md-card-content>
         </md-card>
     </div>
@@ -197,6 +227,7 @@ export default {
             rutTrabajador: null,
             nombreTrabajador: null,
             apellidoTrabajador: null,
+            listadoTrabajadoresMas10: null,
             listadoTrabajadores: [
             ],
             checks: {},
@@ -226,6 +257,18 @@ export default {
             this.rutTrabajador = null
             this.nombreTrabajador = null
             this.apellidoTrabajador = null
+        },
+        ingresarDatosTrabajadores(){
+            let arrTrabajadoresRaw = this.listadoTrabajadoresMas10.split('\n')
+            console.log(arrTrabajadoresRaw)
+            for(let strTrabajador of arrTrabajadoresRaw){
+                let trabajador = {}
+                let temp = strTrabajador.split('\t')
+                trabajador.rut = temp[0]
+                trabajador.nombre = temp[1]
+                trabajador.apellido = temp[2]
+                this.listadoTrabajadores.push(trabajador)
+            }
         }
     }
 }
@@ -270,9 +313,16 @@ th {
 text-align: left;
 }
 
-.imagRiesgos{
+.imagAcciones{
     width: 120px;
     height: 120px;
+}
+
+.imagRiesgos {
+    width: 55px;
+    height: 55px;
+    display: inline-block;
+    margin: 3px 0;
 }
 
 .imagCheckList{
@@ -284,27 +334,22 @@ text-align: left;
     margin: 0;
 }
 
-.box-respuestas-1 {
-    display: flex;
-    flex-flow: column;
-    justify-content: space-around;
-    border-radius: 25px;
-    margin-bottom: 0.5em;
-    width: 50%;
-}
-
-.rounded {
-    border-radius: 25px !important;
-}
 .bottom {
     bottom: 0;
     position: relative;
 }
 
-@media screen and (max-width: 1080px){
+@media screen and (max-width: 700px){
     .imagCheckList {
-    width: 100%;
-    height: 100%;
+        width: 100%;
+        height: 100%;
+    }
+
+    .imagRiesgos {
+        display: block;
+        width: 45px;
+        height: 45px;
+        margin: 0 auto;
     }
 }
 </style>

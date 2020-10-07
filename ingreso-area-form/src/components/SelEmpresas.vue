@@ -1,10 +1,10 @@
 <template>
-    <div style="width: 80%; padding-left: 15px; padding-right: 15px">
+    <div class="largo-empresas">
         <!--Datos de la empresa-->
         <!--Empresa-->
         <b-row class="justify-content-center">
-            <b-col class="box-respuestas-1" cols="12" md="6">
-                <md-card class="md-layout-item box-respuestas-1 rounded">
+            <b-col class="box-respuestas-1" style="min-width: 325px" cols="12" md="6">
+                <md-card class="md-layout-item box-respuestas-1">
                     <md-badge id="badge-steps" md-content="6"/>
                     <md-card-header>
                         <div class="md-title">
@@ -24,8 +24,8 @@
                     </md-card-content>
                 </md-card>
             </b-col>
-            <b-col class="box-respuestas-1" cols="12" md="6">
-                <md-card class="md-layout-item box-respuestas-1 rounded">
+            <b-col class="box-respuestas-1" style="min-width: 325px" cols="12" md="6">
+                <md-card class="md-layout-item box-respuestas-1">
                     <md-badge id="badge-steps" md-content="7"/>
                     <md-card-header>
                         <div class="md-title">
@@ -67,5 +67,14 @@ export default {
 </script>
 
 <style scoped>
-
+.largo-empresas{
+    width: 80%;
+    padding: 0 15px
+}
+@media screen and (max-width: 800px){
+    .largo-empresas{
+    width: 100%;
+    padding: 0;
+}
+}
 </style>
