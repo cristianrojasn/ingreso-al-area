@@ -3,7 +3,7 @@
         <b-row class="row-length">
             <!--RUT-->
             <b-col class="box-respuestas-1" cols="12" md="4">
-                <md-card class="md-layout-item box-respuestas-1  rounded">
+                <md-card class="md-layout-item box-respuestas-1 rounded">
                     <md-badge id="badge-steps" md-content="1"/>
                     <md-card-header>
                         <div class="md-title">
@@ -151,6 +151,10 @@ export default {
 </script>
 
 <style>
+.rounded {
+    border-radius: 25px !important;
+}
+
 .box-respuestas-1 {
     display: flex;
     flex-flow: column;
@@ -172,9 +176,7 @@ export default {
     border-color: rgb(228, 172, 59);
     border-width: 3px;
 }
-.rounded {
-    border-radius: 25px !important;
-}
+
 .bottom {
     bottom: 0;
     position: relative;
@@ -188,7 +190,7 @@ export default {
 @media screen and (max-width: 1080px){
     .row-length {
     width: 100%
-}
+    }
 }
 
 </style>
