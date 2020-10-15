@@ -39,7 +39,7 @@
             
             <!--Inicio del contenido del form. Debe estar contenido en md-card-content-->
             <md-card-content>
-              <DatosPersonales/>
+              <DatosPersonales @updateData="update"/>
               <Riesgos/>
             </md-card-content>
             <md-card-actions style="justify-content: center;">
@@ -82,8 +82,10 @@ export default {
       }
     },
     methods: {
+      update(value){
+        this[value.campo] = value.data
+      },
       limpiarForm() {
-
       },
       validateUser() {
         console.log('asdads')
