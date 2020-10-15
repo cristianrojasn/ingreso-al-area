@@ -5,9 +5,14 @@ const areas = ['Flotación - Flotación general','Flotación - Colectiva','Flota
 const ArrRiesgos = ['HVCC ESO: Gases, ruido y polvo','ERFT1 - Pérdida de control de vehículo','ERFT2 - Pérdida de control de equipo ','ERFT3 - Interacción Personas Equipos y Vehículos','ERFT4 - Caída de Roca / Falla de Terreno','ERFT6 - Pérdida de control en maniobras de izaje','ERFT7 - Pérdida de equilibrio / Caída desde altura','ERFT8 - Falla Estructural','ERFT9 - Caída de objeto','ERFT10 - Contacto con energía eléctrica','ERFT11 - Liberación descontrolada de energía','ERFT12 -Espacio confinado','ERFT13 - Atrapamiento con partes móviles','ERFT14 - Contacto con sustancias peligrosas','ERFT15 - Incendio'];
 
 const imagesUrl =["GasesRuidoPolvo.png","PerdidadeControlDelVehiculo.png","PerdidaDeControldeEquipo.png","InteraccionPersonasEquiposVehiculos.png","CaidaDeRoca.png","PerdidaDeControlenManiobrasDeIzaje.png","PerdidaDeEquilibrioCaidaDesdeAltura.png","FallaEstructural.png","CaidaDeObjeto.png","ContactoConEnergiaElectrica.png","LiberacionDescontroladaDeEnergia.png","EspacioConfinado.png","AtrapamientoConPartesMoviles.png","ContactoConSustanciasPeligrosas.png","Incendio.png"];
+
+const controlesUrl =["controlA.png","control2.png","control3.png","control4.png","control5.png","control6.png","control7.png","control8.png","control9.png","control10.png","control11.png","control12.png","control13.png","control14.png","control15.png"];
+
+
 export{
     empresas,
     areas,
     ArrRiesgos,
-    imagesUrl
+    imagesUrl,
+    controlesUrl
 };

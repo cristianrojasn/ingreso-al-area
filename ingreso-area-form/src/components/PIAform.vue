@@ -3,7 +3,7 @@
     <div class="personal-form" style="width:100%; margin-top:2rem; margin-bottom: 2rem;">
 
       <!--Se debe incluir todos los inputs del form dentro del tag form-->
-      <form novalidate class="md-layout" md-large-size-100>
+      <form novalidate class="md-layout" md-large-size-100 @submit.prevent="validateUser">
 
         <!--Todo el contenido está dentro del tag md-card-->
         <md-card class="md-layout-item md-size-100 md-small-size-100 formulario">
@@ -42,6 +42,13 @@
               <DatosPersonales/>
               <Riesgos/>
             </md-card-content>
+            <md-card-actions style="justify-content: center;">
+              <md-button
+              type="submit"
+              style="background-color: rgb(51, 121, 147); width: 150px; border-style: solid;border-color: rgb(228, 172, 59);border-width: 2px;"
+              class="md-raised md-primary"
+              >Enviar</md-button>
+            </md-card-actions>
           </md-card>
       </form>
     </div>
@@ -53,11 +60,34 @@
 import DatosPersonales from '../components/PrimeraPag.vue';
 import Riesgos from '../components/Riesgos.vue';
 
+
+
 export default {
     name: 'PIAform',
     components: {
       DatosPersonales,
       Riesgos
+    },
+    data() {
+      return {
+        //Datos de primera página
+        descripcion: null,
+        rut: null,
+        nombreSol: null,
+        apellidoSol: null,
+        correoSol: null,
+        numeroTel: null,
+        nombreResp: null,
+        correoResp: null
+      }
+    },
+    methods: {
+      limpiarForm() {
+
+      },
+      validateUser() {
+        console.log('asdads')
+      }
     }
 }
 </script>

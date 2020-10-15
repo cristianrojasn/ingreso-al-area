@@ -15,9 +15,21 @@
                         </p>
                     </md-card-header>
                     <md-card-content class="bottom">
-                        <md-field>
+                        <md-field :class="validacion('rut')">
                             <label for="rut">123456789</label>
-                            <md-input name="rut" id="rut"  autocomplete="given-name" v-model="rut"/>
+                            <md-input @input="updateRut" name="rut" id="rut"  autocomplete="given-name" v-model="rut"/>
+                            <span
+                            class="md-error"
+                            v-if="!$v.rut.required"
+                            >Se requiere que ingrese su rut</span>
+                            <span
+                            class="md-error"
+                            v-else-if="!$v.rut.minLength || !$v.rut.maxLength"
+                            >El rut ingresado no cumple con el largo adecuado</span>
+                            <span
+                            class="md-error"
+                            v-else-if="!$v.rut.validarRut"
+                            >Rut inválido</span>
                         </md-field>
                     </md-card-content>
                 </md-card>
@@ -33,9 +45,13 @@
                         </div>
                     </md-card-header>
                     <md-card-content class="bottom">
-                        <md-field>
+                        <md-field :class="validacion('nombreSol')">
                             <label for="nombre">Nombre</label>
-                            <md-input name="nombre" id="nombre"  autocomplete="given-name" v-model="nombreSol"/>
+                            <md-input @input="nombreSol" name="nombre" id="nombre"  autocomplete="given-name" v-model="nombreSol"/>
+                            <span
+                            class="md-error"
+                            v-if="!$v.nombreSol.required"
+                            >Se requiere que ingrese su nombre</span>
                         </md-field>
                     </md-card-content>
                 </md-card>
@@ -51,9 +67,13 @@
                         </div>
                     </md-card-header>
                     <md-card-content class="bottom">
-                        <md-field>
+                        <md-field :class="validacion('apellidoSol')">
                             <label for="apellido">Apellido</label>
-                            <md-input name="apellido" id="apellido"  autocomplete="given-name" v-model="apellidoSol"/>
+                            <md-input @input="apellidoSol" name="apellido" id="apellido"  autocomplete="given-name" v-model="apellidoSol"/>
+                            <span
+                            class="md-error"
+                            v-if="!$v.apellidoSol.required"
+                            >Se requiere que ingrese su apellido</span>
                         </md-field>
                     </md-card-content>
                 </md-card>
@@ -72,9 +92,17 @@
                         </div>
                     </md-card-header>
                     <md-card-content class="bottom">
-                        <md-field>
+                        <md-field :class="validacion('correoSol')">
                             <label for="correo">Correo</label>
-                            <md-input type="email" name="correo" id="correo"  autocomplete="given-name" v-model="correoSol"/>
+                            <md-input @input="updateCorreoSol" type="email" name="correo" id="correo"  autocomplete="given-name" v-model="correoSol"/>
+                            <span
+                            class="md-error"
+                            v-if="!$v.correoSol.required"
+                            >Se requiere que ingrese su correo</span>
+                            <span
+                            class="md-error"
+                            v-if="!$v.correoSol.email"
+                            >Ingrese un correo válido</span>
                         </md-field>
                     </md-card-content>
                 </md-card>
@@ -90,10 +118,18 @@
                         </div>
                     </md-card-header>
                     <md-card-content class="bottom">
-                        <md-field>
+                        <md-field :class="validacion('numeroTel')">
                             <label for="numeroTel">Número</label>
                             <span class="md-prefix">+569</span>
-                            <md-input type="tel" name="numeroTel" id="numeroTel"  autocomplete="given-name" v-model="numeroTel"/>
+                            <md-input @input="updateNumeroTel" type="tel" name="numeroTel" id="numeroTel"  autocomplete="given-name" v-model="numeroTel"/>
+                            <span
+                            class="md-error"
+                            v-if="!$v.numeroTel.required"
+                            >Se requiere que ingrese su número de teléfono</span>
+                            <span
+                            class="md-error"
+                            v-if="!$v.numeroTel.maxLength"
+                            >Ingrese un número de máximo 8 carácteres</span>
                         </md-field>
                     </md-card-content>
                 </md-card>
@@ -101,25 +137,83 @@
         </b-row>
         <!--Datos de la empresa-->
             <!--Empresa-->
-        <SelEmpresas/>
+        <SelEmpresas ref="selectEmpA" @updateData="actualizarEmpresaArea"/>
         <!--Descripción de labores-->
         <b-row class="row-length justify-content-center">
-            <b-col class="box-respuestas-1" cols="12" md="6">
+            <b-col class="box-respuestas-1" cols="12" md="7">
                 <md-card class="md-layout-item box-respuestas-1">
                     <md-badge id="badge-steps" md-content="8"/>
                     <md-card-header>
                         <div class="md-title">
-                            <md-icon class="fa fa-briefcase md-size-2x"></md-icon>
-                            <span style="margin-left: 10px;">Descripción de las labores</span>
+                            <md-icon class="fa fa-cog md-size-2x"></md-icon>
+                            <span style="margin-left: 1px;">Descripción de las labores</span>
                         </div>
                         <p class="md-caption">
                         Áreas generales solo pueden ser utilizadas para trabajos de lubricación e instrumentación
                         </p>
                     </md-card-header>
                     <md-card-content class="bottom">
-                        <md-field>
+                        <md-field :class="validacion('descripcion')">
                             <label for="descripcion">Descripción</label>
-                            <md-textarea name="descripcion" id="descripcion"  autocomplete="given-name" v-model="descripcion"/>
+                            <md-textarea @input="updateDescripcion" name="descripcion" id="descripcion"  autocomplete="given-name" v-model="descripcion"/>
+                            <span
+                            class="md-error"
+                            v-if="!$v.descripcion.required"
+                            >Se requiere que ingrese una descripción</span>
+                        </md-field>
+                    </md-card-content>
+                </md-card>
+            </b-col>
+        </b-row>
+        <b-row class="row-length">
+            <!--Nombre-->
+            <b-col class="box-respuestas-1" cols="12" md="6">
+                <md-card class="md-layout-item box-respuestas-1">
+                    <md-badge id="badge-steps" md-content="9"/>
+                    <md-card-header>
+                        <div class="md-title">
+                            <md-icon class="fa fa-user md-size-2x"></md-icon>
+                            <span>Nombre responsable MLP</span>
+                        </div>
+                    </md-card-header>
+                    <md-card-content class="bottom">
+                        <md-field :class="validacion('nombreResp')">
+                            <label for="nombreResp">Nombre</label>
+                            <md-input @input="updateNombreResp" name="nombreResp" id="nombreResp"  autocomplete="given-name" v-model="nombreResp"/>
+                            <span
+                            class="md-error"
+                            v-if="!$v.nombreResp.required"
+                            >Se requiere que ingrese el nombre del responsable</span>
+                        </md-field>
+                    </md-card-content>
+                </md-card>
+            </b-col>
+            <!--Correo responsable-->
+            <b-col class="box-respuestas-1" cols="12" md="6">
+                <md-card class="md-layout-item box-respuestas-1">
+                    <md-badge id="badge-steps" md-content="10"/>
+                    <md-card-header>
+                        <div class="md-title">
+                            <md-icon class="fa fa-user md-size-2x"></md-icon>
+                            <span>Correo electrónico de responsable MLP</span>
+                        </div>
+                    </md-card-header>
+                    <md-card-content class="bottom">
+                        <md-field :class="validacion('correoResp')">
+                            <label for="correoResp">Correo</label>
+                            <md-input @input="updateCorreoResp" type="email" name="correoResp" id="correoResp"  autocomplete="given-name" v-model="correoResp"/>
+                            <span
+                            class="md-error"
+                            v-if="!$v.correoSol.required"
+                            >Se requiere que ingrese su correo</span>
+                            <span
+                            class="md-error"
+                            v-if="!$v.correoSol.email"
+                            >Ingrese un correo válido</span>
+                            <span
+                            class="md-error"
+                            v-if="!$v.correoSol.valCorreoResp"
+                            >Ingrese un dominio válido</span>
                         </md-field>
                     </md-card-content>
                 </md-card>
@@ -130,10 +224,49 @@
 
 <script>
 
+import { validationMixin } from 'vuelidate';
+import { required, minLength, maxLength, email} from 'vuelidate/lib/validators';
 import SelEmpresas from '../components/SelEmpresas.vue';
+
+
+//Custom validations
+const valCorreoResp = (value) => {
+    const dominio = value.split('@')[1]
+    if (dominio == 'pelambres.cl' || dominio == 'amsa.cl' || dominio == 'eeccmlp.cl') {
+        return true
+    }else {
+        return false
+    }
+}
+
+const validarRut = (value) => {
+    //Algoritmo del módulo 11 https://validarutchile.cl/calcular-digito-verificador.php
+    const rutSinDVInv = value.slice(0,value.length-1).split('').reverse()
+    const digitoVIngresado = value.slice(-1) 
+    let i = 2;
+    let sumaRut = 0;
+    for (let digit of rutSinDVInv){
+        sumaRut = sumaRut + digit * i;
+        i++;
+        if(i>7){
+            i = 2;
+        }
+    }
+    const restaRut = sumaRut - Math.trunc(sumaRut/11) * 11;
+    let digitoVerificador = 11 - restaRut;
+    if(digitoVerificador === 11 || digitoVerificador === 10){
+        digitoVerificador = 0
+    }
+    if(digitoVerificador.toString()==digitoVIngresado){
+        return true
+    }else{
+        return false
+    }
+}
 
 export default {
     name: "DatosPersonales",
+    mixins: [validationMixin],
     data() {
         return {
             descripcion: null,
@@ -141,11 +274,106 @@ export default {
             nombreSol: null,
             apellidoSol: null,
             correoSol: null,
-            numeroTel: null
+            numeroTel: null,
+            nombreResp: null,
+            correoResp: null,
+            empresa: null,
+            area: null
         }
     },
     components: {
         SelEmpresas
+    },
+    methods: {
+        //Emitir datos al componente padre
+        updateRut(){
+            this.$emit('updateData', {data: this.rut, campo: "rut"})
+        },
+        updateNombreSol(){
+            this.$emit('updateData', {data: this.nombreSol, campo:"nombreSol"})
+        },
+        updateApellidoSol(){
+            this.$emit('updateData', {data: this.apellidoSol, campo: "apellidoSol"})
+        },
+        updateCorreoSol(){
+            this.$emit('updateData', {data: this.correoSol, campo: "correoSol"})
+        },
+        updateNumeroTel(){
+            this.$emit('updateData', {data: this.numeroTel, campo: "numeroTel"})
+        },
+        updateDescripcion(){
+            this.$emit('updateData', {data: this.descripcion, campo: "descripcion"})
+        },
+        updateNombreResp(){
+            this.$emit('updateData', {data: this.nombreResp, campo: "nombreResp"})
+        },
+        updateCorreoResp(){
+            this.$emit('updateData', {data: this.correoResp, campo: "correoResp"})
+        },
+        actualizarEmpresaArea(value){
+            if(value.campo == "empresa"){
+                this.empresa = value.data
+                this.$emit('updateData', {data: this.empresa, campo: "empresa"})
+            }else if(value.campo == "area"){
+                this.area = value.data
+                this.$emit('updateData', {data: this.area, campo: "area"})
+            }
+        },
+        //Reiniciar inputs luego de enviado el form
+        reiniciarPrimeraPag(){
+            this.rut = null
+            this.nombreSol = null
+            this.apellidoSol = null
+            this.correoSol = null
+            this.numeroTel = null
+            this.descripcion = null
+            this.nombreResp = null
+            this.correoResp = null
+            this.empresa = null
+            this.area = null
+            this.$refs.selectEmpA.restaurarSelects()
+        },
+        validacion(campo){
+            const field = this.$v[campo];
+            if (field) {
+                return {
+                'md-invalid': field.$invalid && field.$dirty,
+                };
+            }
+        }
+    },
+    validations: {
+        descripcion: {
+            required
+        },
+        rut: {
+            required,
+            minLength: minLength(8),
+            maxLength: maxLength(9),
+            validarRut
+        },
+        nombreSol: {
+            required
+        },
+        apellidoSol: {
+            required
+        },
+        correoSol: {
+            required,
+            email
+        },
+        numeroTel: {
+            required,
+            maxLength: maxLength(8)
+        },
+        nombreResp: {
+            required
+        },
+        correoResp: {
+            required,
+            email,
+            valCorreoResp
+        }
     }
 }
 </script>
