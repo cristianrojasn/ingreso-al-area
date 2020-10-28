@@ -3,7 +3,7 @@
         <md-card class="box-100" style="width: 70%">
             <md-badge id="badge-steps" md-content="11"/>
             <md-card-header>
-            <div class="md-title">
+            <div ref="checkList" tabindex="-1" class="md-title">
                 Checklist - Información a considerar
             </div>
             <p class="md-caption">
@@ -14,20 +14,20 @@
             <md-card-content>
                 <img src="../assets/PPTinicio.png" class="imagCheckList" style="object-fit: contain;margin: 0 auto 0 auto; display:block;">
                 <div>
-                    <md-checkbox class="md-primary" v-model="checkList" :value="'Sí'">
+                    <md-checkbox class="md-primary" v-model="checkList" :value="'Sí'" @change="updateCheckList">
                     <span>He leído a conciencia y estoy en conocimiento que cumplo con los puntos anteriormente mencionados</span>
                     </md-checkbox>
-                    <!-- <p
+                    <p
                     class="md-error"
-                    v-if="!$v.checkList.required"
-                    >Se requiere que lea los puntos anteriores</p> -->
+                    v-if="!$v.checkList.required && $v.checkList.$dirty"
+                    >Se requiere que lea los puntos anteriores</p>
                 </div>
             </md-card-content>
         </md-card>
         <md-card class="box-100" style="width: 70%" v-if="checkList=='Sí'">
             <md-badge id="badge-steps" md-content="12"/>
             <md-card-header>
-            <div class="md-title">
+            <div ref="checks" tabindex="-1" class="md-title">
                 Riesgos y controles
             </div>
             <p class="md-caption">
@@ -59,7 +59,8 @@
                                 <td class="text-center">
                                     <md-checkbox
                                     class="md-primary"
-                                    v-model="checks[index]"
+                                    @change="updateChecksRiesgos"
+                                    v-model="checks"
                                     :value="aplicaRiesgos['op1']"
                                     ></md-checkbox>
                                 </td>
@@ -67,17 +68,17 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- <span
+                <span
                 class="md-error"
-                v-if="!$v.checks.selectAllChecks"
-                >Seleccione al menos un riesgo</span> -->
+                v-if="!$v.checks.selectAllChecks && $v.checks.$dirty"
+                >Seleccione al menos un riesgo</span>
             </md-card-content>
         </md-card>
         <md-divider></md-divider>
         <md-card class="box-100" style="width: 70%" v-if="checkList=='Sí'">
             <md-badge id="badge-steps" md-content="13"/>
             <md-card-header>
-            <div class="md-title">
+            <div ref="checksAplican" tabindex="-1" class="md-title">
                 Riesgos que aplican
             </div>
             <p class="md-caption">
@@ -99,7 +100,8 @@
                                 <td>
                                 <md-checkbox
                                 class="md-primary"
-                                v-model="checksAplican[index]"
+                                @change="updateChecksRiesgosAplican"
+                                v-model="checksAplican"
                                 :value="siRiesgoAplica['op1']"
                                 >{{siRiesgoAplica['op1']}}</md-checkbox>
                                 </td>
@@ -107,10 +109,10 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- <span
+                <span
                 class="md-error"
-                v-if="!$v.checksAplican.selectAllChecks"
-                >Seleccione al menos una acción</span> -->
+                v-if="!$v.checksAplican.selectAllChecks && $v.checksAplican.$dirty"
+                >Seleccione al menos una acción</span>
             </md-card-content>
         </md-card>
         <!--Ingresa número de trabajadores-->
@@ -119,13 +121,13 @@
             <md-card-header>
                 <div class="md-title">
                     <md-icon class="fa fa-users md-size-2x"></md-icon>
-                    <span style="margin-left: 8px;">Número de trabajadores</span>
+                    <span ref="numTrabajadores" tabindex="-1" style="margin-left: 8px;">Número de trabajadores</span>
                 </div>
                 <p class="md-caption">
                 ¿Desea copiar y pegar el listado de trabajadores desde una hoja de cálculo?
                 </p>
             </md-card-header>
-            <md-card-content class="bottom" style="text-align: center;">
+            <md-card-content ref="listadoTrabajadores" class="bottom" style="text-align: center;">
                 <b-row>
                     <b-col cols="6" md="6">
                         <md-radio v-model="numTrabajadores" value="mas10" class="md-primary">Sí</md-radio>
@@ -134,10 +136,10 @@
                         <md-radio v-model="numTrabajadores" value="menos10" class="md-primary">No</md-radio>
                     </b-col>
                 </b-row>
-                <!-- <span
+                <span
                 class="md-error"
-                v-if="!$v.numTrabajadores.required"
-                >Seleccione una opción</span> -->
+                v-if="!$v.numTrabajadores.required && $v.numTrabajadores.$dirty"
+                >Seleccione una opción</span>
             </md-card-content>
         </md-card>
         <!--Inputs para ingresar trabajadores-->
@@ -195,6 +197,10 @@
                         </b-col>
                     </b-row>
                 </b-container>
+                <span
+                class="md-error"
+                v-if="(!$v.listadoTrabajadores.validarListadoTrabajadores || !$v.listadoTrabajadores.required) && $v.listadoTrabajadores.$dirty"
+                >Ingrese al menos un trabajador</span>
             </md-card-content>
         </md-card>
         <!--Cuando hay más de 10 trabajadores-->
@@ -233,6 +239,10 @@
                         <p style="text-align: center; margin-bottom: 2px;">{{trabajador.nombre}} {{trabajador.apellido}} {{trabajador.rut}}</p>
                     </b-col>
                 </b-row>
+                <span
+                class="md-error"
+                v-if="(!$v.listadoTrabajadores.validarListadoTrabajadores || !$v.listadoTrabajadores.required) && $v.listadoTrabajadores.$dirty"
+                >Ingrese al menos un trabajador</span>
             </md-card-content>
         </md-card>
     </div>
@@ -240,8 +250,7 @@
 
 <script>
 
-import { validationMixin } from 'vuelidate';
-import { required} from 'vuelidate/lib/validators';
+import { required } from 'vuelidate/lib/validators';
 import {ArrRiesgos, imagesUrl, controlesUrl}from '../variables'
 
 //Custom validations
@@ -254,7 +263,7 @@ const validarListadoTrabajadores = (value) => {
 }
 
 const selectAllChecks = (value) => {
-    if (Object.keys(value).length == 0){
+    if (value.length == 0){
         return false
     }else{
         return true
@@ -263,7 +272,6 @@ const selectAllChecks = (value) => {
 
 export default {
     name: "Riesgos",
-    mixins: [validationMixin],
     data() {
         return {
             ArrRiesgos,
@@ -275,14 +283,13 @@ export default {
             nombreTrabajador: null,
             apellidoTrabajador: null,
             listadoTrabajadoresMas10: null,
-            listadoTrabajadores: [
-            ],
-            checks: {},
+            listadoTrabajadores: [],
+            checks: [],
             aplicaRiesgos: {
                 op1: "Sí",
                 op2: "No"
             },
-            checksAplican: {},
+            checksAplican: [],
             siRiesgoAplica: {
                 op1: "Si cuento con los controles adecuados"
             }
@@ -296,12 +303,15 @@ export default {
             required
         },
         listadoTrabajadores: {
+            required,
             validarListadoTrabajadores
         },
         checks: {
+            required,
             selectAllChecks
         },
         checksAplican: {
+            required,
             selectAllChecks
         }
     },
@@ -314,9 +324,11 @@ export default {
         },
         eliminarDatosTrabajador(){
             this.listadoTrabajadores.pop()
+            this.updateTrabajadores()
         },
         eliminarDatosTrabajadores(){
             this.listadoTrabajadores = []
+            this.updateTrabajadores()
         },
         ingresarDatosTrabajador(){
             let trabajador = {}
@@ -324,6 +336,7 @@ export default {
             trabajador.nombre = this.nombreTrabajador
             trabajador.apellido = this.apellidoTrabajador
             this.listadoTrabajadores.push(trabajador)
+            this.updateTrabajadores()
             this.rutTrabajador = null
             this.nombreTrabajador = null
             this.apellidoTrabajador = null
@@ -339,13 +352,20 @@ export default {
                 trabajador.rut = temp[2]
                 this.listadoTrabajadores.push(trabajador)
             }
+            this.updateTrabajadores()
         },
         //Enviar datos al componente padre
         updateCheckList(){
             this.$emit('updateValues',{data: this.checkList, campo: "CheckList"})
         },
-        updateNumTrabajadores(){
-            this.$emit('updateValues',{data: this.numTrabajadores, campo: "numTrabajadores"})
+        updateChecksRiesgos(){
+            this.$emit('updateValues',{data: this.checks, campo: "checksRiesgos"})
+        },
+        updateChecksRiesgosAplican(){
+            this.$emit('updateValues',{data: this.checksAplican, campo: "checksRiesgosAplican"})
+        },
+        updateTrabajadores(){
+            this.$emit('updateValues', {data: this.listadoTrabajadores, campo: "listadoTrabajadores"})
         },
         validacion(campo){
             const field = this.$v[campo];
@@ -354,7 +374,31 @@ export default {
                 'md-invalid': field.$invalid && field.$dirty,
                 };
             }
-        }
+        },
+        validar(){
+            this.$v.$touch()
+        },
+        ifVal(){
+            return this.$v.$invalid
+        },
+        focusOnInvalid(){
+            // 1. Es necesario que cada input tenga un atributo ref con el mismo nombre de las variables en validations
+            for(let key in Object.keys(this.$v)){
+                // 2. Extraer los inputs de este componente
+                const input = Object.keys(this.$v)[key];
+                // 3. Remover propiedades que no importan
+                if (input.includes("$")) return false;
+
+                    // 4. Chequear si hay error en algún input
+                if (this.$v[input].$error) {
+                    // 5. Hacer focus en el elemento que hay error
+                    this.$refs[input].focus();
+
+                    // 6. Una vez encontrado el input, terminar el loop
+                    break;
+                }
+            }
+        },
     }
 }
 </script>
@@ -431,6 +475,9 @@ text-align: left;
     display:block;
 }
 
+.md-error{
+    color: red;
+}
 @media screen and (max-width: 700px){
     .imagCheckList {
         width: 100%;

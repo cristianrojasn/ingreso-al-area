@@ -17,19 +17,15 @@
                     <md-card-content class="bottom">
                         <md-field :class="validacion('rut')">
                             <label for="rut">123456789</label>
-                            <md-input @input="updateRut" name="rut" id="rut"  autocomplete="given-name" v-model="rut"/>
+                            <md-input ref="rut" @input="updateRut" name="rut" id="rut"  autocomplete="given-name" v-model="rut"/>
                             <span
                             class="md-error"
-                            v-if="!$v.rut.required"
-                            >Se requiere que ingrese su rut</span>
-                            <span
+                            v-if="!$v.rut.required || !$v.rut.validarRut"
+                            >Rut inválido</span>
+                            <!-- <span
                             class="md-error"
                             v-else-if="!$v.rut.minLength || !$v.rut.maxLength"
-                            >El rut ingresado no cumple con el largo adecuado</span>
-                            <span
-                            class="md-error"
-                            v-else-if="!$v.rut.validarRut"
-                            >Rut inválido</span>
+                            >El rut ingresado no cumple con el largo adecuado</span> -->
                         </md-field>
                     </md-card-content>
                 </md-card>
@@ -47,7 +43,7 @@
                     <md-card-content class="bottom">
                         <md-field :class="validacion('nombreSol')">
                             <label for="nombre">Nombre</label>
-                            <md-input @input="nombreSol" name="nombre" id="nombre"  autocomplete="given-name" v-model="nombreSol"/>
+                            <md-input ref="nombreSol" @input="nombreSol" name="nombre" id="nombre"  autocomplete="given-name" v-model="nombreSol"/>
                             <span
                             class="md-error"
                             v-if="!$v.nombreSol.required"
@@ -69,7 +65,7 @@
                     <md-card-content class="bottom">
                         <md-field :class="validacion('apellidoSol')">
                             <label for="apellido">Apellido</label>
-                            <md-input @input="apellidoSol" name="apellido" id="apellido"  autocomplete="given-name" v-model="apellidoSol"/>
+                            <md-input ref="apellidoSol" @input="apellidoSol" name="apellido" id="apellido"  autocomplete="given-name" v-model="apellidoSol"/>
                             <span
                             class="md-error"
                             v-if="!$v.apellidoSol.required"
@@ -94,14 +90,10 @@
                     <md-card-content class="bottom">
                         <md-field :class="validacion('correoSol')">
                             <label for="correo">Correo</label>
-                            <md-input @input="updateCorreoSol" type="email" name="correo" id="correo"  autocomplete="given-name" v-model="correoSol"/>
+                            <md-input ref="correoSol" @input="updateCorreoSol" type="email" name="correo" id="correo"  autocomplete="given-name" v-model="correoSol"/>
                             <span
                             class="md-error"
-                            v-if="!$v.correoSol.required"
-                            >Se requiere que ingrese su correo</span>
-                            <span
-                            class="md-error"
-                            v-if="!$v.correoSol.email"
+                            v-if="!$v.correoSol.required || !$v.correoSol.email"
                             >Ingrese un correo válido</span>
                         </md-field>
                     </md-card-content>
@@ -121,7 +113,7 @@
                         <md-field :class="validacion('numeroTel')">
                             <label for="numeroTel">Número</label>
                             <span class="md-prefix">+569</span>
-                            <md-input @input="updateNumeroTel" type="tel" name="numeroTel" id="numeroTel"  autocomplete="given-name" v-model="numeroTel"/>
+                            <md-input ref="numeroTel" @input="updateNumeroTel" type="tel" name="numeroTel" id="numeroTel"  autocomplete="given-name" v-model="numeroTel"/>
                             <span
                             class="md-error"
                             v-if="!$v.numeroTel.required"
@@ -155,7 +147,7 @@
                     <md-card-content class="bottom">
                         <md-field :class="validacion('descripcion')">
                             <label for="descripcion">Descripción</label>
-                            <md-textarea @input="updateDescripcion" name="descripcion" id="descripcion"  autocomplete="given-name" v-model="descripcion"/>
+                            <md-textarea ref="descripcion" @input="updateDescripcion" name="descripcion" id="descripcion"  autocomplete="given-name" v-model="descripcion"/>
                             <span
                             class="md-error"
                             v-if="!$v.descripcion.required"
@@ -179,7 +171,7 @@
                     <md-card-content class="bottom">
                         <md-field :class="validacion('nombreResp')">
                             <label for="nombreResp">Nombre</label>
-                            <md-input @input="updateNombreResp" name="nombreResp" id="nombreResp"  autocomplete="given-name" v-model="nombreResp"/>
+                            <md-input ref="nombreResp" @input="updateNombreResp" name="nombreResp" id="nombreResp"  autocomplete="given-name" v-model="nombreResp"/>
                             <span
                             class="md-error"
                             v-if="!$v.nombreResp.required"
@@ -201,19 +193,19 @@
                     <md-card-content class="bottom">
                         <md-field :class="validacion('correoResp')">
                             <label for="correoResp">Correo</label>
-                            <md-input @input="updateCorreoResp" type="email" name="correoResp" id="correoResp"  autocomplete="given-name" v-model="correoResp"/>
+                            <md-input ref="correoSol" @input="updateCorreoResp" type="email" name="correoResp" id="correoResp"  autocomplete="given-name" v-model="correoResp"/>
                             <span
                             class="md-error"
-                            v-if="!$v.correoSol.required"
-                            >Se requiere que ingrese su correo</span>
-                            <span
+                            v-if="!$v.correoSol.required || !$v.correoSol.email || !$v.correoSol.valCorreoResp"
+                            >Se requiere que ingrese un correo válido</span>
+                            <!-- <span
                             class="md-error"
                             v-if="!$v.correoSol.email"
-                            >Ingrese un correo válido</span>
-                            <span
+                            >Ingrese un correo válido</span> -->
+                            <!-- <span
                             class="md-error"
                             v-if="!$v.correoSol.valCorreoResp"
-                            >Ingrese un dominio válido</span>
+                            >Ingrese un dominio válido</span> -->
                         </md-field>
                     </md-card-content>
                 </md-card>
@@ -224,7 +216,7 @@
 
 <script>
 
-import { validationMixin } from 'vuelidate';
+//import { validationMixin } from 'vuelidate';
 import { required, minLength, maxLength, email} from 'vuelidate/lib/validators';
 import SelEmpresas from '../components/SelEmpresas.vue';
 
@@ -266,15 +258,14 @@ const validarRut = (value) => {
 
 export default {
     name: "DatosPersonales",
-    mixins: [validationMixin],
     data() {
         return {
-            descripcion: null,
             rut: null,
             nombreSol: null,
             apellidoSol: null,
             correoSol: null,
             numeroTel: null,
+            descripcion: null,
             nombreResp: null,
             correoResp: null,
             empresa: null,
@@ -283,6 +274,39 @@ export default {
     },
     components: {
         SelEmpresas
+    },
+    validations: {
+        rut: {
+            required,
+            minLength: minLength(8),
+            maxLength: maxLength(9),
+            validarRut
+        },
+        nombreSol: {
+            required
+        },
+        apellidoSol: {
+            required
+        },
+        correoSol: {
+            required,
+            email
+        },
+        descripcion: {
+            required
+        },
+        numeroTel: {
+            required,
+            maxLength: maxLength(8)
+        },
+        nombreResp: {
+            required
+        },
+        correoResp: {
+            required,
+            email,
+            valCorreoResp
+        }
     },
     methods: {
         //Emitir datos al componente padre
@@ -340,41 +364,36 @@ export default {
                 'md-invalid': field.$invalid && field.$dirty,
                 };
             }
-        }
+        },
+        validar(){
+            this.$v.$touch()
+            this.$refs.selectEmpA.validarSelects()
+        },
+        ifVal(){
+            return this.$v.$invalid && this.$refs.selectEmpA.ifValSelect()
+        },
+        focusOnInvalid(){
+            // 1. Es necesario que cada input tenga un atributo ref con el mismo nombre de las variables en validations
+            for(let key in Object.keys(this.$v)){
+                // 2. Extraer los inputs de este componente
+                const input = Object.keys(this.$v)[key];
+                // 3. Remover propiedades que no importan
+                if (input.includes("$")) return false;
+
+                    // 4. Chequear si hay error en algún input
+                    console.log(this.$v[input])
+                if (this.$v[input].$invalid) {
+                    console.log('hola')
+                    // 5. Hacer focus en el elemento que hay error
+                    this.$refs[input].$el.focus();
+                    // 6. Una vez encontrado el input, terminar el loop
+                    //break;
+                    return 
+                }
+            }
+            this.$refs.selectEmpA.focusOnInvalidSelect()
+        },
     },
-    validations: {
-        descripcion: {
-            required
-        },
-        rut: {
-            required,
-            minLength: minLength(8),
-            maxLength: maxLength(9),
-            validarRut
-        },
-        nombreSol: {
-            required
-        },
-        apellidoSol: {
-            required
-        },
-        correoSol: {
-            required,
-            email
-        },
-        numeroTel: {
-            required,
-            maxLength: maxLength(8)
-        },
-        nombreResp: {
-            required
-        },
-        correoResp: {
-            required,
-            email,
-            valCorreoResp
-        }
-    }
 }
 </script>
 

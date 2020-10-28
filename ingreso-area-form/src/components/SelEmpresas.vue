@@ -13,14 +13,14 @@
                         </div>
                     </md-card-header>
                     <md-card-content class="bottom">
-                        <md-field :class="validacion('empresa')">
+                        <!-- <md-field :class="validacion('empresa')"> -->
                             
                             <!-- <md-select name="empresa" id="empresa" v-model="empresa" md-dense>
                                 <md-option v-for="emp of empresas" :key="emp" :value="emp">
                                     {{ emp }}
                                 </md-option>
                             </md-select> -->
-                            <md-autocomplete v-model="empresa" :md-options="empresas" :md-fuzzy-search="false" md-dense>
+                            <md-autocomplete ref="empresa" :class="validacion('empresa')" v-model="empresa" :md-options="empresas" :md-fuzzy-search="false" md-dense>
                                 <label>Empresas</label>
 
                                 <template slot="md-autocomplete-item" slot-scope="{ item, term }">
@@ -30,12 +30,13 @@
                                 <template slot="md-autocomplete-empty" slot-scope="{ term }">
                                     <small>No se encontró "{{term}}". Ingrese manualmente otra</small>    
                                 </template>
-                            </md-autocomplete>
-                            <span
+                                <span
                             class="md-error"
                             v-if="!$v.empresa.required"
                             >Se requiere que ingrese una empresa</span>
-                        </md-field>
+                            </md-autocomplete>
+                            
+                        <!-- </md-field> -->
                         <!-- <md-field v-if="empresa == 'Otra'">
                             <label for="otraEmp">Ingrese la empresa</label>
                             <md-input name="otraEmp" id="otraEmp"  autocomplete="given-name" v-model="empresaOtra"/>
@@ -59,7 +60,7 @@
                     <md-card-content class="bottom">
                         <md-field :class="validacion('area')">
                             <label for="area">Area</label>
-                            <md-select name="area" id="area" v-model="area" md-dense>
+                            <md-select ref="area" name="area" id="area" v-model="area" md-dense>
                                 <md-option v-for="ar of areas" :key="ar" :value="ar">
                                     {{ ar }}
                                 </md-option>
@@ -78,8 +79,7 @@
 
 <script>
 
-import { validationMixin } from 'vuelidate';
-import { required} from 'vuelidate/lib/validators';
+import { required } from 'vuelidate/lib/validators';
 import {empresas, areas} from '../variables.js'
 
 //Custom validation
@@ -87,7 +87,6 @@ import {empresas, areas} from '../variables.js'
 
 export default {
     name: "SelEmpresas",
-    mixins: [validationMixin],
     data() {
         return {
             empresas,
@@ -125,7 +124,31 @@ export default {
                 'md-invalid': field.$invalid && field.$dirty,
                 };
             }
-        }
+        },
+        validarSelects(){
+            this.$v.$touch()
+        },
+        ifValSelect(){
+            return this.$v.$invalid
+        },
+        focusOnInvalidSelects(){
+            // 1. Es necesario que cada input tenga un atributo ref con el mismo nombre de las variables en validations
+            for(let key in Object.keys(this.$v)){
+                // 2. Extraer los inputs de este componente
+                const input = Object.keys(this.$v)[key];
+                // 3. Remover propiedades que no importan
+                if (input.includes("$")) return false;
+
+                    // 4. Chequear si hay error en algún input
+                if (this.$v[input].$invalid) {
+                    // 5. Hacer focus en el elemento que hay error
+                    this.$refs[input].$el.focus();
+
+                    // 6. Una vez encontrado el input, terminar el loop
+                    break;
+                }
+            }
+        },
     }
 }
 </script>

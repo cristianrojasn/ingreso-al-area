@@ -39,8 +39,8 @@
             
             <!--Inicio del contenido del form. Debe estar contenido en md-card-content-->
             <md-card-content>
-              <DatosPersonales @updateData="update"/>
-              <Riesgos/>
+              <DatosPersonales ref="primeraPag" @updateData="update"/>
+              <Riesgos ref="riesgosPag" @updateValues="updateRiesgos"/>
             </md-card-content>
             <md-card-actions style="justify-content: center;">
               <md-button
@@ -71,24 +71,44 @@ export default {
     data() {
       return {
         //Datos de primera página
-        descripcion: null,
-        rut: null,
-        nombreSol: null,
-        apellidoSol: null,
-        correoSol: null,
-        numeroTel: null,
-        nombreResp: null,
-        correoResp: null
+        form: {
+
+          descripcion: null,
+          rut: null,
+          nombreSol: null,
+          apellidoSol: null,
+          correoSol: null,
+          numeroTel: null,
+          nombreResp: null,
+          correoResp: null,
+          listadoTrabajadores: [],
+          checks: [],
+          checksAplican: [],
+          checkList: null,
+          area: null,
+          empresa: null
+        }
       }
     },
     methods: {
       update(value){
-        this[value.campo] = value.data
+        this.form[value.campo] = value.data
+      },
+      updateRiesgos(value){
+        this.form[value.campo] = value.data
       },
       limpiarForm() {
       },
       validateUser() {
-        console.log('asdads')
+        this.$refs.primeraPag.validar()
+        this.$refs.riesgosPag.validar()
+        if(!this.$refs.primeraPag.ifVal() && !this.$refs.riesgosPag.ifVal()){
+          console.log('Datos enviados')
+        }else if(this.$refs.primeraPag.ifVal()){
+          this.$refs.primeraPag.focusOnInvalid()
+        }else{
+          this.$refs.riesgosPag.focusOnInvalid()
+        }
       }
     }
 }
