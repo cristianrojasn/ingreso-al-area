@@ -381,9 +381,7 @@ export default {
                 if (input.includes("$")) return false;
 
                     // 4. Chequear si hay error en algún input
-                    console.log(this.$v[input])
                 if (this.$v[input].$invalid) {
-                    console.log('hola')
                     // 5. Hacer focus en el elemento que hay error
                     this.$refs[input].$el.focus();
                     // 6. Una vez encontrado el input, terminar el loop

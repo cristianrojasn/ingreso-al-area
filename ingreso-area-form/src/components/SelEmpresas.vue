@@ -20,7 +20,7 @@
                                     {{ emp }}
                                 </md-option>
                             </md-select> -->
-                            <md-autocomplete ref="empresa" :class="validacion('empresa')" v-model="empresa" :md-options="empresas" :md-fuzzy-search="false" md-dense>
+                            <md-autocomplete @input="updateEmpresa" ref="empresa" :class="validacion('empresa')" v-model="empresa" :md-options="empresas" :md-fuzzy-search="false" md-dense>
                                 <label>Empresas</label>
 
                                 <template slot="md-autocomplete-item" slot-scope="{ item, term }">
@@ -60,7 +60,7 @@
                     <md-card-content class="bottom">
                         <md-field :class="validacion('area')">
                             <label for="area">Area</label>
-                            <md-select ref="area" name="area" id="area" v-model="area" md-dense>
+                            <md-select @input="updateArea" ref="area" name="area" id="area" v-model="area" md-dense>
                                 <md-option v-for="ar of areas" :key="ar" :value="ar">
                                     {{ ar }}
                                 </md-option>
