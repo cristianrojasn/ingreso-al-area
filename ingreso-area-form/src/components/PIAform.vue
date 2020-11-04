@@ -50,6 +50,7 @@
               >Enviar</md-button>
             </md-card-actions>
           </md-card>
+          <md-dialog-alert :md-active.sync="userSaved" md-title="Formulario envíado exitosamente" :md-content="Enviado" md-confirm-text="Salir"/>
       </form>
     </div>
   </div>
@@ -59,7 +60,14 @@
 
 import DatosPersonales from '../components/PrimeraPag.vue';
 import Riesgos from '../components/Riesgos.vue';
+import Firebase from 'firebase';
+import apiFire from '../config';
 
+
+// Inicializamos la interacción con el servicio de firebase realtime daa base
+let app = Firebase.initializeApp(apiFire); // se debe inicializar con las credenciales
+let db = app.firestore();
+let registerRef = db.collection('registers');
 
 
 export default {
@@ -86,10 +94,17 @@ export default {
           checksAplican: [],
           checkList: null,
           area: null,
-          empresa: null
-        }
+          empresa: null,
+          timestamp: null
+        },
+        userSaved: false
       }
     },
+    computed: {
+      Enviado(){
+        return 'Se ha registrado su envío correctamente:' + '<br> <strong>- Fecha: </strong>' + this.form.timestamp
+      }
+    },  
     methods: {
       update(value){
         this.form[value.campo] = value.data
@@ -99,17 +114,40 @@ export default {
       },
       limpiarForm() {
       },
+      getNow: function () {
+      const today = new Date();
+      const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+      const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      const dateTime = date + ' ' + time;
+      return dateTime
+      },
+      sendDataFirebase(){
+        //let newRef = registerRef.push();
+        this.$set(this.form, 'timestamp', this.getNow())
+        //newRef.set(this.form);
+        registerRef.add({datos: this.form})
+        window.setTimeout(() => {
+          this.userSaved = true
+          //this.sending = true
+          //this.$refs.primeraPag.resetPrimeraPag()
+          //his.$refs.riesgosPag.resetPreexistencias()
+        }, 1500)
+      },
       validateUser() {
         this.$refs.primeraPag.validar()
         this.$refs.riesgosPag.validar()
         if(!this.$refs.primeraPag.ifVal() && !this.$refs.riesgosPag.ifVal()){
           console.log('Datos enviados')
+          this.sendDataFirebase()
         }else if(this.$refs.primeraPag.ifVal()){
           this.$refs.primeraPag.focusOnInvalid()
         }else{
           this.$refs.riesgosPag.focusOnInvalid()
         }
       }
+    },
+    firebase: {
+      registers: registerRef,
     }
 }
 </script>

@@ -43,7 +43,7 @@
                     <md-card-content class="bottom">
                         <md-field :class="validacion('nombreSol')">
                             <label for="nombre">Nombre</label>
-                            <md-input ref="nombreSol" @input="nombreSol" name="nombre" id="nombre"  autocomplete="given-name" v-model="nombreSol"/>
+                            <md-input ref="nombreSol" @input="updateNombreSol" name="nombre" id="nombre"  autocomplete="given-name" v-model="nombreSol"/>
                             <span
                             class="md-error"
                             v-if="!$v.nombreSol.required"
@@ -65,7 +65,7 @@
                     <md-card-content class="bottom">
                         <md-field :class="validacion('apellidoSol')">
                             <label for="apellido">Apellido</label>
-                            <md-input ref="apellidoSol" @input="apellidoSol" name="apellido" id="apellido"  autocomplete="given-name" v-model="apellidoSol"/>
+                            <md-input ref="apellidoSol" @input="updateApellidoSol" name="apellido" id="apellido"  autocomplete="given-name" v-model="apellidoSol"/>
                             <span
                             class="md-error"
                             v-if="!$v.apellidoSol.required"

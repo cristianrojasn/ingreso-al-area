@@ -51,7 +51,7 @@
                         </tr>
                         <tbody :class="validacion('checks')">
                             <tr v-for="(item, index) of ArrRiesgos"
-                            :key="index">
+                            :key="item">
                                 <td id="riesgo">
                                     <img :src="getImagesUrl(index)" :alt="'Riesgo ' + index" class="imagRiesgos">
                                     <span>{{ item }}</span>
@@ -61,7 +61,7 @@
                                     class="md-primary"
                                     @change="updateChecksRiesgos"
                                     v-model="checks"
-                                    :value="aplicaRiesgos['op1']"
+                                    :value="item"
                                     ></md-checkbox>
                                 </td>
                             </tr>
@@ -90,19 +90,19 @@
                 <div class="md-layout table-selector" style="display:flex; justify-content:center; margin: 0 auto;">
                     <table>
                         <tbody v-for="(item, index) of ArrRiesgos"
-                        :key="index">
-                            <tr v-if="checks[index]=='Sí'">
+                        :key="item">
+                            <tr v-if="checks.includes(ArrRiesgos[index])">
                                 <td style="text-align: center;">
                                 <img :src="getControlesUrl(index)" :alt="'Riesgo ' + index" class="imagAcciones">
                                 </td>
                             </tr>
-                            <tr v-if="checks[index]=='Sí'">
+                            <tr v-if="checks.includes(ArrRiesgos[index])">
                                 <td>
                                 <md-checkbox
                                 class="md-primary"
                                 @change="updateChecksRiesgosAplican"
                                 v-model="checksAplican"
-                                :value="siRiesgoAplica['op1']"
+                                :value="item"
                                 >{{siRiesgoAplica['op1']}}</md-checkbox>
                                 </td>
                             </tr>
