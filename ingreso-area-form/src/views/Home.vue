@@ -4,15 +4,20 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     >
-    <router-view></router-view>
+    <PIAform/>
+    <Footer/>
   </div>
 </template>
 
 <script>
+import Footer from '@/components/Footer.vue';
+import PIAform from '@/components/PIAform.vue';
 
 export default {
   name: 'App',
   components: {
+    Footer,
+    PIAform
   }
 }
 </script>

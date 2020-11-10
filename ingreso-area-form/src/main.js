@@ -11,7 +11,10 @@ import { firestorePlugin } from 'vuefire';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import Vuelidate from 'vuelidate'
+import router from './router'
+import Vuex from 'vuex'
 
+Vue.use(Vuex)
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(VueMaterial);
@@ -20,5 +23,6 @@ Vue.use(Vuelidate)
 
 
 new Vue({
-  render: h => h(App),
+  router,
+  render: h => h(App)
 }).$mount('#app')

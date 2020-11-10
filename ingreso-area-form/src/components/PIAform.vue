@@ -60,13 +60,8 @@
 
 import DatosPersonales from '../components/PrimeraPag.vue';
 import Riesgos from '../components/Riesgos.vue';
-import Firebase from 'firebase';
-import apiFire from '../config';
+import db from '@/db'
 
-
-// Inicializamos la interacción con el servicio de firebase realtime daa base
-let app = Firebase.initializeApp(apiFire); // se debe inicializar con las credenciales
-let db = app.firestore();
 let registerRef = db.collection('registers');
 
 
@@ -146,7 +141,7 @@ export default {
         }
       }
     },
-    firebase: {
+    firestore: {
       registers: registerRef,
     }
 }
