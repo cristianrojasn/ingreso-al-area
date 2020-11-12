@@ -73,9 +73,7 @@ export default {
     },
     data() {
       return {
-        //Datos de primera página
         form: {
-
           descripcion: null,
           rut: null,
           nombreSol: null,
@@ -85,8 +83,8 @@ export default {
           nombreResp: null,
           correoResp: null,
           listadoTrabajadores: [],
-          checks: [],
-          checksAplican: [],
+          checksRiesgos: [],
+          checksControles: null,
           checkList: null,
           area: null,
           empresa: null,
@@ -107,8 +105,6 @@ export default {
       updateRiesgos(value){
         this.form[value.campo] = value.data
       },
-      limpiarForm() {
-      },
       getNow: function () {
       const today = new Date();
       const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -120,7 +116,7 @@ export default {
         //let newRef = registerRef.push();
         this.$set(this.form, 'timestamp', this.getNow())
         //newRef.set(this.form);
-        registerRef.add({datos: this.form})
+        registerRef.add({...this.form})
         window.setTimeout(() => {
           this.userSaved = true
           //this.sending = true

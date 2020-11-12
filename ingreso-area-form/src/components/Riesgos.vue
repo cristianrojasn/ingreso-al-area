@@ -111,8 +111,8 @@
                 </div>
                 <span
                 class="md-error"
-                v-if="!$v.checksAplican.selectAllChecks && $v.checksAplican.$dirty"
-                >Seleccione al menos una acción</span>
+                v-if="!$v.checksAplican.required && $v.checksAplican.$dirty"
+                >Debe seleccionar todas las opciones para enviar el formulario</span>
             </md-card-content>
         </md-card>
         <!--Ingresa número de trabajadores-->
@@ -312,7 +312,6 @@ export default {
         },
         checksAplican: {
             required,
-            selectAllChecks
         }
     },
     methods: {
@@ -356,13 +355,19 @@ export default {
         },
         //Enviar datos al componente padre
         updateCheckList(){
-            this.$emit('updateValues',{data: this.checkList, campo: "CheckList"})
+            this.$emit('updateValues',{data: this.checkList, campo: "checkList"})
         },
         updateChecksRiesgos(){
             this.$emit('updateValues',{data: this.checks, campo: "checksRiesgos"})
         },
         updateChecksRiesgosAplican(){
-            this.$emit('updateValues',{data: this.checksAplican, campo: "checksRiesgosAplican"})
+            let msgControles
+            if(this.checksAplican.length!=0){
+                msgControles = "Sí, cuento con todos los controles adecuados"
+            }else {
+                msgControles = "No cuento con todos los controles adecuados"
+            }
+            this.$emit('updateValues',{data: msgControles, campo: "checksControles"})
         },
         updateTrabajadores(){
             this.$emit('updateValues', {data: this.listadoTrabajadores, campo: "listadoTrabajadores"})
