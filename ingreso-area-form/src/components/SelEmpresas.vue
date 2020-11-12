@@ -91,8 +91,8 @@ export default {
         return {
             empresas,
             areas,
-            area: '',
-            empresa: '',
+            area: null,
+            empresa: null,
         }
     },
     validations: {
@@ -118,7 +118,6 @@ export default {
         },
         //Validación
         validacion(campo){
-            return true
             const field = this.$v[campo];
             if (field) {
                 return {

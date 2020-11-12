@@ -100,6 +100,7 @@ export default {
     },  
     methods: {
       update(value){
+        console.log(value)
         this.form[value.campo] = value.data
       },
       updateRiesgos(value){
@@ -116,7 +117,7 @@ export default {
         //let newRef = registerRef.push();
         this.$set(this.form, 'timestamp', this.getNow())
         //newRef.set(this.form);
-        registerRef.add({...this.form})
+        registerRef.add({...this.form, status: 0})
         window.setTimeout(() => {
           this.userSaved = true
           //this.sending = true
