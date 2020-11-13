@@ -48,6 +48,9 @@
               style="background-color: rgb(51, 121, 147); width: 150px; border-style: solid;border-color: rgb(228, 172, 59);border-width: 2px;"
               class="md-raised md-primary"
               >Enviar</md-button>
+    <md-button
+              @click="sendDataFirebase"
+              >Enviar</md-button>
             </md-card-actions>
           </md-card>
           <md-dialog-alert :md-active.sync="userSaved" md-title="Formulario envíado exitosamente" :md-content="Enviado" md-confirm-text="Salir"/>
@@ -57,7 +60,7 @@
 </template>
 
 <script>
-
+import dayjs from 'dayjs'
 import DatosPersonales from '../components/PrimeraPag.vue';
 import Riesgos from '../components/Riesgos.vue';
 import db from '@/db'
@@ -117,7 +120,13 @@ export default {
         //let newRef = registerRef.push();
         this.$set(this.form, 'timestamp', this.getNow())
         //newRef.set(this.form);
-        registerRef.add({...this.form, status: 0})
+        registerRef.add({...this.form,
+        status: 0, 
+        zona: this.form.area.split(" ")[0],
+        timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        updated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        turno: dayjs().hour() >= 7 & dayjs().hour() <= 19 ? 'Día' : 'Noche', 
+        })
         window.setTimeout(() => {
           this.userSaved = true
           //this.sending = true

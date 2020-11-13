@@ -30,143 +30,45 @@
             <!--Fin del header del form-->
 
             <md-divider></md-divider>
-
-            <md-table >
-              <md-table-toolbar>
-        <h1 class="md-title">Solicitudes Pendientes</h1>
-      </md-table-toolbar>
-                <md-table-row>
-                  <md-table-head>Fecha y turno</md-table-head>
-                  <md-table-head>Nombre solicitante</md-table-head>
-                  <md-table-head>Nombre empresa</md-table-head>
-                  <md-table-head>Nro contracto</md-table-head>
-                  <md-table-head>Area</md-table-head>
-                  <md-table-head>Nombre responsable MLP</md-table-head>
-                  <md-table-head>Descripción de las labores</md-table-head>
-                  <md-table-head>Riesgos cubiertos que aplican a la tarea</md-table-head>
-                  <md-table-head>Observaciones responsable actividad</md-table-head>
-                  <md-table-head>Listado de trabajadores</md-table-head>
-                  <md-table-head>estado</md-table-head>
-                </md-table-row>
-              <md-table-row @click="select(registro, true)" v-for="registro of myRegisters" :key="registro.id">
-                <md-table-cell>{{registro.timestamp}}</md-table-cell>
-                <md-table-cell>{{`${registro.nombreSol} ${registro.apellidoSol}` }}</md-table-cell>
-                <md-table-cell>{{`${registro.empresa}`}}</md-table-cell>
-                <md-table-cell>{{`${registro.numeroTel}`}}</md-table-cell>
-                <md-table-cell>{{`${registro.area}`}}</md-table-cell>
-                <md-table-cell>{{`${registro.nombreResp}` }}</md-table-cell>
-                <md-table-cell>{{`${registro.descripcion}` }}</md-table-cell>
-                <md-table-cell><div v-for="riesgo of registro.checksRiesgos" :key="registro.id+riesgo">{{riesgo}}</div></md-table-cell>
-                <md-table-cell>Observaciones responsable actividad</md-table-cell>
-                <md-table-cell><div v-for="trabajador of registro.listadoTrabajadores" :key="trabajador.nombre+trabajador.rut+registro.id">{{`${trabajador.nombre} ${trabajador.apellido} ${trabajador.rut}`}}</div></md-table-cell>
-                <md-table-cell>{{`${registro.status}` }}</md-table-cell>
-
-              </md-table-row>
-            </md-table>
-
+              <PrimerNivel :title="'Solicitudes Pendientes (estado 0)'+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
             <md-divider></md-divider>
             <br>
-            <br>
-
-
-            <md-table >
-              <md-table-toolbar>
-        <h1 class="md-title">Solicitudes Aprobadas</h1>
-      </md-table-toolbar>
-                <md-table-row>
-                  <md-table-head>Fecha y turno</md-table-head>
-                  <md-table-head>Nombre solicitante</md-table-head>
-                  <md-table-head>Nombre empresa</md-table-head>
-                  <md-table-head>Nro contracto</md-table-head>
-                  <md-table-head>Area</md-table-head>
-                  <md-table-head>Nombre responsable MLP</md-table-head>
-                  <md-table-head>Descripción de las labores</md-table-head>
-                  <md-table-head>Riesgos cubiertos que aplican a la tarea</md-table-head>
-                  <md-table-head>Observaciones responsable actividad</md-table-head>
-                  <md-table-head>Listado de trabajadores</md-table-head>
-                  <md-table-head>estado</md-table-head>
-                </md-table-row>
-              <md-table-row @click="select(registro, false)" v-for="registro of aproveds" :key="registro.id">
-                <md-table-cell>{{registro.timestamp}}</md-table-cell>
-                <md-table-cell>{{`${registro.nombreSol} ${registro.apellidoSol}` }}</md-table-cell>
-                <md-table-cell>{{`${registro.empresa}`}}</md-table-cell>
-                <md-table-cell>{{`${registro.numeroTel}`}}</md-table-cell>
-                <md-table-cell>{{`${registro.area}`}}</md-table-cell>
-                <md-table-cell>{{`${registro.nombreResp}` }}</md-table-cell>
-                <md-table-cell>{{`${registro.descripcion}` }}</md-table-cell>
-                <md-table-cell><div v-for="riesgo of registro.checksRiesgos" :key="registro.id+riesgo">{{riesgo}}</div></md-table-cell>
-                <md-table-cell>Observaciones responsable actividad</md-table-cell>
-                <md-table-cell><div v-for="trabajador of registro.listadoTrabajadores" :key="trabajador.nombre+trabajador.rut+registro.id">{{`${trabajador.nombre} ${trabajador.apellido} ${trabajador.rut}`}}</div></md-table-cell>
-                <md-table-cell>{{`${registro.status}` }}</md-table-cell>
-
-              </md-table-row>
-            </md-table>
-
+            <div v-for="z in zones" :key="1+z">
+              <PrimerNivel :title="'Solicitudes zona (estado 0) '+ z" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0.filter(i => i.zona === z)"></PrimerNivel>
+            </div>
+            <div v-for="z in zones" :key="2+z">
+              <PorZona :zone="z" :title="'Solicitudes zona (estado 1) '+ z" :statusLevel="2" :user="user" ></PorZona>
+            </div>
             <md-divider></md-divider>
-            
+              <PrimerNivel :title="'Solicitudes Aprobadas (estado 2)'+ user" :statusLevel="1" :user="user" :registers="aproveds"></PrimerNivel>
+            <md-divider></md-divider>
             <!--Inicio del contenido del form. Debe estar contenido en md-card-content-->
             <md-card-content>
             </md-card-content>
           </md-card>
-      <md-dialog :md-active.sync="showDialog">
-      <md-dialog-title>Solicitud</md-dialog-title>
-      <md-dialog-content>
-        <md-table>
-
-        
-        <md-table-row>
-          <md-table-cell>Fecha y turno</md-table-cell><md-table-cell>{{selected.timestamp}}</md-table-cell>
-        </md-table-row>
-        <md-table-row>
-          <md-table-cell>ID</md-table-cell><md-table-cell>{{selected.id}}</md-table-cell>
-        </md-table-row>
-         <md-table-row>
-          <md-table-cell>Nombre solicitante</md-table-cell><md-table-cell>{{`${selected.nombreSol} ${selected.apellidoSol}` }}</md-table-cell>
-        </md-table-row>
-         <md-table-row>
-          <md-table-cell>Nombre empresa</md-table-cell><md-table-cell>{{`${selected.empresa}`}}</md-table-cell>
-        </md-table-row>
-         <md-table-row>
-          <md-table-cell>Nro contracto</md-table-cell><md-table-cell>{{`${selected.numeroTel}`}}</md-table-cell>
-        </md-table-row>
-         <md-table-row>
-          <md-table-cell>Area</md-table-cell><md-table-cell>{{`${selected.area}`}}</md-table-cell>
-        </md-table-row>
-         <md-table-row>
-          <md-table-cell>Nombre responsable MLP</md-table-cell><md-table-cell>{{`${selected.nombreResp}` }}</md-table-cell>
-        </md-table-row>
-         <md-table-row>
-          <md-table-cell>Descripción de las labores</md-table-cell><md-table-cell>{{`${selected.descripcion}` }}</md-table-cell>
-        </md-table-row> <md-table-row>
-          <md-table-cell>Riesgos cubiertos que aplican a la tarea</md-table-cell><md-table-cell><div v-for="riesgo of selected.checksRiesgos" :key="selected.id+riesgo">{{riesgo}}</div></md-table-cell>
-        </md-table-row>
-         <md-table-row>
-          <md-table-cell>Observaciones responsable actividad</md-table-cell><md-table-cell>Observaciones responsable actividad</md-table-cell>
-        </md-table-row>
-         <md-table-row>
-          <md-table-cell>Listado de trabajadores</md-table-cell><md-table-cell><div v-for="trabajador of selected.listadoTrabajadores" :key="trabajador.nombre+trabajador.rut+selected.id">{{`${trabajador.nombre} ${trabajador.apellido} ${trabajador.rut}`}}</div></md-table-cell>
-        </md-table-row>
-        </md-table>
-      </md-dialog-content>
-      <md-dialog-actions v-if="showAprove">
-        <md-button class=" md-accent md-raised" @click="showDialog = false"><md-icon class="fa fa-times-circle md-size-x"></md-icon>Rechazar</md-button>
-        <md-button class=" md-primary md-raised" @click="aprove"><md-icon class="fa fa-check-circle md-size-x"></md-icon>Aprobar</md-button>
-      </md-dialog-actions>
-    </md-dialog>
     </div>
 </template>
 
 <script>
 import db from '@/db'
-
+import PrimerNivel from '../components/PrimerNivelMail'
+import PorZona from '../components/PorZona'
 const myMail = 'luis.leiva.s@gmail.com'
 
-let registerRef = db.collection('registers').where('correoResp', '==', myMail).where('status', '==', 0);
-let aprovedRef = db.collection('registers').where('correoResp', '==', myMail).where('status', '==', 1);
+let registerRef = db.collection('registers')
+let aprovedRef = db.collection('approved').where('correoResp', '==', myMail);
 export default {
   name: "Admin",
+  components:{
+    PrimerNivel,
+    PorZona,
+  },
   data(){
     return {
+      user: myMail,
+      FilterByMailRefStatus0:[],
+      FilterByMailRefStatus1:[],
+      FilterByMailRefStatus2:[],
       registers: [],
       aproveds: [],
       selected: {},
@@ -175,14 +77,26 @@ export default {
     }
   },
   computed: {
-    myRegisters: function () {
-      return this.registers.filter(({correoResp}) => correoResp === myMail)
+    zones: function () {
+      const z = new Set()
+      this.registers.forEach(i => z.add(i.zona))
+      console.log(z)
+      return z
     }
+
+  },
+  watch: {
+    user: {
+      // call it upon creation too
+      immediate: true,
+      handler(user) {
+        this.$bind('FilterByMailRefStatus0', registerRef.where('status', '==', 0).where('correoResp', '==', user))
+        this.$bind('FilterByMailRefStatus1', registerRef.where('status', '==', 1).where('correoResp', '==', user))
+        this.$bind('FilterByMailRefStatus2', registerRef.where('status', '==', 2).where('correoResp', '==', user))
+      },
+    },
   },
   methods: {
-    log(r){
-      console.log(r?r: this.myRegisters)
-    },
     aprove(){
       console.log(this.selected)
       db.collection('registers').doc(this.selected.id).update({status: 1}).then((e)=> alert('Aprobación exitosa')).catch(() => alert("aprobación erronea"))
@@ -201,9 +115,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .admin{
-    min-height: 100vh;
     padding-top: 20px;
     padding-left: 20px;
     padding-right: 20px;
@@ -213,6 +126,9 @@ export default {
     margin-left: auto;
     margin-right: auto;
     padding: 10px;
+}
+.mr-auto{
+  margin-right:auto ;
 }
 @media screen and (min-width: 800px) {
     .box{
