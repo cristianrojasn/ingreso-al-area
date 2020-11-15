@@ -7,3 +7,6 @@ let app = Firebase.initializeApp(apiFire); // se debe inicializar con las creden
 let db = app.firestore();
 
 export default db
+export {
+    Firebase
+}

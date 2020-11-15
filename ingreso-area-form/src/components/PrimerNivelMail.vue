@@ -24,7 +24,7 @@
                     <md-table-head>Listado de trabajadores</md-table-head>
                     <md-table-head>estado</md-table-head>
                 </md-table-row>
-                    <md-table-row @click="select(registro, true)" v-for="registro of registers" :key="registro.id">
+                    <md-table-row @click="select(registro)" v-for="registro of registers" :key="registro.id">
                     <md-table-cell>{{`${registro.turno} ${registro.timestamp}`}}</md-table-cell>
                     <md-table-cell>{{`${registro.nombreSol} ${registro.apellidoSol}` }}</md-table-cell>
                     <md-table-cell>{{`${registro.empresa}`}}</md-table-cell>
@@ -81,7 +81,7 @@
       </md-dialog-content>
       <md-dialog-actions v-if="showAprove">
         <md-button class="mr-auto md-raised md-left" @click="showDialog = false">Cerrar</md-button>
-        <md-button class=" md-accent md-raised" @click="showDialog = false"><md-icon class="fa fa-times-circle md-size-x"></md-icon>Rechazar</md-button>
+        <md-button class=" md-accent md-raised" @click="reject"><md-icon class="fa fa-times-circle md-size-x"></md-icon>Rechazar</md-button>
         <md-button class=" md-primary md-raised" @click="aprove"><md-icon class="fa fa-check-circle md-size-x"></md-icon>Aprobar</md-button>
       </md-dialog-actions>
     </md-dialog>
@@ -99,10 +99,9 @@ export default {
     return {
       selected: {},
       showDialog: false,
-      showAprove: true,
     }
   },
-  props: ['registers', 'user', 'statusLevel', 'title'],
+  props: ['registers', 'user', 'statusLevel', 'title','showAprove'],
   computed: {
   },
   methods: {
@@ -111,12 +110,15 @@ export default {
       console.log(this.selected)
       const collection = this.statusLevel === 1? this.selected.zona: 'approved' 
       console.log('coleccion', collection)
-      db.collection(Utf8ToAscii(collection)).doc(this.selected.id).set({...this.selected,status: +this.statusLevel, updated:dayjs().format("YYYY-MM-DD HH-mm-ss") }).then((e)=> alert('Aprobación exitosa')).catch((e) => alert("aprobación erronea "+JSON.stringify(e) ))
-      db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({status: +this.statusLevel, updated:dayjs().format("YYYY-MM-DD HH-mm-ss") })
+      db.collection(Utf8ToAscii(collection)).doc(this.selected.id).set({...this.selected,aprobadores: [...(this.selected.aprobadores || []), this.user],  status: +this.statusLevel, updated:dayjs().format("YYYY-MM-DD HH-mm-ss") }).then((e)=> alert('Aprobación exitosa')).catch((e) => alert("aprobación erronea "+JSON.stringify(e) ))
+      db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({status: +this.statusLevel, updated:dayjs().format("YYYY-MM-DD HH-mm-ss"), aprobadores: [...(this.selected.aprobadores || []), this.user] })
+      this.showDialog = false
+    },
+    reject(){
+      db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({status: -1, updated:dayjs().format("YYYY-MM-DD HH-mm-ss"), rechazado: this.user })
       this.showDialog = false
     },
     select(r, showAprove){
-      this.showAprove = showAprove
       this.selected = r
       this.showDialog = true
     }

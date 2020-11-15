@@ -81,7 +81,7 @@
       </md-dialog-content>
       <md-dialog-actions v-if="showAprove">
         <md-button class="mr-auto md-raised md-left" @click="showDialog = false">Cerrar</md-button>
-        <md-button class=" md-accent md-raised" @click="showDialog = false"><md-icon class="fa fa-times-circle md-size-x"></md-icon>Rechazar</md-button>
+        <md-button class=" md-accent md-raised" @click="reject"><md-icon class="fa fa-times-circle md-size-x"></md-icon>Rechazar</md-button>
         <md-button class=" md-primary md-raised" @click="aprove"><md-icon class="fa fa-check-circle md-size-x"></md-icon>Aprobar</md-button>
       </md-dialog-actions>
     </md-dialog>
@@ -103,15 +103,20 @@ export default {
       showAprove: true,
     }
   },
-  props: ['zone', 'title'],
+  props: ['zone', 'title', 'user'],
   computed: {
   },
   methods: {
     aprove(){
       console.log(this.selected)
-      db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({status: +this.statusLevel, updated:dayjs().format("YYYY-MM-DD HH-mm-ss") })
+      db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({status: 2, updated:dayjs().format("YYYY-MM-DD HH-mm-ss"), aprobadores: [...(this.selected.aprobadores || []), this.user] })
       db.collection(Utf8ToAscii(this.selected.zona)).doc(this.selected.id).delete()
-      db.collection('approved').doc(this.selected.id).set({...this.selected,status: 2, updated:dayjs().format("YYYY-MM-DD HH-mm-ss") }).then((e)=> alert('Aprobación exitosa')).catch(() => alert("aprobación erronea"))
+      db.collection('approved').doc(this.selected.id).set({...this.selected, status: 2, updated:dayjs().format("YYYY-MM-DD HH-mm-ss") }).then((e)=> alert('Aprobación exitosa')).catch(() => alert("aprobación erronea"))
+      this.showDialog = false
+    },
+    reject(){
+      db.collection(Utf8ToAscii(this.selected.zona)).doc(this.selected.id).delete()
+      db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({status: -1, updated:dayjs().format("YYYY-MM-DD HH-mm-ss"), rechazado: this.user })
       this.showDialog = false
     },
     select(r, showAprove){
