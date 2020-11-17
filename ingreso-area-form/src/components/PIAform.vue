@@ -48,7 +48,7 @@
               style="background-color: rgb(51, 121, 147); width: 150px; border-style: solid;border-color: rgb(228, 172, 59);border-width: 2px;"
               class="md-raised md-primary"
               >Enviar</md-button>
-    <md-button
+              <md-button
               @click="sendDataFirebase"
               >Enviar</md-button>
             </md-card-actions>
@@ -91,7 +91,8 @@ export default {
           checkList: null,
           area: null,
           empresa: null,
-          timestamp: null
+          timestamp: null,
+          comentarios: null
         },
         userSaved: false
       }
