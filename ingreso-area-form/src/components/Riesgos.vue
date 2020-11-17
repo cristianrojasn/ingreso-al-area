@@ -187,6 +187,10 @@
                     </b-row>
                     <md-button class="md-primary md-raised" @click="ingresarDatosTrabajador">Agregar</md-button>
                     <md-button class="md-accent md-raised" @click="eliminarDatosTrabajador">Eliminar</md-button>
+                    <span
+                    class="md-error"
+                    v-if="!trabajadorCompleto"
+                    >Ingrese todos los datos del trabajador</span>
                     <md-divider></md-divider>
                     <b-row>
                         <b-col v-for="(trabajador,index) of listadoTrabajadores" :key="index" cols="12" md="4">
@@ -253,7 +257,7 @@
                     <span style="margin-left: 8px;">Comentarios</span>
                 </div>
                 <p class="md-caption">
-                Ingrese sus comentarios
+                Comentarios relativos a la actividad, o dirigidos a supervisor MLP y/o Jefe de turno
                 </p>
             </md-card-header>
             <md-card-content class="bottom" style="text-align: center;">
@@ -311,7 +315,8 @@ export default {
             siRiesgoAplica: {
                 op1: "Si cuento con los controles adecuados"
             },
-            comentarios: null
+            comentarios: null,
+            trabajadorCompleto: true
         }
     },
     validations: {
@@ -353,11 +358,16 @@ export default {
             trabajador.rut = this.rutTrabajador
             trabajador.nombre = this.nombreTrabajador
             trabajador.apellido = this.apellidoTrabajador
-            this.listadoTrabajadores.push(trabajador)
-            this.updateTrabajadores()
-            this.rutTrabajador = null
-            this.nombreTrabajador = null
-            this.apellidoTrabajador = null
+            if(trabajador.rut==null||trabajador.nombre==null||trabajador.apellido==null){
+                this.trabajadorCompleto = false
+            }else{
+                this.listadoTrabajadores.push(trabajador)
+                this.updateTrabajadores()
+                this.rutTrabajador = null
+                this.nombreTrabajador = null
+                this.apellidoTrabajador = null
+                this.trabajadorCompleto = true
+            }
         },
         ingresarDatosTrabajadores(){
             let arrTrabajadoresRaw = this.listadoTrabajadoresMas10.split('\n')
