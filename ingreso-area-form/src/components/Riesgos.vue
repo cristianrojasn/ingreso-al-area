@@ -187,6 +187,10 @@
                     </b-row>
                     <md-button class="md-primary md-raised" @click="ingresarDatosTrabajador">Agregar</md-button>
                     <md-button class="md-accent md-raised" @click="eliminarDatosTrabajador">Eliminar</md-button>
+                    <span
+                    class="md-error"
+                    v-if="!trabajadorCompleto"
+                    >Ingrese todos los datos del trabajador</span>
                     <md-divider></md-divider>
                     <b-row>
                         <b-col v-for="(trabajador,index) of listadoTrabajadores" :key="index" cols="12" md="4">
@@ -245,6 +249,24 @@
                 >Ingrese al menos un trabajador</span>
             </md-card-content>
         </md-card>
+        <md-card style="width: 70%" v-if="checkList=='Sí' && (numTrabajadores=='mas10'|| numTrabajadores=='menos10')" class="box-100">
+            <md-badge id="badge-steps" md-content="16"/>
+            <md-card-header>
+                <div class="md-title">
+                    <md-icon class="fa fa-book md-size-2x"></md-icon>
+                    <span style="margin-left: 8px;">Comentarios</span>
+                </div>
+                <p class="md-caption">
+                Comentarios relativos a la actividad, o dirigidos a supervisor MLP y/o Jefe de turno
+                </p>
+            </md-card-header>
+            <md-card-content class="bottom" style="text-align: center;">
+                <md-field>
+                    <label for="comentarios">Comentarios</label>
+                    <md-textarea ref="comentarios" @input="updateComentarios" name="comentarios" id="comentarios"  autocomplete="given-name" v-model="comentarios"/>
+                </md-field>
+            </md-card-content>
+        </md-card>
     </div>
 </template>
 
@@ -292,7 +314,9 @@ export default {
             checksAplican: [],
             siRiesgoAplica: {
                 op1: "Si cuento con los controles adecuados"
-            }
+            },
+            comentarios: null,
+            trabajadorCompleto: true
         }
     },
     validations: {
@@ -334,11 +358,16 @@ export default {
             trabajador.rut = this.rutTrabajador
             trabajador.nombre = this.nombreTrabajador
             trabajador.apellido = this.apellidoTrabajador
-            this.listadoTrabajadores.push(trabajador)
-            this.updateTrabajadores()
-            this.rutTrabajador = null
-            this.nombreTrabajador = null
-            this.apellidoTrabajador = null
+            if(trabajador.rut==null||trabajador.nombre==null||trabajador.apellido==null){
+                this.trabajadorCompleto = false
+            }else{
+                this.listadoTrabajadores.push(trabajador)
+                this.updateTrabajadores()
+                this.rutTrabajador = null
+                this.nombreTrabajador = null
+                this.apellidoTrabajador = null
+                this.trabajadorCompleto = true
+            }
         },
         ingresarDatosTrabajadores(){
             let arrTrabajadoresRaw = this.listadoTrabajadoresMas10.split('\n')
@@ -371,6 +400,9 @@ export default {
         },
         updateTrabajadores(){
             this.$emit('updateValues', {data: this.listadoTrabajadores, campo: "listadoTrabajadores"})
+        },
+        updateComentarios(){
+            this.$emit('updateValues', {data: this.comentarios, campo: "comentarios"})
         },
         validacion(campo){
             const field = this.$v[campo];
