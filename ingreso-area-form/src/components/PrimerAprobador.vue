@@ -6,10 +6,10 @@
             <!--Fin del header del form-->
 
             <md-divider></md-divider>
-                <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes (estado 0)'+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
+                <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
             <md-divider></md-divider>
             <md-divider></md-divider>
-                <PrimerNivel :title="'Solicitudes Aprobadas (estado 1)'+ user" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1" :showAprove='false'></PrimerNivel>
+                <PrimerNivel :title="'Solicitudes Aprobadas '+ user" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1" :showAprove='false'></PrimerNivel>
             <md-divider></md-divider>
             <!--Inicio del contenido del form. Debe estar contenido en md-card-content-->
             <md-card-content>

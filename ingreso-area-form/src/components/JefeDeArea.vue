@@ -8,10 +8,10 @@
             </md-card-header>
             <!--Fin del header del form-->
             <md-divider></md-divider>
-                <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes (estado 0)'+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
+                <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes'+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
             <md-divider></md-divider>
             <div v-for="z in zones" :key="2+z">
-                <PorZona :zone="z" :title="'Solicitudes zona (estado 1) '+ z" :statusLevel="2" :user="user" ></PorZona>
+                <PorZona :zone="z" :title="'Solicitudes zona  '+ z" :statusLevel="2" :user="user" ></PorZona>
             </div>
             <div class="admin">
               <md-card class="md-layout-item md-size-100 md-small-size-100 box">
@@ -27,7 +27,7 @@
             </div>
             <br>
             <md-divider></md-divider>
-                <PrimerNivel :title="'Solicitudes Aprobadas (estado 2)'+ user" :statusLevel="3" :user="user" :registers="FilterByMailRefStatus2"></PrimerNivel>
+                <PrimerNivel :title="'Solicitudes Aprobadas '+ user" :statusLevel="3" :user="user" :registers="FilterByMailRefStatus2"></PrimerNivel>
             <md-divider></md-divider>
             <!--Inicio del contenido del form. Debe estar contenido en md-card-content-->
             <md-card-content>
