@@ -116,6 +116,14 @@ export default {
       }
     }
   },
+  mounted: function () {
+    const ref = this
+    Firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        ref.user = user.email
+      }
+    });
+  },
   computed:{
     zones: function () {
       if(!this.userData) return []
@@ -126,7 +134,7 @@ export default {
   methods: {
     async login(){
       const {email, password} = this.form
-      const data = await Firebase.auth().signInWithEmailAndPassword(email, password)
+      const data = await Firebase.auth().setPersistence(Firebase.auth.Auth.Persistence.LOCAL).then(() => Firebase.auth().signInWithEmailAndPassword(email, password))
       this.user = data.user.email
     },
     async signOut(){
