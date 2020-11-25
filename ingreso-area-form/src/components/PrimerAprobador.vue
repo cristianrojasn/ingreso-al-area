@@ -1,54 +1,29 @@
 <template>
     <div class="admin">
-        <md-card class="md-layout-item md-size-100 md-small-size-100 box">
 
             <!--El header contiene el nombre del formulario y el logo de la empresa-->
-            <md-card-header>
-
-              <!--Contenido del header-->
-              <b-container fluid>
-                <b-row class="md-title">
-                  <b-col>
-                    <h2
-                      id="titulo-foro"
-                      class="md-display-2"
-                      >
-                      Sistema de administración ingreso al área
-                    </h2>
-                  </b-col>
-                  <b-col md="auto">
-                    <img
-                    class="responsive-img"
-                    width="300px"
-                    height="300px"
-                    src="../assets/mlp-logo2.png"
-                    />
-                    </b-col>
-                </b-row>
-                </b-container>
-            </md-card-header>
+           
             <!--Fin del header del form-->
 
             <md-divider></md-divider>
                 <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes (estado 0)'+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
             <md-divider></md-divider>
             <md-divider></md-divider>
-                <PrimerNivel :title="'Solicitudes Aprobadas (estado 1)'+ user" :statusLevel="-1" :user="user" :registers="FilterByMailRefStatus1" :showAprove='false'></PrimerNivel>
+                <PrimerNivel :title="'Solicitudes Aprobadas (estado 1)'+ user" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1" :showAprove='false'></PrimerNivel>
             <md-divider></md-divider>
             <!--Inicio del contenido del form. Debe estar contenido en md-card-content-->
             <md-card-content>
             </md-card-content>
-            </md-card>
     </div>
 </template>
 
 <script>
-import db from '@/db'
+import db, {refTurn} from '@/db'
 import PrimerNivel from '../components/PrimerNivelMail'
 import Utf8ToAscii from '@/utils'
 
 
-let registerRef = db.collection('registers')
+let registerRef = refTurn
 
 export default {
   name: "Admin",
@@ -79,12 +54,10 @@ export default {
   },
   methods: {
     aprove(){
-      console.log(this.selected)
       db.collection('registers').doc(this.selected.id).update({status: 1}).then((e)=> alert('Aprobación exitosa')).catch(() => alert("aprobación erronea"))
       this.showDialog = false
     },
      rejectec(){
-      console.log(this.selected)
       db.collection('registers').doc(this.selected.id).update({status: -1}).then((e)=> alert('rechazo exitoso')).catch(() => alert("aprobación erronea"))
       this.showDialog = false
     },
@@ -118,6 +91,11 @@ export default {
 @media screen and (min-width: 800px) {
     .box{
         width: 80%;
+    }
+}
+@media screen and (max-width: 600px) {
+    .admin{
+        padding: 0px !important;
     }
 }
 </style>

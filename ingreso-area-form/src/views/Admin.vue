@@ -3,7 +3,7 @@
      <md-card  class="md-layout-item md-size-100 md-small-size-100 box">
 
             <!--El header contiene el nombre del formulario y el logo de la empresa-->
-            <md-card-header  v-if="!userData || !userData.permiso">
+            <md-card-header >
 
               <!--Contenido del header-->
               <b-container fluid>
@@ -46,7 +46,7 @@
             <div class="md-layout-item md-small-size-100">
               <md-field>
                 <label for="password">Contraseña</label>
-                <md-input name="password" id="password" v-model="form.password"  />
+                <md-input type="password" name="password" id="password" v-model="form.password"  />
                 <span class="md-error" v-if="!$v.form.password.required">Campo requerido</span>
               </md-field>
             </div>
@@ -62,12 +62,22 @@
         
       </md-card-content>
       <div v-if="userData && userData.permiso">
-         <md-button type="submit" class="md-primary" @click="signOut" >Cerrar sesión</md-button>
+        <div style="display:flex;flex-direction:row;justify-content:space-between ;">
+          <div style="align-self: center;">
+            bienvenido {{userData.nombre || userData.id}}
+          </div>
+          <div>
+            <md-button type="submit" class="md-primary" @click="signOut" >Cerrar sesión</md-button>
+          </div>
+        </div>
         <div v-if="userData.permiso===2" class="" >
           <JefeDeArea :user="user" :zones="zones"></JefeDeArea>
         </div>
         <div v-if="userData.permiso===1" class="" >
           <PrimerAprobador :user="user" :zones="zones"></PrimerAprobador>
+        </div>
+        <div v-if="userData.permiso===3" class="" >
+          <Mantenedor :user="user" :zona="userData.zona"></Mantenedor>
         </div>
       </div>
        </md-card>
@@ -78,6 +88,7 @@
 import db, {Firebase} from '@/db'
 import JefeDeArea from '../components/JefeDeArea'
 import PrimerAprobador from '../components/PrimerAprobador'
+import Mantenedor from '../components/Mantenedor'
 import { validationMixin } from 'vuelidate'
   import {
     required,
@@ -92,6 +103,7 @@ export default {
   components:{
     JefeDeArea,
     PrimerAprobador,
+    Mantenedor
   },
    mixins: [validationMixin],
   data(){
@@ -99,8 +111,8 @@ export default {
       user: '',
       userData: {},
       form: {
-        email: 'lileiva@uc.cl',
-        password:'123456'
+        email: '',
+        password:''
       }
     }
   },
@@ -116,7 +128,6 @@ export default {
       const {email, password} = this.form
       const data = await Firebase.auth().signInWithEmailAndPassword(email, password)
       this.user = data.user.email
-      console.log(data)
     },
     async signOut(){
       const data = await Firebase.auth().signOut()
@@ -167,5 +178,22 @@ export default {
     .box{
         width: 80%;
     }
+}
+@media screen and (max-width: 600px) {
+    #titulo-foro{
+        font-size: 1.5em !important;
+    }
+}
+</style>
+
+<style>
+.primary{
+  border-left: 5px solid rgb(56, 216, 56);
+}
+.secondary{
+  border-left: 5px solid rgb(98, 82, 235);
+}
+.third{
+  border-left: 5px solid rgb(235, 158, 106);
 }
 </style>

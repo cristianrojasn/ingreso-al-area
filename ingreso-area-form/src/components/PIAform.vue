@@ -104,7 +104,6 @@ export default {
     },  
     methods: {
       update(value){
-        console.log(value)
         this.form[value.campo] = value.data
       },
       updateRiesgos(value){
@@ -139,7 +138,6 @@ export default {
         this.$refs.primeraPag.validar()
         this.$refs.riesgosPag.validar()
         if(!this.$refs.primeraPag.ifVal() && !this.$refs.riesgosPag.ifVal()){
-          console.log('Datos enviados')
           this.sendDataFirebase()
         }else if(this.$refs.primeraPag.ifVal()){
           this.$refs.primeraPag.focusOnInvalid()

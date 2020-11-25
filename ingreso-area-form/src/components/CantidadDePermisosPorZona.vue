@@ -1,13 +1,18 @@
 <template>
-    <div class="">
+    <div class="item">
         <div>{{zone}}</div>
-        {{data.filter(i => i.zona === zone).length}}
+        <div>
+          Permisos:{{registers.length}}
+        </div>
+        <div>
+          Trabajadores:{{cantidadDeTrabajadores}}
+        </div>
     </div>
 </template>
 
 <script>
-import db from '@/db'
 import Utf8ToAscii from '@/utils'
+import db, {refTurn} from '@/db'
 
 export default {
   name: "NumeroPorZona",
@@ -16,7 +21,16 @@ export default {
   props: ['zone'],
   data(){
     return {
-      data: []
+      registers: []
+    }
+  },
+  computed: {
+    cantidadDeTrabajadores: function () {
+      let suma = 0
+      this.registers.forEach(item => {
+        suma = suma + item.listadoTrabajadores.length
+      })
+      return suma
     }
   },
  watch: {
@@ -24,15 +38,14 @@ export default {
       // call it upon creation too
       immediate: true,
       handler(zone) {
-          console.log('test', zone)
-        this.$bind('data', db.collection('registers').where('status', '==', 2).where('zona', '==', zone || ''))
+        this.$bind('registers', refTurn.where('zona', '==', zone || '').where('status', '==', 2))
       },
     },
   },
   methods: {
   },
   firestore: {
-    data: db.collection('registers').where('status', '==', 2),
+    data: refTurn.where('status', '==', 2),
   }
 }
 </script>
@@ -42,6 +55,9 @@ export default {
     padding-top: 20px;
     padding-left: 20px;
     padding-right: 20px;
+}
+.item{
+  padding:2px 20px;
 }
 .box{
     width: 100%;
@@ -55,6 +71,11 @@ export default {
 @media screen and (min-width: 800px) {
     .box{
         width: 80%;
+    }
+}
+@media screen and (max-width: 600px) {
+    .admin{
+        padding: 0px !important;
     }
 }
 </style>

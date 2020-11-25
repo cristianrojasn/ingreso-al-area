@@ -1,6 +1,5 @@
 <template>
-    <div class="admin">
-        <md-card class="md-layout-item md-size-100 md-small-size-100 box">
+    <div class="admin secondary">
 
             <!--El header contiene el nombre del formulario y el logo de la empresa-->
             
@@ -33,12 +32,11 @@
                     <md-table-cell>{{`${registro.nombreResp}` }}</md-table-cell>
                     <md-table-cell>{{`${registro.descripcion}` }}</md-table-cell>
                     <md-table-cell><div v-for="riesgo of registro.checksRiesgos" :key="registro.id+riesgo">{{riesgo}}</div></md-table-cell>
-                    <md-table-cell>Observaciones responsable actividad</md-table-cell>
+                    <md-table-cell>{{`${registro.descripcion}`}}</md-table-cell>
                     <md-table-cell><div v-for="trabajador of registro.listadoTrabajadores" :key="trabajador.nombre+trabajador.rut+registro.id">{{`${trabajador.nombre} ${trabajador.apellido} ${trabajador.rut}`}}</div></md-table-cell>
                     <md-table-cell>{{`${registro.status}` }}</md-table-cell>
                 </md-table-row>
             </md-table>
-        </md-card>
       <md-dialog :md-active.sync="showDialog">
       <md-dialog-title>Solicitud</md-dialog-title>
       <md-dialog-content>
@@ -72,7 +70,7 @@
           <md-table-cell>Riesgos cubiertos que aplican a la tarea</md-table-cell><md-table-cell><div v-for="riesgo of selected.checksRiesgos" :key="selected.id+riesgo">{{riesgo}}</div></md-table-cell>
         </md-table-row>
          <md-table-row>
-          <md-table-cell>Observaciones responsable actividad</md-table-cell><md-table-cell>Observaciones responsable actividad</md-table-cell>
+          <md-table-cell>Observaciones responsable actividad</md-table-cell><md-table-cell>{{selected.comentarios}}</md-table-cell>
         </md-table-row>
          <md-table-row>
           <md-table-cell>Listado de trabajadores</md-table-cell><md-table-cell><div v-for="trabajador of selected.listadoTrabajadores" :key="trabajador.nombre+trabajador.rut+selected.id">{{`${trabajador.nombre} ${trabajador.apellido} ${trabajador.rut}`}}</div></md-table-cell>
@@ -89,7 +87,7 @@
 </template>
 
 <script>
-import db from '@/db'
+import db, {refTurn, refTurnZone} from '@/db'
 import dayjs from 'dayjs'
 import Utf8ToAscii from '@/utils'
 
@@ -108,15 +106,14 @@ export default {
   },
   methods: {
     aprove(){
-      console.log(this.selected)
-      db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({status: 2, updated:dayjs().format("YYYY-MM-DD HH-mm-ss"), aprobadores: [...(this.selected.aprobadores || []), this.user] })
+      db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({status: 2, updated:dayjs().format("YYYY-MM-DD HH:mm:ss"), aprobadores: [...(this.selected.aprobadores || []), this.user] })
       db.collection(Utf8ToAscii(this.selected.zona)).doc(this.selected.id).delete()
-      db.collection('approved').doc(this.selected.id).set({...this.selected, status: 2, updated:dayjs().format("YYYY-MM-DD HH-mm-ss") }).then((e)=> alert('Aprobación exitosa')).catch(() => alert("aprobación erronea"))
+      db.collection('approved').doc(this.selected.id).set({...this.selected, status: 2, updated:dayjs().format("YYYY-MM-DD HH:mm:ss") }).then((e)=> alert('Aprobación exitosa')).catch(() => alert("aprobación erronea"))
       this.showDialog = false
     },
     reject(){
       db.collection(Utf8ToAscii(this.selected.zona)).doc(this.selected.id).delete()
-      db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({status: -1, updated:dayjs().format("YYYY-MM-DD HH-mm-ss"), rechazado: this.user })
+      db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({status: -1, updated:dayjs().format("YYYY-MM-DD HH:mm:ss"), rechazado: this.user })
       this.showDialog = false
     },
     select(r, showAprove){
@@ -130,8 +127,7 @@ export default {
       // call it upon creation too
       immediate: true,
       handler(zone) {
-        console.log('por zona', Utf8ToAscii(zone))
-        this.$bind('registers', db.collection(Utf8ToAscii(zone)|| 'hi'))
+        this.$bind('registers', refTurnZone(Utf8ToAscii(zone)|| ''))
       },
     },
   },
@@ -156,6 +152,11 @@ export default {
 @media screen and (min-width: 800px) {
     .box{
         width: 80%;
+    }
+}
+@media screen and (max-width: 600px) {
+    .admin{
+        padding: 0px !important;
     }
 }
 </style>

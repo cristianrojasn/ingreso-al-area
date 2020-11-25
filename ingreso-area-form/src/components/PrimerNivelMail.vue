@@ -1,6 +1,5 @@
 <template>
-    <div class="admin">
-        <md-card class="md-layout-item md-size-100 md-small-size-100 box">
+    <div :class="statusLevel === 1? 'admin primary': statusLevel === 2? 'admin secondary':'admin third'">
 
             <!--El header contiene el nombre del formulario y el logo de la empresa-->
             
@@ -33,12 +32,11 @@
                     <md-table-cell>{{`${registro.nombreResp}` }}</md-table-cell>
                     <md-table-cell>{{`${registro.descripcion}` }}</md-table-cell>
                     <md-table-cell><div v-for="riesgo of registro.checksRiesgos" :key="registro.id+riesgo">{{riesgo}}</div></md-table-cell>
-                    <md-table-cell>Observaciones responsable actividad</md-table-cell>
+                    <md-table-cell>{{`${registro.comentarios}`}}</md-table-cell>
                     <md-table-cell><div v-for="trabajador of registro.listadoTrabajadores" :key="trabajador.nombre+trabajador.rut+registro.id">{{`${trabajador.nombre} ${trabajador.apellido} ${trabajador.rut}`}}</div></md-table-cell>
                     <md-table-cell>{{`${registro.status}` }}</md-table-cell>
                 </md-table-row>
             </md-table>
-        </md-card>
       <md-dialog :md-active.sync="showDialog">
       <md-dialog-title>Solicitud</md-dialog-title>
       <md-dialog-content>
@@ -72,7 +70,7 @@
           <md-table-cell>Riesgos cubiertos que aplican a la tarea</md-table-cell><md-table-cell><div v-for="riesgo of selected.checksRiesgos" :key="selected.id+riesgo">{{riesgo}}</div></md-table-cell>
         </md-table-row>
          <md-table-row>
-          <md-table-cell>Observaciones responsable actividad</md-table-cell><md-table-cell>Observaciones responsable actividad</md-table-cell>
+          <md-table-cell>Observaciones responsable actividad</md-table-cell><md-table-cell>{{selected.comentarios}}</md-table-cell>
         </md-table-row>
          <md-table-row>
           <md-table-cell>Listado de trabajadores</md-table-cell><md-table-cell><div v-for="trabajador of selected.listadoTrabajadores" :key="trabajador.nombre+trabajador.rut+selected.id">{{`${trabajador.nombre} ${trabajador.apellido} ${trabajador.rut}`}}</div></md-table-cell>
@@ -107,15 +105,13 @@ export default {
   methods: {
   
     aprove(){
-      console.log(this.selected)
       const collection = this.statusLevel === 1? this.selected.zona: 'approved' 
-      console.log('coleccion', collection)
-      db.collection(Utf8ToAscii(collection)).doc(this.selected.id).set({...this.selected,aprobadores: [...(this.selected.aprobadores || []), this.user],  status: +this.statusLevel, updated:dayjs().format("YYYY-MM-DD HH-mm-ss") }).then((e)=> alert('Aprobación exitosa')).catch((e) => alert("aprobación erronea "+JSON.stringify(e) ))
-      db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({status: +this.statusLevel, updated:dayjs().format("YYYY-MM-DD HH-mm-ss"), aprobadores: [...(this.selected.aprobadores || []), this.user] })
+      db.collection(Utf8ToAscii(collection)).doc(this.selected.id).set({...this.selected,aprobadores: [...(this.selected.aprobadores || []), this.user],  status: +this.statusLevel, updated:dayjs().format("YYYY-MM-DD HH:mm:ss") }).then((e)=> alert('Aprobación exitosa')).catch((e) => alert("aprobación erronea "+JSON.stringify(e) ))
+      db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({status: +this.statusLevel, updated:dayjs().format("YYYY-MM-DD HH:mm:ss"), aprobadores: [...(this.selected.aprobadores || []), this.user] })
       this.showDialog = false
     },
     reject(){
-      db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({status: -1, updated:dayjs().format("YYYY-MM-DD HH-mm-ss"), rechazado: this.user })
+      db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({status: -1, updated:dayjs().format("YYYY-MM-DD HH:mm:ss"), rechazado: this.user })
       this.showDialog = false
     },
     select(r, showAprove){
@@ -127,6 +123,7 @@ export default {
 </script>
 
 <style scoped>
+
 .admin{
     padding-top: 20px;
     padding-left: 20px;
@@ -146,4 +143,10 @@ export default {
         width: 80%;
     }
 }
+@media screen and (max-width: 600px) {
+    .admin{
+        padding: 0px !important;
+    }
+}
+
 </style>

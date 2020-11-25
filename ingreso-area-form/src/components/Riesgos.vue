@@ -371,7 +371,6 @@ export default {
         },
         ingresarDatosTrabajadores(){
             let arrTrabajadoresRaw = this.listadoTrabajadoresMas10.split('\n')
-            console.log(arrTrabajadoresRaw)
             for(let strTrabajador of arrTrabajadoresRaw){
                 let trabajador = {}
                 let temp = strTrabajador.split('\t')
