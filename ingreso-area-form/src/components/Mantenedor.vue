@@ -4,10 +4,16 @@
 
       <!--Fin del header del form-->
       <md-divider></md-divider>
-          <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0.filter((item) => empresasvalidas.has(item.empresa))"></PrimerNivel>
+          <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes - '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
+      <md-divider></md-divider>
+       <md-divider></md-divider>
+          <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes - '+ zona" :statusLevel="1" :user="user" :registers="zoneStatus0.filter((item) => empresasvalidas.has(item.empresa))"></PrimerNivel>
       <md-divider></md-divider>
       <md-divider></md-divider>
-          <PrimerNivel :title="'Solicitudes Aprobadas '+ zona" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1.filter((item) => empresasvalidas.has(item.empresa))" :showAprove='false'></PrimerNivel>
+          <PrimerNivel :title="'Solicitudes Aprobadas -'+ zona" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1.filter((item) => empresasvalidas.has(item.empresa))" :showAprove='false'></PrimerNivel>
+      <md-divider></md-divider>
+      <md-divider></md-divider>
+        <PrimerNivel :showAprove="false" :title="'Solicitudes Rechazadas - '" :statusLevel="-1" :user="user" :registers="[...rejected1, ...rejected2]"></PrimerNivel>
       <md-divider></md-divider>
       <!--Inicio del contenido del form. Debe estar contenido en md-card-content-->
       <md-card-content>
@@ -20,7 +26,7 @@
               <label for="zona">Seleccione zona</label>
               <md-select v-model="zona" name="zona" id="zona">
                 <md-option value="Flotación">Flotación</md-option>
-                <md-option value="Fluidos">Fluidos</md-option>
+                <md-option value="Fluidos">Molienda</md-option>
               </md-select>
             </md-field>
           </div>  
@@ -47,9 +53,12 @@ export default {
   data(){
     return {
       FilterByMailRefStatus0:[],
+      zoneStatus0:[],
       FilterByMailRefStatus1:[],
       registers: [],
       aproveds: [],
+      rejected1: [],
+      rejected2: [],
       zona: '',
       selected: {},
       showDialog: false,
@@ -58,12 +67,20 @@ export default {
     }
   },
   watch: {
+    user:{
+      immediate: true,
+      handler(user) {
+        this.$bind('FilterByMailRefStatus0', registerRef.where('status', '==', 0).where('correoResp', '==', user))
+        this.$bind('rejected1', registerRef.where('status', '==', -1).where('correoResp', '==', user))
+      },
+    },
     zona: {
       // call it upon creation too
       immediate: true,
       handler(zona) {
-        this.$bind('FilterByMailRefStatus0', registerRef.where('status', '==', 0).where('zona', '==', zona))
+        this.$bind('zoneStatus0', registerRef.where('status', '==', 0).where('zona', '==', zona))
         this.$bind('FilterByMailRefStatus1', registerRef.where('status', '==', 1).where('zona', '==', zona))
+        this.$bind('rejected2', registerRef.where('status', '==', -1).where('zona', '==', zona))
       },
     },
   },

@@ -71,10 +71,10 @@
           </div>
         </div>
         <div v-if="userData.permiso===2" class="" >
-          <JefeDeArea :user="user" :zones="zones"></JefeDeArea>
+          <JefeDeArea :user="user" :zone="zone"></JefeDeArea>
         </div>
         <div v-if="userData.permiso===1" class="" >
-          <PrimerAprobador :user="user" :zones="zones"></PrimerAprobador>
+          <PrimerAprobador :user="user" :zone="zone"></PrimerAprobador>
         </div>
         <div v-if="userData.permiso===3" class="" >
           <Mantenedor :user="user" :zona="userData.zona"></Mantenedor>
@@ -125,7 +125,7 @@ export default {
     });
   },
   computed:{
-    zones: function () {
+    zone: function () {
       if(!this.userData) return []
       if (!this.userData.zona) return []
       return this.userData.zona
@@ -196,12 +196,27 @@ export default {
 
 <style>
 .primary{
-  border-left: 5px solid rgb(56, 216, 56);
+  border-left: 5px solid #ff9900;
 }
 .secondary{
-  border-left: 5px solid rgb(98, 82, 235);
+  border-left: 5px solid #a6b502;
 }
 .third{
-  border-left: 5px solid rgb(235, 158, 106);
+  border-left: 5px solid #4c9124;
+}
+.rejected{
+  border-left: 5px solid #ba1b19;
+}
+.text-custom-primary{
+  color: #ff9900 !important;
+}
+.text-custom-secondary{
+  color: #a6b502 !important;
+}
+.text-custom-third{
+  color: #4c9124 !important;
+}
+.text-custom-rejected{
+  color: #ba1b19 !important;
 }
 </style>

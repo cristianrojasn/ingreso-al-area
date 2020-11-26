@@ -8,26 +8,30 @@
             </md-card-header>
             <!--Fin del header del form-->
             <md-divider></md-divider>
-                <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes'+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
+                <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes - '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
             <md-divider></md-divider>
-            <div v-for="z in zones" :key="2+z">
-                <PorZona :zone="z" :title="'Solicitudes zona  '+ z" :statusLevel="2" :user="user" ></PorZona>
-            </div>
+            <md-divider></md-divider>
+                <PrimerNivel :showAprove="false" :title="'Solicitudes Pendientes - '+ zone" :statusLevel="1" :user="user" :registers="ZoneFilterByMailRefStatus0"></PrimerNivel>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+                <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes - '+ zone" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1"></PrimerNivel>
+            <md-divider></md-divider>
             <div class="admin">
               <md-card class="md-layout-item md-size-100 md-small-size-100 box">
                 <md-card-header>
-                  <div class="md-title">Resumen de permisos aprobados por zona</div>
+                  <div class="md-title">Resumen de permisos aprobados en {{zone}}</div>
                 </md-card-header>
                 <div class="row">
-                  <div v-for="z in zones" :key="'zone'+z">
-                    <PermisosPorZona :zone="z"></PermisosPorZona>
-                  </div>
+                    <PermisosPorZona :zone="zone"></PermisosPorZona>
                 </div>
               </md-card>
             </div>
             <br>
             <md-divider></md-divider>
-                <PrimerNivel :title="'Solicitudes Aprobadas '+ user" :statusLevel="3" :user="user" :registers="FilterByMailRefStatus2"></PrimerNivel>
+                <PrimerNivel :showAprove="false" :title="'Solicitudes Aprobadas - '+ user" :statusLevel="3" :user="user" :registers="FilterByMailRefStatus2"></PrimerNivel>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+                <PrimerNivel :showAprove="false" :title="'Solicitudes Rechazadas - '" :statusLevel="-1" :user="user" :registers="[...rejected, ...zoneRejected]"></PrimerNivel>
             <md-divider></md-divider>
             <!--Inicio del contenido del form. Debe estar contenido en md-card-content-->
             <md-card-content>
@@ -47,15 +51,19 @@ export default {
   name: "JefeDeArea",
   components:{
     PrimerNivel,
-    PorZona,
     PermisosPorZona,
   },
-  props: ['user', 'zones'],
+  props: ['user', 'zone'],
   data(){
     return {
       FilterByMailRefStatus0:[],
+      ZoneFilterByMailRefStatus0:[],
+      FilterByMailRefStatus1:[],
       FilterByMailRefStatus2:[],
-      registers: []
+      registers: [],
+      rejected: [],
+      zoneRejected: []
+
     }
   },
  watch: {
@@ -65,8 +73,18 @@ export default {
       handler(user) {
         this.$bind('FilterByMailRefStatus0', registerRef.where('status', '==', 0).where('correoResp', '==', user))
         this.$bind('FilterByMailRefStatus2', registerRef.where('status', '==', 2).where('aprobadores', 'array-contains', user))
+        this.$bind('rejected', registerRef.where('status', '==', -1).where('aprobadores', 'array-contains', user))
       },
     },
+    zone: {
+        // call it upon creation too
+      immediate: true,
+      handler(zone) {
+        this.$bind('FilterByMailRefStatus1', registerRef.where('status', '==', 1).where('zona', '==', zone))
+        this.$bind('ZoneFilterByMailRefStatus0', registerRef.where('status', '==', 0).where('zona', '==', zone))
+        this.$bind('zoneRejected', registerRef.where('status', '==', -1).where('zona', '==', zone))
+      },
+    }, 
   },
   methods: {
   },

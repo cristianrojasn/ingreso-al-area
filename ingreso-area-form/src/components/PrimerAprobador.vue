@@ -1,19 +1,17 @@
 <template>
     <div class="admin">
-
-            <!--El header contiene el nombre del formulario y el logo de la empresa-->
-           
-            <!--Fin del header del form-->
-
-            <md-divider></md-divider>
-                <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
-            <md-divider></md-divider>
-            <md-divider></md-divider>
-                <PrimerNivel :title="'Solicitudes Aprobadas '+ user" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1" :showAprove='false'></PrimerNivel>
-            <md-divider></md-divider>
-            <!--Inicio del contenido del form. Debe estar contenido en md-card-content-->
-            <md-card-content>
-            </md-card-content>
+      <md-divider></md-divider>
+          <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes - '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
+      <md-divider></md-divider>
+      <md-divider></md-divider>
+          <PrimerNivel :showAprove="false" :title="'Solicitudes Aprobadas - '+ user" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1"></PrimerNivel>
+      <md-divider></md-divider>
+      <md-divider></md-divider>
+          <PrimerNivel :showAprove="false" :title="'Solicitudes Rechazadas - '+ user" :statusLevel="-1" :user="user" :registers="rejected"></PrimerNivel>
+      <md-divider></md-divider>
+      <!--Inicio del contenido del form. Debe estar contenido en md-card-content-->
+      <md-card-content>
+      </md-card-content>
     </div>
 </template>
 
@@ -35,6 +33,7 @@ export default {
     return {
       FilterByMailRefStatus0:[],
       FilterByMailRefStatus1:[],
+      rejected:[],
       registers: [],
       aproveds: [],
       selected: {},
@@ -49,6 +48,7 @@ export default {
       handler(user) {
         this.$bind('FilterByMailRefStatus0', registerRef.where('status', '==', 0).where('correoResp', '==', user))
         this.$bind('FilterByMailRefStatus1', registerRef.where('status', '==', 1).where('correoResp', '==', user))
+        this.$bind('rejected', registerRef.where('status', '==', -1).where('correoResp', '==', user))
       },
     },
   },

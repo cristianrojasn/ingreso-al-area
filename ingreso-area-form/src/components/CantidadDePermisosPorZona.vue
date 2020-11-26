@@ -1,11 +1,16 @@
 <template>
     <div class="item">
-        <div>{{zone}}</div>
         <div>
-          Permisos:{{registers.length}}
+          <div>Permisos</div>
+          <div>{{registers.length}}</div>
         </div>
         <div>
-          Trabajadores:{{cantidadDeTrabajadores}}
+          <div>
+            Trabajadores
+          </div>
+          <div>
+            {{cantidadDeTrabajadores}}
+          </div>
         </div>
     </div>
 </template>
@@ -58,6 +63,11 @@ export default {
 }
 .item{
   padding:2px 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 .box{
     width: 100%;
@@ -76,6 +86,9 @@ export default {
 @media screen and (max-width: 600px) {
     .admin{
         padding: 0px !important;
+    }
+    .item{
+      width: 100%;
     }
 }
 </style>
