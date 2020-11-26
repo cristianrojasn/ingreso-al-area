@@ -119,12 +119,14 @@ export default {
       let comment = {}
       if(+this.statusLevel === 1){
         comment = {
-          comentarioPrimerAprobador: this.coments
+          comentarioPrimerAprobador: this.coments,
+          timestampPrimerAprobador: dayjs().format("YYYY-MM-DD HH:mm:ss")
         }
       } 
       else {
         comment = {
-          comentarioJefeDeTurno: this.coments
+          comentarioJefeDeTurno: this.coments,
+          timestampJefeDeTurno: dayjs().format("YYYY-MM-DD HH:mm:ss")
         }
       }
       db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({
@@ -137,12 +139,14 @@ export default {
       let comment = {}
       if(+this.statusLevel === 1){
         comment = {
-          comentarioPrimerAprobador: this.coments
+          comentarioPrimerAprobador: this.coments,
+          timestampPrimerAprobador: dayjs().format("YYYY-MM-DD HH:mm:ss")
         }
       } 
       else {
         comment = {
-          comentarioJefeDeTurno: this.coments
+          comentarioJefeDeTurno: this.coments,
+          timestampJefeDeTurno: dayjs().format("YYYY-MM-DD HH:mm:ss")
         }
       }
       db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({...comment,status: -1, updated:dayjs().format("YYYY-MM-DD HH:mm:ss"), rechazado: this.user })
