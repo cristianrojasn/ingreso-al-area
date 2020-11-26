@@ -29,8 +29,8 @@
         <md-table-cell>{{`${registro.descripcion}` }}</md-table-cell>
         <md-table-cell><div v-for="riesgo of registro.checksRiesgos" :key="registro.id+riesgo">{{riesgo}}</div></md-table-cell>
         <md-table-cell>{{`${registro.comentarios}`}}</md-table-cell>
-        <md-table-cell>{{`${registro.comentarioPrimerAprobador}`}}</md-table-cell>
-        <md-table-cell>{{`${registro.comentarioJefeDeTurno}`}}</md-table-cell>
+        <md-table-cell>{{`${registro.comentarioPrimerAprobador || ''}`}}</md-table-cell>
+        <md-table-cell>{{`${registro.comentarioJefeDeTurno || ''}`}}</md-table-cell>
         <md-table-cell><div v-for="trabajador of registro.listadoTrabajadores" :key="trabajador.nombre+trabajador.rut+registro.id">{{`${trabajador.nombre} ${trabajador.apellido} ${trabajador.rut}`}}</div></md-table-cell>
         <md-table-cell>{{`${registro.status}` }}</md-table-cell>
       </md-table-row>
@@ -61,6 +61,9 @@
           <md-table-cell>Nombre responsable MLP</md-table-cell><md-table-cell>{{`${selected.nombreResp}` }}</md-table-cell>
         </md-table-row>
         <md-table-row>
+          <md-table-cell>Correo responsable MLP</md-table-cell><md-table-cell>{{`${selected.correoResp}` }}</md-table-cell>
+        </md-table-row>
+        <md-table-row>
           <md-table-cell>Descripción de las labores</md-table-cell><md-table-cell>{{`${selected.descripcion}` }}</md-table-cell>
         </md-table-row> <md-table-row>
           <md-table-cell>Riesgos cubiertos que aplican a la tarea</md-table-cell><md-table-cell><div v-for="riesgo of selected.checksRiesgos" :key="selected.id+riesgo">{{riesgo}}</div></md-table-cell>
@@ -69,10 +72,10 @@
           <md-table-cell>Observaciones responsable actividad</md-table-cell><md-table-cell>{{selected.comentarios}}</md-table-cell>
         </md-table-row>
         <md-table-row>
-          <md-table-cell>Observaciones primer aprobador</md-table-cell><md-table-cell>{{selected.comentarioPrimerAprobador}}</md-table-cell>
+          <md-table-cell>Observaciones primer aprobador</md-table-cell><md-table-cell>{{selected.comentarioPrimerAprobador || ''}}</md-table-cell>
         </md-table-row>
           <md-table-row>
-          <md-table-cell>Observaciones jefe de turno</md-table-cell><md-table-cell>{{selected.comentarioJefeDeTurno}}</md-table-cell>
+          <md-table-cell>Observaciones jefe de turno</md-table-cell><md-table-cell>{{selected.comentarioJefeDeTurno || ''}}</md-table-cell>
         </md-table-row>
         <md-table-row>
           <md-table-cell>Listado de trabajadores</md-table-cell><md-table-cell><div v-for="trabajador of selected.listadoTrabajadores" :key="trabajador.nombre+trabajador.rut+selected.id">{{`${trabajador.nombre} ${trabajador.apellido} ${trabajador.rut}`}}</div></md-table-cell>
