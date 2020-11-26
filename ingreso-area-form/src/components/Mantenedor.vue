@@ -13,7 +13,7 @@
           <PrimerNivel :title="'Solicitudes Aprobadas -'+ zona" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1.filter((item) => empresasvalidas.has(item.empresa))" :showAprove='false'></PrimerNivel>
       <md-divider></md-divider>
       <md-divider></md-divider>
-        <PrimerNivel :showAprove="false" :title="'Solicitudes Rechazadas - '" :statusLevel="-1" :user="user" :registers="[...rejected1, ...rejected2]"></PrimerNivel>
+        <PrimerNivel :showAprove="false" :title="'Solicitudes Rechazadas'" :statusLevel="-1" :user="user" :registers="[...rejected1, ...rejected2]"></PrimerNivel>
       <md-divider></md-divider>
       <!--Inicio del contenido del form. Debe estar contenido en md-card-content-->
       <md-card-content>

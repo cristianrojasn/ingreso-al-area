@@ -31,7 +31,7 @@
                 <PrimerNivel :showAprove="false" :title="'Solicitudes Aprobadas - '+ user" :statusLevel="3" :user="user" :registers="FilterByMailRefStatus2"></PrimerNivel>
             <md-divider></md-divider>
             <md-divider></md-divider>
-                <PrimerNivel :showAprove="false" :title="'Solicitudes Rechazadas - '" :statusLevel="-1" :user="user" :registers="[...rejected, ...zoneRejected]"></PrimerNivel>
+                <PrimerNivel :showAprove="false" :title="'Solicitudes Rechazadas'" :statusLevel="-1" :user="user" :registers="[...rejected, ...zoneRejected]"></PrimerNivel>
             <md-divider></md-divider>
             <!--Inicio del contenido del form. Debe estar contenido en md-card-content-->
             <md-card-content>
