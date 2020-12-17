@@ -157,60 +157,7 @@
                 </md-card>
             </b-col>
         </b-row>
-        <b-row class="row-length">
-            <!--Nombre-->
-            <b-col class="box-respuestas-1" cols="12" md="6">
-                <md-card class="md-layout-item box-respuestas-1">
-                    <md-badge id="badge-steps" md-content="9"/>
-                    <md-card-header>
-                        <div class="md-title">
-                            <md-icon class="fa fa-user md-size-2x"></md-icon>
-                            <span>Nombre responsable MLP</span>
-                        </div>
-                    </md-card-header>
-                    <md-card-content class="bottom">
-                        <md-field :class="validacion('nombreResp')">
-                            <label for="nombreResp">Nombre</label>
-                            <md-input ref="nombreResp" @input="updateNombreResp" name="nombreResp" id="nombreResp"  autocomplete="given-name" v-model="nombreResp"/>
-                            <span
-                            class="md-error"
-                            v-if="!$v.nombreResp.required"
-                            >Se requiere que ingrese el nombre del responsable</span>
-                        </md-field>
-                    </md-card-content>
-                </md-card>
-            </b-col>
-            <!--Correo responsable-->
-            <b-col class="box-respuestas-1" cols="12" md="6">
-                <md-card class="md-layout-item box-respuestas-1">
-                    <md-badge id="badge-steps" md-content="10"/>
-                    <md-card-header>
-                        <div class="md-title">
-                            <md-icon class="fa fa-user md-size-2x"></md-icon>
-                            <span>Correo electrónico de responsable MLP</span>
-                        </div>
-                    </md-card-header>
-                    <md-card-content class="bottom">
-                        <md-field :class="validacion('correoResp')">
-                            <label for="correoResp">Correo</label>
-                            <md-input ref="correoSol" @input="updateCorreoResp" type="email" name="correoResp" id="correoResp"  autocomplete="given-name" v-model="correoResp"/>
-                            <span
-                            class="md-error"
-                            v-if="!$v.correoSol.required || !$v.correoSol.email || !$v.correoSol.valCorreoResp"
-                            >Se requiere que ingrese un correo válido</span>
-                            <!-- <span
-                            class="md-error"
-                            v-if="!$v.correoSol.email"
-                            >Ingrese un correo válido</span> -->
-                            <!-- <span
-                            class="md-error"
-                            v-if="!$v.correoSol.valCorreoResp"
-                            >Ingrese un dominio válido</span> -->
-                        </md-field>
-                    </md-card-content>
-                </md-card>
-            </b-col>
-        </b-row>
+        <Responsable ref="resp" @updateData="actualizarResp"/>
     </div>
 </template>
 
@@ -219,6 +166,7 @@
 //import { validationMixin } from 'vuelidate';
 import { required, minLength, maxLength, email} from 'vuelidate/lib/validators';
 import SelEmpresas from '../components/SelEmpresas.vue';
+import Responsable from '../components/Responsable.vue';
 
 
 //Custom validations
@@ -273,7 +221,8 @@ export default {
         }
     },
     components: {
-        SelEmpresas
+        SelEmpresas,
+        Responsable
     },
     validations: {
         rut: {
@@ -328,12 +277,12 @@ export default {
         updateDescripcion(){
             this.$emit('updateData', {data: this.descripcion, campo: "descripcion"})
         },
-        updateNombreResp(){
-            this.$emit('updateData', {data: this.nombreResp, campo: "nombreResp"})
-        },
-        updateCorreoResp(){
-            this.$emit('updateData', {data: this.correoResp, campo: "correoResp"})
-        },
+        // updateNombreResp(){
+        //     this.$emit('updateData', {data: this.nombreResp, campo: "nombreResp"})
+        // },
+        // updateCorreoResp(){
+        //     this.$emit('updateData', {data: this.correoResp, campo: "correoResp"})
+        // },
         actualizarEmpresaArea(value){
             if(value.campo == "empresa"){
                 this.empresa = value.data
@@ -342,6 +291,11 @@ export default {
                 this.area = value.data
                 this.$emit('updateData', {data: this.area, campo: "area"})
             }
+        },
+        actualizarResp(value){
+            this.nombreResp = value.data[0]
+            this.correoResp = value.data[1]
+            this.$emit('updateData',{data: [this.nombreResp,this.correoResp], campo: ["nombreResp","correoResp"]})
         },
         //Reiniciar inputs luego de enviado el form
         reiniciarPrimeraPag(){
@@ -356,6 +310,7 @@ export default {
             this.empresa = null
             this.area = null
             this.$refs.selectEmpA.restaurarSelects()
+            this.$refs.resp.restaurarSelects()
         },
         validacion(campo){
             const field = this.$v[campo];
@@ -368,9 +323,10 @@ export default {
         validar(){
             this.$v.$touch()
             this.$refs.selectEmpA.validarSelects()
+            this.$refs.resp.validarSelects()
         },
         ifVal(){
-            return this.$v.$invalid && this.$refs.selectEmpA.ifValSelect()
+            return this.$v.$invalid && this.$refs.selectEmpA.ifValSelect() && this.$refs.resp.ifValSelect()
         },
         focusOnInvalid(){
             // 1. Es necesario que cada input tenga un atributo ref con el mismo nombre de las variables en validations
@@ -390,6 +346,7 @@ export default {
                 }
             }
             this.$refs.selectEmpA.focusOnInvalidSelect()
+            this.$refs.resp.focusOnInvalidSelect()
         },
     },
 }

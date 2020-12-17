@@ -104,7 +104,13 @@ export default {
     },  
     methods: {
       update(value){
-        this.form[value.campo] = value.data
+        if(typeof(value.data)=="object"){
+          for (let i=0; i<= value.data.length; i++){
+            this.form[value.campo[i]]=value.data[i]
+          }
+        }else{
+          this.form[value.campo] = value.data
+        }
       },
       updateRiesgos(value){
         this.form[value.campo] = value.data
