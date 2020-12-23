@@ -46,6 +46,7 @@ export default {
       // call it upon creation too
       immediate: true,
       handler(user) {
+        console.log(user)
         this.$bind('FilterByMailRefStatus0', registerRef.where('status', '==', 0).where('correoResp', '==', user))
         this.$bind('FilterByMailRefStatus1', registerRef.where('status', '==', 1).where('correoResp', '==', user))
         this.$bind('rejected', registerRef.where('status', '==', -1).where('correoResp', '==', user))

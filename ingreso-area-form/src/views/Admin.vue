@@ -70,13 +70,13 @@
             <md-button type="submit" class="md-primary" @click="signOut" >Cerrar sesión</md-button>
           </div>
         </div>
-        <div v-if="userData.permiso===2" class="" >
+        <div v-if="+userData.permiso===2" class="" >
           <JefeDeArea :user="user" :zone="zone"></JefeDeArea>
         </div>
-        <div v-if="userData.permiso===1" class="" >
+        <div v-if="+userData.permiso===1" class="" >
           <PrimerAprobador :user="user" :zone="zone"></PrimerAprobador>
         </div>
-        <div v-if="userData.permiso===3" class="" >
+        <div v-if="+userData.permiso===3" class="" >
           <Mantenedor :user="user" :zona="userData.zona"></Mantenedor>
         </div>
       </div>
