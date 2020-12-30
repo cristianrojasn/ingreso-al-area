@@ -323,7 +323,7 @@ export default {
         validar(){
             this.$v.$touch()
             this.$refs.selectEmpA.validarSelects()
-            this.$refs.resp.validarSelects()
+            this.$refs.resp.validarResp()
         },
         ifVal(){
             return this.$v.$invalid && this.$refs.selectEmpA.ifValSelect() && this.$refs.resp.ifValSelect()
