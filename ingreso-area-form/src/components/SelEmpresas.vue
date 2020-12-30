@@ -13,13 +13,6 @@
                         </div>
                     </md-card-header>
                     <md-card-content class="bottom">
-                        <!-- <md-field :class="validacion('empresa')"> -->
-                            
-                            <!-- <md-select name="empresa" id="empresa" v-model="empresa" md-dense>
-                                <md-option v-for="emp of empresas" :key="emp" :value="emp">
-                                    {{ emp }}
-                                </md-option>
-                            </md-select> -->
                             <md-autocomplete @input="updateEmpresa" ref="empresa" :class="validacion('empresa')" v-model="empresa" :md-options="empresas" :md-fuzzy-search="false" md-dense>
                                 <label>Empresas</label>
 
@@ -35,16 +28,6 @@
                             v-if="!$v.empresa.required"
                             >Se requiere que ingrese una empresa</span>
                             </md-autocomplete>
-                            
-                        <!-- </md-field> -->
-                        <!-- <md-field v-if="empresa == 'Otra'">
-                            <label for="otraEmp">Ingrese la empresa</label>
-                            <md-input name="otraEmp" id="otraEmp"  autocomplete="given-name" v-model="empresaOtra"/>
-                            <span
-                            class="md-error"
-                            v-if="!$v.nombreSol.required"
-                            >Se requiere que ingrese su nombre</span>
-                        </md-field> -->
                     </md-card-content>
                 </md-card>
             </b-col>
@@ -58,18 +41,20 @@
                         </div>
                     </md-card-header>
                     <md-card-content class="bottom">
-                        <md-field :class="validacion('area')">
-                            <label for="area">Area</label>
-                            <md-select @input="updateArea" ref="area" name="area" id="area" v-model="area" md-dense>
-                                <md-option v-for="ar of areas" :key="ar" :value="ar">
-                                    {{ ar }}
-                                </md-option>
-                            </md-select>
-                            <span
-                            class="md-error"
-                            v-if="!$v.area.required"
-                            >Se requiere que ingrese un área</span>
-                        </md-field>
+                        <md-autocomplete @input="updateArea" ref="area" :class="validacion('area')" v-model="area" :md-options="areas" :md-fuzzy-search="true" md-dense>
+                            <label>Areas</label>
+                            <template slot="md-autocomplete-item" slot-scope="{ item, term }">
+                                <md-highlight-text :md-term="term">{{ item }}</md-highlight-text>
+                            </template>
+
+                            <template slot="md-autocomplete-empty" slot-scope="{ term }">
+                                <small>Error: no se encontró "{{term}}".</small>    
+                            </template>                            
+                        <span
+                        class="md-error"
+                        v-if="!$v.area.required"
+                        >Se requiere que ingrese un área</span>
+                        </md-autocomplete>
                     </md-card-content>
                 </md-card>
             </b-col>
