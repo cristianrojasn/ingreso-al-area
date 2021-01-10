@@ -144,15 +144,27 @@ export default {
       validateUser() {
         this.$refs.primeraPag.validar()
         this.$refs.riesgosPag.validar()
-        if(!this.$refs.primeraPag.ifVal() && !this.$refs.riesgosPag.ifVal()){
-          console.log("todo ok")
+        let var_inferior = ['checksControles', 'checksRiesgos', 'comentarios','listadoTrabajadores']
+        let valid = true
+        for(let key in Object.keys(this.form)){
+            // 2. Extraer los inputs de este componente
+          const name = Object.keys(this.form)[key];
+          const value = Object.values(this.form)[key];
+          // 3. Remover propiedades que no importan
+          if (!value && !var_inferior.includes(name) && name!= 'timestamp'){
+            console.log(value+" "+name+"me fui a primera pag")
+            this.$refs.primeraPag.focusOnInvalid()
+            valid = false
+            break
+          }else if (!value && var_inferior.includes(name) && name!= 'timestamp'){
+            console.log(value+" "+name+" me fui a riesgos")
+            this.$refs.riesgosPag.focusOnInvalid()
+            valid = false
+            break
+          }
+        }
+        if (valid){
           this.sendDataFirebase()
-        }else if(this.$refs.primeraPag.ifVal()){
-          console.log("no páso primera validación")
-          this.$refs.primeraPag.focusOnInvalid()
-        }else{
-          console.log("no páso segunda validación")
-          this.$refs.riesgosPag.focusOnInvalid()
         }
       }
     },
