@@ -326,7 +326,7 @@ export default {
             this.$refs.resp.validarResp()
         },
         ifVal(){
-            return this.$v.$invalid && this.$refs.selectEmpA.ifValSelect() && this.$refs.resp.ifValSelect()
+            return this.$v.$invalid && this.$refs.selectEmpA.ifValSelect() && !this.$refs.resp.ifValResp()
         },
         focusOnInvalid(){
             // 1. Es necesario que cada input tenga un atributo ref con el mismo nombre de las variables en validations

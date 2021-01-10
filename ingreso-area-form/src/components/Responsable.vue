@@ -29,10 +29,10 @@
                                 <template slot="md-autocomplete-empty" slot-scope="{ term }">
                                     <small>No se encontró "{{term}}". Ingrese manualmente otro</small>    
                                 </template>
-                                <!-- <span
+                                <span
                             class="md-error"
-                            v-if="!$v.empresa.required"
-                            >Se requiere que ingrese un responsable</span> -->
+                            v-if="!$v.nombreResp.required"
+                            >Se requiere que ingrese un responsable</span>
                             </md-autocomplete>
                             
                         <!-- </md-field> -->

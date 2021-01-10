@@ -105,7 +105,7 @@ export default {
     methods: {
       update(value){
         if(typeof(value.data)=="object"){
-          for (let i=0; i<= value.data.length; i++){
+          for (let i=0; i< value.data.length; i++){
             this.form[value.campo[i]]=value.data[i]
           }
         }else{
@@ -123,6 +123,7 @@ export default {
       return dateTime
       },
       sendDataFirebase(){
+        debugger
         //let newRef = registerRef.push();
         this.$set(this.form, 'timestamp', this.getNow())
         //newRef.set(this.form);
@@ -137,17 +138,20 @@ export default {
           this.userSaved = true
           //this.sending = true
           //this.$refs.primeraPag.resetPrimeraPag()
-          //his.$refs.riesgosPag.resetPreexistencias()
+          //this.$refs.riesgosPag.resetPreexistencias()
         }, 1500)
       },
       validateUser() {
         this.$refs.primeraPag.validar()
         this.$refs.riesgosPag.validar()
         if(!this.$refs.primeraPag.ifVal() && !this.$refs.riesgosPag.ifVal()){
+          console.log("todo ok")
           this.sendDataFirebase()
         }else if(this.$refs.primeraPag.ifVal()){
+          console.log("no páso primera validación")
           this.$refs.primeraPag.focusOnInvalid()
         }else{
+          console.log("no páso segunda validación")
           this.$refs.riesgosPag.focusOnInvalid()
         }
       }
