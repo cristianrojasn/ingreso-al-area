@@ -8,13 +8,13 @@
             </md-card-header>
             <!--Fin del header del form-->
             <md-divider></md-divider>
-                <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes - '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
+                <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes propias - '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
             <md-divider></md-divider>
             <md-divider></md-divider>
-                <PrimerNivel :showAprove="false" :title="'Solicitudes Pendientes - '+ zone" :statusLevel="1" :user="user" :registers="ZoneFilterByMailRefStatus0"></PrimerNivel>
+                <PrimerNivel :showAprove="false" :title="'Solicitudes Pendientes Sv - '+ zone" :statusLevel="1" :user="user" :registers="ZoneFilterByMailRefStatus0"></PrimerNivel>
             <md-divider></md-divider>
             <md-divider></md-divider>
-                <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes - '+ zone" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1"></PrimerNivel>
+                <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes JT - '+ zone" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1"></PrimerNivel>
             <md-divider></md-divider>
             <div class="admin">
               <md-card class="md-layout-item md-size-100 md-small-size-100 box">

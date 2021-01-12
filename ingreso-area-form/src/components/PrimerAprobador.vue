@@ -1,7 +1,7 @@
 <template>
     <div class="admin">
       <md-divider></md-divider>
-          <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes - '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
+          <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes propias - '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
       <md-divider></md-divider>
       <md-divider></md-divider>
           <PrimerNivel :showAprove="false" :title="'Solicitudes Aprobadas - '+ user" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1"></PrimerNivel>
