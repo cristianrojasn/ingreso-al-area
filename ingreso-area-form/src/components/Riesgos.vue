@@ -146,7 +146,7 @@
         <md-card class="box-100" style="width: 70%" v-if="checkList=='Sí' && numTrabajadores=='menos10'">
             <md-badge id="badge-steps" md-content="15"/>
             <md-card-header>
-                <div class="md-title">
+                <div ref="listadoTrabajadoresDiv" class="md-title">
                     Listado de trabajadores
                 </div>
                 <p class="md-caption">
@@ -427,8 +427,12 @@ export default {
 
                     // 4. Chequear si hay error en algún input
                 if (this.$v[input].$error) {
-                    // 5. Hacer focus en el elemento que hay error
+                    if(input == 'listadoTrabajadores'){
+                        input = input+'Div' 
+                    }
                     this.$refs[input].focus();
+
+// 5. Hacer focus en el elemento que hay error
 
                     // 6. Una vez encontrado el input, terminar el loop
                     break;

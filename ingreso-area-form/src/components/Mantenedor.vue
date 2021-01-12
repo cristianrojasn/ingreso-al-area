@@ -4,16 +4,16 @@
 
       <!--Fin del header del form-->
       <md-divider></md-divider>
-          <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes - '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
+          <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes propias - '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
       <md-divider></md-divider>
        <md-divider></md-divider>
-          <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes - '+ zona" :statusLevel="1" :user="user" :registers="zoneStatus0.filter((item) => empresasvalidas.has(item.empresa))"></PrimerNivel>
+          <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes Sv - '+ zona" :statusLevel="1" :user="user" :registers="zoneStatus0.filter((item) => empresasvalidas.has(item.empresa))"></PrimerNivel>
       <md-divider></md-divider>
       <md-divider></md-divider>
-          <PrimerNivel :title="'Solicitudes Aprobadas -'+ zona" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1.filter((item) => empresasvalidas.has(item.empresa))" :showAprove='false'></PrimerNivel>
+          <PrimerNivel :title="'Solicitudes Aprobadas - '+ zona" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1.filter((item) => empresasvalidas.has(item.empresa))" :showAprove='false'></PrimerNivel>
       <md-divider></md-divider>
       <md-divider></md-divider>
-        <PrimerNivel :showAprove="false" :title="'Solicitudes Rechazadas'" :statusLevel="-1" :user="user" :registers="[...rejected1, ...rejected2]"></PrimerNivel>
+        <PrimerNivel :showAprove="false" :title="'Solicitudes Rechazadas- '+ zona" :statusLevel="-1" :user="user" :registers="[...rejected1, ...rejected2]"></PrimerNivel>
       <md-divider></md-divider>
       <!--Inicio del contenido del form. Debe estar contenido en md-card-content-->
       <md-card-content>

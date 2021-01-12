@@ -104,7 +104,13 @@ export default {
     },  
     methods: {
       update(value){
-        this.form[value.campo] = value.data
+        if(typeof(value.data)=="object"){
+          for (let i=0; i< value.data.length; i++){
+            this.form[value.campo[i]]=value.data[i]
+          }
+        }else{
+          this.form[value.campo] = value.data
+        }
       },
       updateRiesgos(value){
         this.form[value.campo] = value.data
@@ -117,6 +123,7 @@ export default {
       return dateTime
       },
       sendDataFirebase(){
+        debugger
         //let newRef = registerRef.push();
         this.$set(this.form, 'timestamp', this.getNow())
         //newRef.set(this.form);
@@ -131,18 +138,33 @@ export default {
           this.userSaved = true
           //this.sending = true
           //this.$refs.primeraPag.resetPrimeraPag()
-          //his.$refs.riesgosPag.resetPreexistencias()
+          //this.$refs.riesgosPag.resetPreexistencias()
         }, 1500)
       },
       validateUser() {
         this.$refs.primeraPag.validar()
         this.$refs.riesgosPag.validar()
-        if(!this.$refs.primeraPag.ifVal() && !this.$refs.riesgosPag.ifVal()){
+        let var_inferior = ['checksControles', 'checksRiesgos', 'comentarios','listadoTrabajadores']
+        let valid = true
+        for(let key in Object.keys(this.form)){
+            // 2. Extraer los inputs de este componente
+          const name = Object.keys(this.form)[key];
+          const value = Object.values(this.form)[key];
+          // 3. Remover propiedades que no importan
+          if (!value && !var_inferior.includes(name) && name!= 'timestamp'){
+            console.log(value+" "+name+"me fui a primera pag")
+            this.$refs.primeraPag.focusOnInvalid()
+            valid = false
+            break
+          }else if (!value && var_inferior.includes(name) && name!= 'timestamp'){
+            console.log(value+" "+name+" me fui a riesgos")
+            this.$refs.riesgosPag.focusOnInvalid()
+            valid = false
+            break
+          }
+        }
+        if (valid){
           this.sendDataFirebase()
-        }else if(this.$refs.primeraPag.ifVal()){
-          this.$refs.primeraPag.focusOnInvalid()
-        }else{
-          this.$refs.riesgosPag.focusOnInvalid()
         }
       }
     },
