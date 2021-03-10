@@ -64,7 +64,7 @@
       <div v-if="userData && userData.permiso">
         <div style="display:flex;flex-direction:row;justify-content:space-between ;">
           <div style="align-self: center;">
-            Bienvenido, {{userData.nombre || userData.id}}
+            Bienvenido/a, {{userData.nombre || userData.id}}
           </div>
           <div>
             <md-button type="submit" class="md-primary" @click="signOut" >Cerrar sesión</md-button>
