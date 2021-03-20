@@ -235,7 +235,7 @@
                 <md-button class="md-accent md-raised" @click="eliminarDatosTrabajadores">Eliminar</md-button>
                 
                 <md-divider></md-divider>
-                <b-row>
+                <b-row>                    
                     <b-col v-for="(trabajador,index) of listadoTrabajadores" :key="index" cols="12" md="4">
                         <div class="md-title" style="text-align: center;">
                             Trabajador {{index + 1}}
@@ -377,7 +377,10 @@ export default {
                 trabajador.nombre = temp[0]
                 trabajador.apellido = temp[1]
                 trabajador.rut = temp[2]
-                this.listadoTrabajadores.push(trabajador)
+                //Excepción que si hay un espacio en blanco no lo llene
+                if (trabajador.nombre != ''){
+                    this.listadoTrabajadores.push(trabajador)
+                }
             }
             this.updateTrabajadores()
         },
