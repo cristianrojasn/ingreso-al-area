@@ -135,7 +135,7 @@ export default {
         window.setTimeout(() => {
           this.userSaved = true
           //this.sending = true
-          //this.$refs.primeraPag.resetPrimeraPag()
+          this.$refs.primeraPag.reiniciarPrimeraPag()
           //this.$refs.riesgosPag.resetPreexistencias()
         }, 1500)
       },

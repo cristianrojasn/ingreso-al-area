@@ -335,18 +335,21 @@ export default {
                 const input = Object.keys(this.$v)[key];
                 // 3. Remover propiedades que no importan
                 if (input.includes("$")) return false;
+                //console.log("reviso si tengo "+ key)
 
                     // 4. Chequear si hay error en algún input
                 if (this.$v[input].$invalid) {
+                    console.log("entro a invalid")
                     // 5. Hacer focus en el elemento que hay error
-                    this.$refs[input].$el.focus();
+                    try{this.$refs[input].$el.focus();}
+                    catch(err){console.log(err)}
                     // 6. Una vez encontrado el input, terminar el loop
-                    //break;
+                    break;
                     return 
                 }
             }
-            this.$refs.selectEmpA.focusOnInvalidSelect()
-            this.$refs.resp.focusOnInvalidSelect()
+            //this.$refs.selectEmpA.focusOnInvalidSelect()
+            //this.$refs.resp.focusOnInvalidSelect()
         },
     },
 }
