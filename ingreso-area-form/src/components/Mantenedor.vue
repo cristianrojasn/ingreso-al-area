@@ -26,7 +26,7 @@
               <label for="zona">Seleccione zona</label>
               <md-select v-model="zona" name="zona" id="zona">
                 <md-option value="Flotación">Flotación</md-option>
-                <md-option value="Fluidos">Molienda</md-option>
+                <md-option value="Molienda">Molienda</md-option>
               </md-select>
             </md-field>
           </div>  
