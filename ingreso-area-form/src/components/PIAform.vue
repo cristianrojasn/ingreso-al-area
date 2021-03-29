@@ -62,10 +62,7 @@ import dayjs from 'dayjs'
 import DatosPersonales from '../components/PrimeraPag.vue';
 import Riesgos from '../components/Riesgos.vue';
 import db from '@/db'
-
 let registerRef = db.collection('registers');
-
-
 export default {
     name: 'PIAform',
     components: {
@@ -135,7 +132,7 @@ export default {
         window.setTimeout(() => {
           this.userSaved = true
           //this.sending = true
-          this.$refs.primeraPag.reiniciarPrimeraPag()
+          //this.$refs.primeraPag.resetPrimeraPag()
           //this.$refs.riesgosPag.resetPreexistencias()
         }, 1500)
       },
@@ -165,11 +162,10 @@ export default {
           console.log("envío formulario")
           //zona = this.form.area.split(" ")[0]
           //console.log(zona)
-          this.sendDataFirebase()
-          
+          this.sendDataFirebase()          
         }
       }
-    },
+    }, 
     firestore: {
       registers: registerRef,
     }
