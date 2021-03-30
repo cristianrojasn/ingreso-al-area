@@ -141,6 +141,7 @@ export default {
         this.$refs.riesgosPag.validar()
         let var_inferior = ['checksControles', 'checksRiesgos', 'comentarios','listadoTrabajadores']
         let valid = true
+        debugger
         for(let key in Object.keys(this.form)){
             // 2. Extraer los inputs de este componente
           const name = Object.keys(this.form)[key];
@@ -152,6 +153,7 @@ export default {
             valid = false
             break
           }else if (!value && var_inferior.includes(name) && name!= 'timestamp'){
+            debugger
             console.log(value+" "+name+" me fui a riesgos")
             this.$refs.riesgosPag.focusOnInvalid()
             valid = false
@@ -162,7 +164,7 @@ export default {
           console.log("envío formulario")
           //zona = this.form.area.split(" ")[0]
           //console.log(zona)
-          this.sendDataFirebase()          
+          //this.sendDataFirebase()          
         }
       }
     }, 
