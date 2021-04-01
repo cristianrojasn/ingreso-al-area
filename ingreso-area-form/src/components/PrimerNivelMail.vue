@@ -52,7 +52,7 @@
           <md-table-cell>Nombre empresa</md-table-cell><md-table-cell>{{`${selected.empresa}`}}</md-table-cell>
         </md-table-row>
         <md-table-row>
-          <md-table-cell>Nro contracto</md-table-cell><md-table-cell>{{`${selected.numeroTel}`}}</md-table-cell>
+          <md-table-cell>Nro contracto / Correo</md-table-cell><md-table-cell>{{`${selected.numeroTel} / ${selected.correoSol}`}}</md-table-cell>
         </md-table-row>
         <md-table-row>
           <md-table-cell>Area</md-table-cell><md-table-cell>{{`${selected.area}`}}</md-table-cell>
