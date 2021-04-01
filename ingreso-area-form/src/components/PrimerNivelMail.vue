@@ -13,11 +13,11 @@
         <md-table-head>Nombre responsable MLP</md-table-head>
         <md-table-head>Descripción de las labores</md-table-head>
         <md-table-head>Riesgos cubiertos que aplican a la tarea</md-table-head>
+        <md-table-head>Nro de trabajadores</md-table-head>
         <md-table-head>Observaciones responsable actividad</md-table-head>
         <md-table-head>Observaciones primer aprobador</md-table-head>
         <md-table-head>Observaciones jefe de turno</md-table-head>
-        <md-table-head>Listado de trabajadores</md-table-head>
-        <md-table-head>estado</md-table-head>
+        <md-table-head>Aprobación Sv</md-table-head>           
       </md-table-row>
       <md-table-row @click="select(registro)" v-for="registro of registers" :key="registro.id">
         <md-table-cell>{{`${registro.area}`}}</md-table-cell>
@@ -28,11 +28,11 @@
         <md-table-cell>{{`${registro.nombreResp}` }}</md-table-cell>
         <md-table-cell>{{`${registro.descripcion}` }}</md-table-cell>
         <md-table-cell><div v-for="riesgo of registro.checksRiesgos" :key="registro.id+riesgo">{{riesgo}}</div></md-table-cell>
+        <md-table-cell>{{`${registro.listadoTrabajadores.length}`}}</md-table-cell>
         <md-table-cell>{{`${registro.comentarios}`}}</md-table-cell>
         <md-table-cell>{{`${registro.comentarioPrimerAprobador || ''}`}}</md-table-cell>
         <md-table-cell>{{`${registro.comentarioJefeDeTurno || ''}`}}</md-table-cell>
-        <md-table-cell><div v-for="trabajador of registro.listadoTrabajadores" :key="trabajador.nombre+trabajador.rut+registro.id">{{`${trabajador.nombre} ${trabajador.apellido} ${trabajador.rut}`}}</div></md-table-cell>
-        <md-table-cell>{{`${registro.status}` }}</md-table-cell>
+        <md-table-cell>{{`${registro.timestampPrimerAprobador || ''}`}}</md-table-cell>            
       </md-table-row>
     </md-table>
     <md-dialog :md-active.sync="showDialog">

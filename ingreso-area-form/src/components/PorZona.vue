@@ -20,8 +20,7 @@
                     <md-table-head>Descripción de las labores</md-table-head>
                     <md-table-head>Riesgos cubiertos que aplican a la tarea</md-table-head>
                     <md-table-head>Observaciones responsable actividad</md-table-head>
-                    <md-table-head>Listado de trabajadores</md-table-head>
-                    <md-table-head>estado</md-table-head>
+                    <md-table-head>Nro de trabajadores</md-table-head>
                 </md-table-row>
                     <md-table-row @click="select(registro, true)" v-for="registro of registers" :key="registro.id">
                     <md-table-cell>{{`${registro.turno} ${registro.timestamp}`}}</md-table-cell>
@@ -33,8 +32,7 @@
                     <md-table-cell>{{`${registro.descripcion}` }}</md-table-cell>
                     <md-table-cell><div v-for="riesgo of registro.checksRiesgos" :key="registro.id+riesgo">{{riesgo}}</div></md-table-cell>
                     <md-table-cell>{{`${registro.descripcion}`}}</md-table-cell>
-                    <md-table-cell><div v-for="trabajador of registro.listadoTrabajadores" :key="trabajador.nombre+trabajador.rut+registro.id">{{`${trabajador.nombre} ${trabajador.apellido} ${trabajador.rut}`}}</div></md-table-cell>
-                    <md-table-cell>{{`${registro.status}` }}</md-table-cell>
+                    <md-table-cell>{{`${registro.listadoTrabajadores.length}` }}</md-table-cell>
                 </md-table-row>
             </md-table>
       <md-dialog :md-active.sync="showDialog">
