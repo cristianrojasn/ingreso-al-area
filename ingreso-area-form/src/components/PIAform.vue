@@ -61,6 +61,9 @@ import dayjs from 'dayjs'
 import DatosPersonales from '../components/PrimeraPag.vue';
 import Riesgos from '../components/Riesgos.vue';
 import db from '@/db'
+import {areas} from '../variables.js'
+
+
 let registerRef = db.collection('registers');
 export default {
     name: 'PIAform',
@@ -145,6 +148,15 @@ export default {
           const name = Object.keys(this.form)[key];
           const value = Object.values(this.form)[key];
           // 3. Remover propiedades que no importan
+
+          if (name == 'area' && !areas.includes(value)){
+            //Reviso área específica
+            valid = false
+            this.$refs.primeraPag.focusOnInvalid()
+            console.log("Me fui a area")
+            break
+          }
+
           if (!value && !var_inferior.includes(name) && name!= 'timestamp'){
             console.log(value+" "+name+"me fui a primera pag")
             this.$refs.primeraPag.focusOnInvalid()

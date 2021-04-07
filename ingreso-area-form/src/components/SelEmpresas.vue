@@ -52,8 +52,8 @@
                             </template>                            
                         <span
                         class="md-error"
-                        v-if="!$v.area.required"
-                        >Se requiere que ingrese un área</span>
+                        v-if="!$v.area.required || !$v.area.en_listado"
+                        >Se requiere que ingrese un área válida</span>
                         </md-autocomplete>
                     </md-card-content>
                 </md-card>
@@ -64,11 +64,18 @@
 
 <script>
 
-import { required } from 'vuelidate/lib/validators';
+import { required, helpers } from 'vuelidate/lib/validators';
 import {empresas, areas} from '../variables.js'
 
 //Custom validation
-
+const en_listado = (value) => {
+    //Se encuentra area ingresada en dropdown?
+    if (areas.includes(value)) {
+        return true
+    }else {
+        return false
+    }
+}
 
 export default {
     name: "SelEmpresas",
@@ -82,7 +89,8 @@ export default {
     },
     validations: {
         area: {
-            required
+            required,
+            en_listado
         },
         empresa: {
             required
