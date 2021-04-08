@@ -167,7 +167,9 @@ export default {
         status: 0, 
         timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss"),
         updated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-        turno: dayjs().hour() >= 7 & dayjs().hour() <= 19 ? 'Día' : 'Noche', 
+        turno: dayjs().hour() >= 7 & dayjs().hour() <= 19 ? 'Día' : 'Noche',
+        //Agrego fecha de ingreso dependiendo de turno noche, para registro mismo turno.
+        ingreso: dayjs().hour() >= 7 ? dayjs().format("YYYY-MM-DD"): dayjs().subtract(1,'day').format("YYYY-MM-DD"),  
         })
         window.setTimeout(() => {
           this.userSaved = true
