@@ -333,7 +333,7 @@ export default {
             siRiesgoAplica: {
                 op1: "Si cuento con los controles adecuados"
             },
-            comentarios: null,
+            comentarios: '',
             trabajadorCompleto: true
         }
     },

@@ -91,7 +91,6 @@ const validarRut = (value) => {
 const  validarTrabajadores = (value) => {
 	debugger
   //Reviso si cada trabajador posee su nombre, rut y appellido
-  console.log(value)  
   let nro = value["length"]
   let chequeo = ["nombre", "apellido", "rut"]
 	for (let i=0; i<nro; i++){
@@ -129,7 +128,7 @@ export default {
           area: null,
           empresa: null,
           timestamp: null,
-          comentarios: null
+          comentarios: ''
         },
         userSaved: false
       }
