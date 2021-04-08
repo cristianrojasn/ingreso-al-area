@@ -89,7 +89,6 @@ const validarRut = (value) => {
 }
 
 const  validarTrabajadores = (value) => {
-	debugger
   //Reviso si cada trabajador posee su nombre, rut y appellido
   let nro = value["length"]
   let chequeo = ["nombre", "apellido", "rut"]
@@ -178,7 +177,6 @@ export default {
         }, 1500)
       },
       validateUser() {
-        debugger
         this.$refs.primeraPag.validar()
         this.$refs.riesgosPag.validar()
         let var_inferior = ['checksControles', 'checksRiesgos', 'comentarios','listadoTrabajadores']
@@ -192,7 +190,6 @@ export default {
             valid = false
             this.$refs.riesgosPag.focusOnInvalid()
             console.log("Me fui a trabajadores")
-            debugger
             break
           }
 
@@ -230,7 +227,7 @@ export default {
           //zona = this.form.area.split(" ")[0]
           //console.log(zona)
           //Saqué data de fila 50 -> @click="sendDataFirebase" (PROBLEMA: NO ENTREGA MENSAJE DE VALIDACIÓN)
-          //this.sendDataFirebase()          
+          this.sendDataFirebase()          
         }
       }
     }, 
