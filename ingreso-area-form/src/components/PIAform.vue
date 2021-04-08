@@ -63,6 +63,30 @@ import Riesgos from '../components/Riesgos.vue';
 import db from '@/db'
 import {areas} from '../variables.js'
 
+const validarRut = (value) => {
+    //Algoritmo del módulo 11 https://validarutchile.cl/calcular-digito-verificador.php
+    const rutSinDVInv = value.slice(0,value.length-1).split('').reverse()
+    const digitoVIngresado = value.slice(-1) 
+    let i = 2;
+    let sumaRut = 0;
+    for (let digit of rutSinDVInv){
+        sumaRut = sumaRut + digit * i;
+        i++;
+        if(i>7){
+            i = 2;
+        }
+    }
+    const restaRut = sumaRut - Math.trunc(sumaRut/11) * 11;
+    let digitoVerificador = 11 - restaRut;
+    if(digitoVerificador === 11 || digitoVerificador === 10){
+        digitoVerificador = 0
+    }
+    if(digitoVerificador.toString()==digitoVIngresado){
+        return true
+    }else{
+        return false
+    }
+}
 
 let registerRef = db.collection('registers');
 export default {
@@ -148,7 +172,13 @@ export default {
           const name = Object.keys(this.form)[key];
           const value = Object.values(this.form)[key];
           // 3. Remover propiedades que no importan
-
+          if (name == 'rut' && !validarRut(value)){
+            //Reviso validación de RUT
+            valid = false
+            this.$refs.primeraPag.focusOnInvalid()
+            console.log("Me fui a RUT")
+            break
+          }
           if (name == 'area' && !areas.includes(value)){
             //Reviso área específica
             valid = false

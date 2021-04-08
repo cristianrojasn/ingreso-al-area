@@ -1,10 +1,10 @@
 <template>
   <div class="admin">  
      <md-card  class="md-layout-item md-size-100 md-small-size-100 box">
-
+        
             <!--El header contiene el nombre del formulario y el logo de la empresa-->
             <md-card-header >
-
+              
               <!--Contenido del header-->
               <b-container fluid>
                 <b-row class="md-title">
@@ -13,7 +13,7 @@
                       id="titulo-foro"
                       class="md-display-2"
                       >
-                      Sistema de administración ingreso al área
+                      Administración Ingreso al área
                     </h2>
                   </b-col>
                   <b-col md="auto">
@@ -32,6 +32,7 @@
         <md-card class="md-layout-item md-size-50 md-small-size-100 box">
         <md-card-header>
           <div class="md-title">Ingreso</div>
+          
         </md-card-header>
 
         <md-card-content>
@@ -56,6 +57,7 @@
         <md-card-actions>
           <md-button type="submit" class="md-primary" >Ingresar</md-button>
         </md-card-actions>
+        <div class="md-subhead">Utilice las credenciales enviadas a su correo desde cr@akonsulting.cl con título "Credenciales y testeo PIA2"</div>
       </md-card>
 
         </form>
