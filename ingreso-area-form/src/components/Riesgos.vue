@@ -247,6 +247,10 @@
                 class="md-error"
                 v-if="(!$v.listadoTrabajadores.validarListadoTrabajadores || !$v.listadoTrabajadores.required) && $v.listadoTrabajadores.$dirty"
                 >Ingrese al menos un trabajador</span>
+                <span
+                class="md-error"
+                v-if="(!$v.listadoTrabajadores.validarTrabajadores)"
+                >ERROR: Ingrese TODOS los datos por cada trabajador, separados por tabulaciones</span>                
             </md-card-content>
         </md-card>
         <md-card style="width: 70%" v-if="checkList=='Sí' && (numTrabajadores=='mas10'|| numTrabajadores=='menos10')" class="box-100">
@@ -282,6 +286,20 @@ const validarListadoTrabajadores = (value) => {
     }else {
         return true
     }
+}
+
+const  validarTrabajadores = (value) => {
+    //Reviso si cada trabajador posee su nombre, rut y appellido
+    let nro = value["length"]
+    let chequeo = ["nombre", "apellido", "rut"]
+        for (let i=0; i<nro; i++){
+            for (let u=0; u<chequeo.length; u++){
+                if (value[i][chequeo[u]] == null){
+                    return false
+                }
+            }	
+        }
+	return true
 }
 
 const selectAllChecks = (value) => {
@@ -328,7 +346,8 @@ export default {
         },
         listadoTrabajadores: {
             required,
-            validarListadoTrabajadores
+            validarListadoTrabajadores,
+            validarTrabajadores
         },
         checks: {
             required,

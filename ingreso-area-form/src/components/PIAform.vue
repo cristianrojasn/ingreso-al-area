@@ -88,6 +88,24 @@ const validarRut = (value) => {
     }
 }
 
+const  validarTrabajadores = (value) => {
+	debugger
+  //Reviso si cada trabajador posee su nombre, rut y appellido
+  console.log(value)  
+  let check = true
+  let nro = value["length"]
+  let chequeo = ["nombre", "apellido", "rut"]
+	for (let i=0; i<nro; i++){
+		for (let u=0; u<chequeo.length; u++){
+			if (value[i][chequeo[u]] == null){
+				check = false
+				return check
+			}
+		}	
+	}
+	return check
+}
+
 let registerRef = db.collection('registers');
 export default {
     name: 'PIAform',
@@ -163,6 +181,7 @@ export default {
         }, 1500)
       },
       validateUser() {
+        debugger
         this.$refs.primeraPag.validar()
         this.$refs.riesgosPag.validar()
         let var_inferior = ['checksControles', 'checksRiesgos', 'comentarios','listadoTrabajadores']
@@ -172,6 +191,14 @@ export default {
           const name = Object.keys(this.form)[key];
           const value = Object.values(this.form)[key];
           // 3. Remover propiedades que no importan
+          if (name == 'listadoTrabajadores' && !validarTrabajadores(value)){
+            valid = false
+            this.$refs.riesgosPag.focusOnInvalid()
+            console.log("Me fui a trabajadores")
+            debugger
+            break
+          }
+
           if (name == 'rut' && !validarRut(value)){
             //Reviso validación de RUT
             valid = false
@@ -206,7 +233,7 @@ export default {
           //zona = this.form.area.split(" ")[0]
           //console.log(zona)
           //Saqué data de fila 50 -> @click="sendDataFirebase" (PROBLEMA: NO ENTREGA MENSAJE DE VALIDACIÓN)
-          this.sendDataFirebase()          
+          //this.sendDataFirebase()          
         }
       }
     }, 
