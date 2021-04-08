@@ -92,18 +92,16 @@ const  validarTrabajadores = (value) => {
 	debugger
   //Reviso si cada trabajador posee su nombre, rut y appellido
   console.log(value)  
-  let check = true
   let nro = value["length"]
   let chequeo = ["nombre", "apellido", "rut"]
 	for (let i=0; i<nro; i++){
 		for (let u=0; u<chequeo.length; u++){
 			if (value[i][chequeo[u]] == null){
-				check = false
-				return check
+				return false
 			}
 		}	
 	}
-	return check
+	return true
 }
 
 let registerRef = db.collection('registers');
