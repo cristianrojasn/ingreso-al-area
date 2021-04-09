@@ -1,13 +1,13 @@
 <template>
     <div class="admin">
       <md-divider></md-divider>
-          <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes propias - '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
+          <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes propias - '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0" :datos_login="datos_login"></PrimerNivel>
       <md-divider></md-divider>
       <md-divider></md-divider>
-          <PrimerNivel :showAprove="false" :title="'Solicitudes Aprobadas - '+ user" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1"></PrimerNivel>
+          <PrimerNivel :showAprove="false" :title="'Solicitudes Aprobadas - '+ user" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1" :datos_login="datos_login"></PrimerNivel>
       <md-divider></md-divider>
       <md-divider></md-divider>
-          <PrimerNivel :showAprove="false" :title="'Solicitudes Rechazadas - '+ user" :statusLevel="-1" :user="user" :registers="rejected"></PrimerNivel>
+          <PrimerNivel :showAprove="false" :title="'Solicitudes Rechazadas - '+ user" :statusLevel="-1" :user="user" :registers="rejected" :datos_login="datos_login"></PrimerNivel>
       <md-divider></md-divider>
       <!--Inicio del contenido del form. Debe estar contenido en md-card-content-->
       <md-card-content>
@@ -28,7 +28,7 @@ export default {
   components:{
     PrimerNivel,
   },
-  props: ['user'],
+  props: ['user','datos_login'],
   data(){
     return {
       FilterByMailRefStatus0:[],
@@ -52,6 +52,11 @@ export default {
         this.$bind('rejected', registerRef.where('status', '==', -1).where('correoResp', '==', user))
       },
     },
+    datos_login: {
+      immediate: true,
+      handler(datos_login){
+      }
+    }
   },
   methods: {
     aprove(){

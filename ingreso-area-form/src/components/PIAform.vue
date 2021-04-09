@@ -170,6 +170,7 @@ export default {
         turno: dayjs().hour() >= 7 & dayjs().hour() <= 19 ? 'Día' : 'Noche',
         //Agrego fecha de ingreso dependiendo de turno noche, para registro mismo turno.
         ingreso: dayjs().hour() >= 7 ? dayjs().format("YYYY-MM-DD"): dayjs().subtract(1,'day').format("YYYY-MM-DD"),  
+        nro_trabajadores: this.form.listadoTrabajadores["length"]
         })
         window.setTimeout(() => {
           this.userSaved = true
@@ -224,7 +225,6 @@ export default {
           }
         }
         if (valid){
-          //debugger
           console.log("envío formulario")
           //zona = this.form.area.split(" ")[0]
           //console.log(zona)

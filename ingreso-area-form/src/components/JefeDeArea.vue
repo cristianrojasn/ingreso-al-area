@@ -8,13 +8,13 @@
             </md-card-header>
             <!--Fin del header del form-->
             <md-divider></md-divider>
-                <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes propias - '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
+                <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes propias - '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0" :datos_login="datos_login"></PrimerNivel>
             <md-divider></md-divider>
             <md-divider></md-divider>
-                <PrimerNivel :showAprove="false" :title="'Solicitudes Pendientes Sv - '+ zone" :statusLevel="1" :user="user" :registers="ZoneFilterByMailRefStatus0"></PrimerNivel>
+                <PrimerNivel :showAprove="false" :title="'Solicitudes Pendientes Sv - '+ zone" :statusLevel="1" :user="user" :registers="ZoneFilterByMailRefStatus0" :datos_login="datos_login"></PrimerNivel>
             <md-divider></md-divider>
             <md-divider></md-divider>
-                <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes JT - '+ zone" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1"></PrimerNivel>
+                <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes JT - '+ zone" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1" :datos_login="datos_login"></PrimerNivel>
             <md-divider></md-divider>
             <div class="admin">
               <md-card class="md-layout-item md-size-100 md-small-size-100 box">
@@ -28,10 +28,10 @@
             </div>
             <br>
             <md-divider></md-divider>
-                <PrimerNivel :showAprove="false" :title="'Solicitudes Aprobadas - '+ user" :statusLevel="3" :user="user" :registers="FilterByMailRefStatus2"></PrimerNivel>
+                <PrimerNivel :showAprove="false" :title="'Solicitudes Aprobadas - '+ user" :statusLevel="3" :user="user" :registers="FilterByMailRefStatus2" :datos_login="datos_login"></PrimerNivel>
             <md-divider></md-divider>
             <md-divider></md-divider>
-                <PrimerNivel :showAprove="false" :title="'Solicitudes Rechazadas'" :statusLevel="-1" :user="user" :registers="[...rejected, ...zoneRejected]"></PrimerNivel>
+                <PrimerNivel :showAprove="false" :title="'Solicitudes Rechazadas'" :statusLevel="-1" :user="user" :registers="[...rejected, ...zoneRejected]" :datos_login="datos_login"></PrimerNivel>
             <md-divider></md-divider>
             <!--Inicio del contenido del form. Debe estar contenido en md-card-content-->
             <md-card-content>
@@ -53,7 +53,7 @@ export default {
     PrimerNivel,
     PermisosPorZona,
   },
-  props: ['user', 'zone'],
+  props: ['user', 'zone','datos_login'],
   data(){
     return {
       FilterByMailRefStatus0:[],
@@ -84,7 +84,13 @@ export default {
         this.$bind('ZoneFilterByMailRefStatus0', registerRef.where('status', '==', 0).where('zona', '==', zone))
         this.$bind('zoneRejected', registerRef.where('status', '==', -1).where('zona', '==', zone))
       },
-    }, 
+    },
+    datos_login: {
+      immediate: true,      
+      handler(datos_login){
+        console.log(datos_login)
+      },
+    },
   },
   methods: {
   },

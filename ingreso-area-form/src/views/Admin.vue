@@ -73,13 +73,13 @@
           </div>
         </div>
         <div v-if="+userData.permiso===2" class="" >
-          <JefeDeArea :user="user" :zone="zone"></JefeDeArea>
+          <JefeDeArea :user="user" :zone="zone" :datos_login="datos_login"></JefeDeArea>
         </div>
         <div v-if="+userData.permiso===1" class="" >
-          <PrimerAprobador :user="user" :zone="zone"></PrimerAprobador>
+          <PrimerAprobador :user="user" :zone="zone" :datos_login="datos_login"></PrimerAprobador>
         </div>
         <div v-if="+userData.permiso===3" class="" >
-          <Mantenedor :user="user" :zona="userData.zona"></Mantenedor>
+          <Mantenedor :user="user" :zona="userData.zona" :datos_login="datos_login"></Mantenedor>
         </div>
       </div>
        </md-card>
@@ -131,6 +131,14 @@ export default {
       if(!this.userData) return []
       if (!this.userData.zona) return []
       return this.userData.zona
+    },
+    datos_login: function () {
+      let data = []
+      data.push(this.userData.nombre)
+      data.push(this.userData.apellido)
+      if (!this.userData.rut) data.push('')
+      else data.push(this.userData.rut)
+      return data
     },
   },
   methods: {

@@ -4,16 +4,16 @@
 
       <!--Fin del header del form-->
       <md-divider></md-divider>
-          <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes propias - '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0"></PrimerNivel>
+          <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes propias - '+ user" :statusLevel="1" :user="user" :registers="FilterByMailRefStatus0" :datos_login="datos_login"></PrimerNivel>
       <md-divider></md-divider>
        <md-divider></md-divider>
-          <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes Sv - '+ zona" :statusLevel="1" :user="user" :registers="zoneStatus0.filter((item) => empresasvalidas.has(item.empresa))"></PrimerNivel>
+          <PrimerNivel :showAprove="true" :title="'Solicitudes Pendientes Sv - '+ zona" :statusLevel="1" :user="user" :registers="zoneStatus0.filter((item) => empresasvalidas.has(item.empresa))" :datos_login="datos_login"></PrimerNivel>
       <md-divider></md-divider>
       <md-divider></md-divider>
-          <PrimerNivel :title="'Solicitudes Aprobadas - '+ zona" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1.filter((item) => empresasvalidas.has(item.empresa))" :showAprove='false'></PrimerNivel>
+          <PrimerNivel :title="'Solicitudes Aprobadas - '+ zona" :statusLevel="2" :user="user" :registers="FilterByMailRefStatus1.filter((item) => empresasvalidas.has(item.empresa))" :showAprove='false' :datos_login="datos_login"></PrimerNivel>
       <md-divider></md-divider>
       <md-divider></md-divider>
-        <PrimerNivel :showAprove="false" :title="'Solicitudes Rechazadas- '+ zona" :statusLevel="-1" :user="user" :registers="[...rejected1, ...rejected2]"></PrimerNivel>
+        <PrimerNivel :showAprove="false" :title="'Solicitudes Rechazadas- '+ zona" :statusLevel="-1" :user="user" :registers="[...rejected1, ...rejected2]" :datos_login="datos_login"></PrimerNivel>
       <md-divider></md-divider>
       <!--Inicio del contenido del form. Debe estar contenido en md-card-content-->
       <md-card-content>
@@ -49,7 +49,7 @@ export default {
   components:{
     PrimerNivel,
   },
-  props: ['user'],
+  props: ['user','datos_login'],
   data(){
     return {
       FilterByMailRefStatus0:[],
@@ -81,6 +81,12 @@ export default {
         this.$bind('zoneStatus0', registerRef.where('status', '==', 0).where('zona', '==', zona))
         this.$bind('FilterByMailRefStatus1', registerRef.where('status', '==', 1).where('zona', '==', zona))
         this.$bind('rejected2', registerRef.where('status', '==', -1).where('zona', '==', zona))
+      },
+    },
+    datos_login: {
+      immediate: true,      
+      handler(datos_login){
+        console.log(datos_login)
       },
     },
   },

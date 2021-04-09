@@ -113,7 +113,7 @@ export default {
       coments: '',
     }
   },
-  props: ['registers', 'user', 'statusLevel', 'title','showAprove'],
+  props: ['registers', 'user', 'statusLevel', 'title','showAprove','datos_login'],
   computed: {
   },
   methods: {
@@ -123,13 +123,17 @@ export default {
       if(+this.statusLevel === 1){
         comment = {
           comentarioPrimerAprobador: this.coments,
-          timestampPrimerAprobador: dayjs().format("YYYY-MM-DD HH:mm:ss")
+          timestampPrimerAprobador: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+          rut_sv: this.datos_login[2],
         }
       } 
       else {
         comment = {
           comentarioJefeDeTurno: this.coments,
-          timestampJefeDeTurno: dayjs().format("YYYY-MM-DD HH:mm:ss")
+          timestampJefeDeTurno: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+          rut_jt: this.datos_login[2],
+          nombre_jt: this.datos_login[0],
+          apellido_jt: this.datos_login[1],
         }
       }
       db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({
@@ -143,13 +147,17 @@ export default {
       if(+this.statusLevel === 1){
         comment = {
           comentarioPrimerAprobador: this.coments,
-          timestampPrimerAprobador: dayjs().format("YYYY-MM-DD HH:mm:ss")
+          timestampPrimerAprobador: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+          rut_sv: this.datos_login[2],
         }
       } 
       else {
         comment = {
           comentarioJefeDeTurno: this.coments,
-          timestampJefeDeTurno: dayjs().format("YYYY-MM-DD HH:mm:ss")
+          timestampJefeDeTurno: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+          rut_jt: this.datos_login[2],
+          nombre_jt: this.datos_login[0],
+          apellido_jt: this.datos_login[1],
         }
       }
       db.collection(Utf8ToAscii('registers')).doc(this.selected.id).update({...comment,status: -1, updated:dayjs().format("YYYY-MM-DD HH:mm:ss"), rechazado: this.user })
