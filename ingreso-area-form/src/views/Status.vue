@@ -32,7 +32,7 @@
         <div class="md-layout md-gutter">
           <div class="md-layout-item md-small-size-100">
             <md-field>
-              <label >Documento de ID {{IDkey}}</label>
+              <label >Documento de ID {{IDkey}}{{status}}</label>
             </md-field>
           </div>
         </div>
