@@ -72,8 +72,8 @@ export default {
   computed:{
     status: function () {
       let estado = 'no existe'
-      if (this.data_review['status']=='0'){ estado = 'en espera aprobación supervisor MLP'}
-      else if (this.data_review['status']=='1'){ estado = 'en espera aprobación efe de turno'}
+      if (this.data_review['status']=='0'){ estado = 'se encuentra en espera de aprobación supervisor/a MLP'}
+      else if (this.data_review['status']=='1'){ estado = 'se encuentra en espera aprobación Jefe/a de turno'}
       else if (this.data_review['status']=='2'){ estado = 'aprobado. Comprobante enviado a '+this.data_review['correoSol']}
       else if (this.data_review['status']=='-1'){ estado = 'rechazado. Comprobante enviado a '+this.data_review['correoSol']}
       return estado
