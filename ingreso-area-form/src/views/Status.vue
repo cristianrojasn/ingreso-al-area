@@ -21,22 +21,15 @@
         </b-row>
       </b-container>
       </md-card-header>
-      <md-card-content>
-        <md-card class="md-layout-item md-size-50 md-small-size-100 box">
-        <md-card-header>
-          <div class="md-title">Estado de permiso</div>
-        </md-card-header>  
-        </md-card>
+      <md-card>
+      <md-card-header>
+        <div class="md-title text-center">Estado de permiso</div>
+      </md-card-header>
+
+      <md-card-content class="text-center" v-if= dataReady>
+        Permiso ID {{IDkey}} {{status}}
       </md-card-content>
-      <md-card-content>
-        <div class="md-layout md-gutter" v-if="dataReady">
-          <div class="md-layout-item md-small-size-100">
-            <md-field>
-              <label >ID {{IDkey}} {{status}}</label>
-            </md-field>
-          </div>
-        </div>
-      </md-card-content>
+    </md-card>    
     </md-card>
     </div> 
     </section> 
@@ -110,4 +103,10 @@ export default {
 .md-title {
   font-size: 20px !important;
 }
+.md-card {
+    width: auto;
+    margin: 4px;
+    display: inline-block;
+    vertical-align: top;
+  }
 </style>
