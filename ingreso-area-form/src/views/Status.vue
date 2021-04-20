@@ -29,10 +29,10 @@
         </md-card>
       </md-card-content>
       <md-card-content>
-        <div class="md-layout md-gutter">
+        <div class="md-layout md-gutter" v-if="dataReady">
           <div class="md-layout-item md-small-size-100">
             <md-field>
-              <label >Documento de ID {{IDkey}}{{status}}</label>
+              <label >ID {{IDkey}} {{validar}}</label>
             </md-field>
           </div>
         </div>
@@ -57,6 +57,7 @@ export default {
   data(){
     return {
       IDkey:this.$route.params.id,
+      dataReady: false,
     }
   },
   mounted() {
@@ -71,21 +72,26 @@ export default {
     this.data_review = doc.data()
     console.log('Document data:', this.data_review);
   }
+  this.dataReady = true;
   })();  
   },
 
   computed:{
     status: function () {
-      if(!this.data_review['status']) return 'no existe'
-      else{
-        if (this.data_review['status']=='0'){ return 'en espera aprobación supervisor MLP'}
-        else if (this.data_review['status']=='1'){ return 'en espera aprobación efe de turno'}
-        else if (this.data_review['status']=='2'){ return 'aprobado. Comprobante enviado a'}
-        else{
-          return 'rechazado. Comprobante enviado a:'
-        }
-      }
+      let estado = 'no existe'
+      if (this.data_review['status']=='0'){ estado = 'en espera aprobación supervisor MLP'}
+      else if (this.data_review['status']=='1'){ estado = 'en espera aprobación efe de turno'}
+      else if (this.data_review['status']=='2'){ estado = 'aprobado. Comprobante enviado a '+this.data_review['correoSol']}
+      else if (this.data_review['status']=='-1'){ estado = 'rechazado. Comprobante enviado a '+this.data_review['correoSol']}
+      return estado
     },
+    validar: function () {
+      try{
+        if(this.data_review['status']==true) return this.status
+        else return this.status 
+      }
+      catch(err){return 'cargando...'}
+    }
   },
 
   watch: {
@@ -121,5 +127,4 @@ export default {
 .md-title {
   font-size: 20px !important;
 }
-
 </style>
