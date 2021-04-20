@@ -1,6 +1,28 @@
 <template>
     <div class="md-layout md-guttter" style="display:flex; justify-content:center;">
         <b-row class="row-length">
+            <b-col class="box-respuestas-1" cols="12" md="12">
+                <md-badge id="badge-steps" md-content="!"/>
+                <md-card class="md-layout-item box-respuestas-1">
+                <md-card-header>
+                    <md-card-content class="bottom">
+                        <span class="badge badge-pill badge-success">Noticias PIA2</span>
+                        <br>
+                        1.- La distribución de los permisos día y noche cambia a las 7:00 y 19:00. Es decir, un permiso
+                        enviado a las 6:59 AM corresponde a noche, y otro enviado a las 7:01 AM corresponde a día. <br>
+                        2.- Desde ahora podrá consultar el estado en tiempo real de su permiso, en un vínculo adjunto al correo enviado
+                        de los detalles de su permiso
+
+                        <br>
+                        <p class="md-caption">
+                        Para consultas, sugerencias o comentarios por favor dirigirse a cr@akonsulting.cl
+                        </p>    
+                    </md-card-content>
+                </md-card-header>    
+                </md-card>
+            </b-col>
+        </b-row>
+        <b-row class="row-length">
             <!--RUT-->
             <b-col class="box-respuestas-1" cols="12" md="4">
                 <md-card class="md-layout-item box-respuestas-1">
