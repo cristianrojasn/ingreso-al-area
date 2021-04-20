@@ -32,7 +32,7 @@
         <div class="md-layout md-gutter" v-if="dataReady">
           <div class="md-layout-item md-small-size-100">
             <md-field>
-              <label >ID {{IDkey}} {{validar}}</label>
+              <label >ID {{IDkey}} {{status}}</label>
             </md-field>
           </div>
         </div>
@@ -67,10 +67,10 @@ export default {
     const doc = await db_r.get();
     if (!doc.exists) {
       this.data_review = 'No existe'
-  console.log('No such document!');
+      //console.log('No such document!');
   } else {
     this.data_review = doc.data()
-    console.log('Document data:', this.data_review);
+    //console.log('Document data:', this.data_review);
   }
   this.dataReady = true;
   })();  
@@ -84,23 +84,6 @@ export default {
       else if (this.data_review['status']=='2'){ estado = 'aprobado. Comprobante enviado a '+this.data_review['correoSol']}
       else if (this.data_review['status']=='-1'){ estado = 'rechazado. Comprobante enviado a '+this.data_review['correoSol']}
       return estado
-    },
-    validar: function () {
-      try{
-        if(this.data_review['status']==true) return this.status
-        else return this.status 
-      }
-      catch(err){return 'cargando...'}
-    }
-  },
-
-  watch: {
-    data_review: {
-      // call it upon creation too
-      immediate: true,
-      handler(data_review) {
-        this.$bind('userData', db.collection('registers').doc(this.$route.params.id || '1'))
-      },
     },
   },
 }
