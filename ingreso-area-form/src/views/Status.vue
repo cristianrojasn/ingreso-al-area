@@ -27,6 +27,7 @@
       </md-card-header>
 
       <md-card-content class="text-center" v-if= dataReady>
+        <span :class="computedClass">{{short}}</span>
         Permiso ID {{IDkey}} {{status}}
       </md-card-content>
     </md-card>    
@@ -40,7 +41,6 @@
 <script>
 import Footer from '@/components/Footer.vue';
 import db, {Firebase} from '@/db'
-
 
 export default {
   name: 'App',
@@ -78,6 +78,22 @@ export default {
       else if (this.data_review['status']=='-1'){ estado = 'rechazado. Comprobante enviado a '+this.data_review['correoSol']}
       return estado
     },
+    computedClass: function () {
+      let estado = "badge badge-dark"
+      if (this.data_review['status']=='0'){ estado = "badge badge-warning"}
+      else if (this.data_review['status']=='1'){ estado = "badge badge-info"}
+      else if (this.data_review['status']=='2'){ estado = "badge badge-pill badge-success"}
+      else if (this.data_review['status']=='-1'){ estado = "badge badge-pill badge-danger"}
+      return estado
+    },
+    short: function () {
+      let resultado = "No existe"
+      if (this.data_review['status']=='0'){ resultado = "Espera Sv"}
+      else if (this.data_review['status']=='1'){ resultado = "Espera JT"}
+      else if (this.data_review['status']=='2'){ resultado = "Aprobado JT"}
+      else if (this.data_review['status']=='-1'){ resultado = "Rechazado"}
+      return resultado
+    }
   },
 }
 </script>
