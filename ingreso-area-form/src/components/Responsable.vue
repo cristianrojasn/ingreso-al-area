@@ -20,8 +20,8 @@
                                 </md-option>
                             </md-select> -->
                             <p class="md-caption">
-                            Si el nombre del supervisor MLP respectivo no aparece en este listado, por favor contactar a cr@akonsulting.cl para
-                            agregarlo.
+                            Si el nombre del supervisor respectivo no aparece aquí, por favor contactar a cr@akonsulting.cl para
+                            agregarlo; enviando nombre, rut y correo.
                                 </p>
                             <md-autocomplete @input="updateNombreResp" ref="nombreResp" :class="validacion('nombreResp')" v-model="nombreResp" :md-options="Object.keys(nombresResp)" :md-fuzzy-search="false" md-dense>
                                 <label>Nombre responsable</label>
