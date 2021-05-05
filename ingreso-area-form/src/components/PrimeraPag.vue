@@ -299,12 +299,12 @@ export default {
         updateDescripcion(){
             this.$emit('updateData', {data: this.descripcion, campo: "descripcion"})
         },
-        // updateNombreResp(){
-        //     this.$emit('updateData', {data: this.nombreResp, campo: "nombreResp"})
-        // },
-        // updateCorreoResp(){
-        //     this.$emit('updateData', {data: this.correoResp, campo: "correoResp"})
-        // },
+        updateNombreResp(){
+            this.$emit('updateData', {data: this.nombreResp, campo: "nombreResp"})
+        },
+        updateCorreoResp(){
+            this.$emit('updateData', {data: this.correoResp, campo: "correoResp"})
+        },
         actualizarEmpresaArea(value){
             if(value.campo == "empresa"){
                 this.empresa = value.data
@@ -321,18 +321,20 @@ export default {
         },
         //Reiniciar inputs luego de enviado el form
         reiniciarPrimeraPag(){
-            this.rut = null
-            this.nombreSol = null
-            this.apellidoSol = null
-            this.correoSol = null
-            this.numeroTel = null
-            this.descripcion = null
-            this.nombreResp = null
-            this.correoResp = null
-            this.empresa = null
-            this.area = null
-            this.$refs.selectEmpA.restaurarSelects()
-            this.$refs.resp.restaurarSelects()
+            console.log("entro a función reiniciar")
+            // this.$v.$reset();
+            // this.rut = null
+            // this.nombreSol = null
+            // this.apellidoSol = null
+            //this.correoSol = null
+            // this.numeroTel = null
+            // this.descripcion = null
+            // this.nombreResp = null
+            // this.correoResp = null
+            // this.empresa = null
+            // this.area = null
+             this.$refs.selectEmpA.restaurarSelects()
+            // this.$refs.resp.restaurarSelects()
         },
         validacion(campo){
             const field = this.$v[campo];

@@ -439,6 +439,18 @@ export default {
         ifVal(){
             return this.$v.$invalid
         },
+        clearRiesgos() {
+            this.$v.$reset();
+            this.checkList = null,
+            this.numTrabajadores = null,
+            this.rutTrabajador=  null,
+            this.nombreTrabajador =  null,
+            this.apellidoTrabajador =  null,
+            this.listadoTrabajadoresMas10 =  null,
+            this.listadoTrabajadores =  [],
+            this.checks =  [],
+            this.percent = 0;
+        },
         focusOnInvalid(){
             // 1. Es necesario que cada input tenga un atributo ref con el mismo nombre de las variables en validations
             for(let key in Object.keys(this.$v)){

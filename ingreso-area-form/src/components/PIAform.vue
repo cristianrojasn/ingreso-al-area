@@ -134,7 +134,7 @@ export default {
     },
     computed: {
       Enviado(){
-        return 'Se ha registrado su envío correctamente:' + '<br> <strong>- Fecha: </strong>' + this.form.timestamp
+        return 'Se ha registrado su envío correctamente:' + '<br> <strong>- Fecha: </strong>' + this.form.timestamp + '<br> <strong>- Correo: </strong>' +this.form.correoSol
       }
     },  
     methods: {
@@ -175,8 +175,9 @@ export default {
         window.setTimeout(() => {
           this.userSaved = true
           //this.sending = true
-          //this.$refs.primeraPag.resetPrimeraPag()
-          //this.$refs.riesgosPag.resetPreexistencias()
+          //Reiniciar primeraPag presenta problemas de código
+          //this.$refs.primeraPag.reiniciarPrimeraPag()
+          this.$refs.riesgosPag.clearRiesgos()
         }, 1500)
       },
       validateUser() {
