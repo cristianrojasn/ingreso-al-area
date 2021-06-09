@@ -40,7 +40,7 @@
             <!--Inicio del contenido del form. Debe estar contenido en md-card-content-->
             <md-card-content>
               <DatosPersonales ref="primeraPag" @updateData="update"/>
-              <Riesgos ref="riesgosPag" @updateValues="updateRiesgos"/>
+              <Riesgos :rut='form.rut' :nombreSol='form.nombreSol' :apellidoSol='form.apellidoSol' ref="riesgosPag" @updateValues="updateRiesgos"/>
             </md-card-content>
             <md-card-actions style="justify-content: center;">
               <md-button

@@ -6,15 +6,13 @@
                 <md-card class="md-layout-item box-respuestas-1">
                 <md-card-header>
                     <md-card-content class="bottom">
-                        <span class="badge badge-pill badge-success">Noticias PIA2</span>
+                        <span class="badge badge-danger">Nuevo</span>
                         <br>
-                        1.- La distribución de los permisos día y noche cambia a las 7:00 y 19:00. Es decir, un permiso
-                        enviado a las 6:59 AM corresponde a noche, y otro enviado a las 7:01 AM corresponde a día. <br>
-                        2.- Desde ahora podrá consultar el estado en tiempo real de su permiso, en un vínculo adjunto al correo enviado
-                        de los detalles de su permiso
-
-                        <br>
+                        Se añadió la opción de agregar automáticamente al solicitante en el listado de trabajadores.<hr>
                         <p class="md-caption">
+                        Recuerde que la distribución de los permisos día y noche cambia a las 7:00 y 19:00. Es decir, un permiso
+                        enviado a las 6:59 AM corresponde a noche, y otro enviado a las 7:01 AM corresponde a día.
+                        <br>
                         Para consultas, sugerencias o comentarios por favor dirigirse a cr@akonsulting.cl
                         </p>    
                     </md-card-content>

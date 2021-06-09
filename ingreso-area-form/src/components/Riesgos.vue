@@ -14,7 +14,7 @@
             <md-card-content>
                 <img src="../assets/PPTinicio.png" class="imagCheckList" style="object-fit: contain;margin: 0 auto 0 auto; display:block;">
                 <div>
-                    <md-checkbox class="md-primary" v-model="checkList" :value="'Sí'" @change="updateCheckList">
+                    <md-checkbox class="md-caption" v-model="checkList" :value="'Sí'" @change="updateCheckList">
                     <span>He leído a conciencia y estoy en conocimiento que cumplo con los puntos anteriormente mencionados</span>
                     </md-checkbox>
                     <p
@@ -123,11 +123,19 @@
                     <md-icon class="fa fa-users md-size-2x"></md-icon>
                     <span ref="numTrabajadores" tabindex="-1" style="margin-left: 8px;">Número de trabajadores</span>
                 </div>
-                <p class="md-caption">
-                ¿Desea copiar y pegar el listado de trabajadores desde una hoja de cálculo?
-                </p>
             </md-card-header>
             <md-card-content ref="listadoTrabajadores" class="bottom" style="text-align: center;">
+                <b-row>
+                    <div> 
+                    <md-checkbox class="md-primary" v-model="agg_sup" :value="true" @change="ingresarSupervisor">
+                    <p class="md-caption">Incluir nombre, apellido y rut de solicitante en listado</p>    
+                    </md-checkbox>
+                    <hr class="solid">
+                    </div>       
+                </b-row>                
+                <p class="md-caption">
+                ¿Desea copiar y pegar el listado de trabajadores desde una hoja de cálculo?
+                </p>    
                 <b-row>
                     <b-col cols="6" md="6">
                         <md-radio v-model="numTrabajadores" value="mas10" class="md-primary">Sí</md-radio>
@@ -312,12 +320,14 @@ const selectAllChecks = (value) => {
 
 export default {
     name: "Riesgos",
+    props : ['rut','nombreSol','apellidoSol'],
     data() {
         return {
             ArrRiesgos,
             imagesUrl,
             controlesUrl,
             checkList: null,
+            agg_sup:null,
             numTrabajadores: null,
             rutTrabajador: null,
             nombreTrabajador: null,
@@ -371,6 +381,39 @@ export default {
         eliminarDatosTrabajadores(){
             this.listadoTrabajadores = []
             this.updateTrabajadores()
+        },
+        ingresarSupervisor(){
+            let trabajador = {}
+            trabajador.rut = this.rut
+            trabajador.nombre = this.nombreSol
+            trabajador.apellido = this.apellidoSol
+            if (this.agg_sup == true){
+                if(trabajador.rut==null||trabajador.nombre==null||trabajador.apellido==null){
+                    this.trabajadorCompleto = false
+                }else{
+                    this.listadoTrabajadores.unshift(trabajador)
+                    this.updateTrabajadores()
+                    this.rutTrabajador = null
+                    this.nombreTrabajador = null
+                    this.apellidoTrabajador = null
+                    this.trabajadorCompleto = true
+                }
+            }
+            else {
+                //this.listadoTrabajadores.shift()
+                this.eliminar_trabajador(trabajador)
+                this.updateTrabajadores()
+            }
+            console.log(this.listadoTrabajadores)
+        },
+        eliminar_trabajador(trabajador){
+            //Busco la primera concidencia del nombre del supervisor para enviarla
+            for( var i = 0; i < this.listadoTrabajadores.length; i++){
+                if ( Object.values(this.listadoTrabajadores[i]).toString() === Object.values(trabajador).toString()) {             
+                    this.listadoTrabajadores.splice(i, 1);
+                    return 'ok' 
+                }            
+            }
         },
         ingresarDatosTrabajador(){
             let trabajador = {}
